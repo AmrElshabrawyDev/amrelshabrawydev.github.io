@@ -13,10 +13,10 @@ export const homeMetadata: Metadata = {
     title: "Amr Elshabrawy | Professional Front-End Developer",
     description:
       "Front-End Developer specializing in React, Next.js, and TypeScript. 5+ years of experience building fast, accessible web applications.",
-    url: "https://amrelshabrawy.dev",
+    url: "https://amrelshabrawydev.github.io",
     images: [
       {
-        url: "https://amrelshabrawy.dev/og-image.png",
+        url: "https://amrelshabrawydev.github.io/og-image.png",
         width: 1200,
         height: 630,
         alt: "Amr Elshabrawy Portfolio Homepage",
@@ -34,10 +34,10 @@ export const aboutMetadata: Metadata = {
     title: "About Amr Elshabrawy | Skills & Experience",
     description:
       "Front-End Developer with 5+ years of experience. Expert in React, Next.js, TypeScript, Tailwind CSS, and web performance optimization.",
-    url: "https://amrelshabrawy.dev/about",
+    url: "https://amrelshabrawydev.github.io/about",
     images: [
       {
-        url: "https://amrelshabrawy.dev/og-about.png",
+        url: "https://amrelshabrawydev.github.io/og-about.png",
         width: 1200,
         height: 630,
         alt: "About Amr Elshabrawy - Skills and Experience",
@@ -66,10 +66,10 @@ export const servicesMetadata: Metadata = {
     title: "Services | Front-End Development & Web Solutions",
     description:
       "Offering professional web development services: React/Next.js apps, UI/UX implementation, performance optimization, and more.",
-    url: "https://amrelshabrawy.dev/services",
+    url: "https://amrelshabrawydev.github.io/services",
     images: [
       {
-        url: "https://amrelshabrawy.dev/og-services.png",
+        url: "https://amrelshabrawydev.github.io/og-services.png",
         width: 1200,
         height: 630,
         alt: "Front-End Development Services",
@@ -96,10 +96,10 @@ export const workMetadata: Metadata = {
     title: "Portfolio | Web Development Projects by Amr Elshabrawy",
     description:
       "Browse through my portfolio of professional web development projects featuring React, Next.js, and modern frontend technologies.",
-    url: "https://amrelshabrawy.dev/work",
+    url: "https://amrelshabrawydev.github.io/work",
     images: [
       {
-        url: "https://amrelshabrawy.dev/og-work.png",
+        url: "https://amrelshabrawydev.github.io/og-work.png",
         width: 1200,
         height: 630,
         alt: "Web Development Portfolio Projects",
@@ -124,10 +124,10 @@ export const contactMetadata: Metadata = {
     title: "Contact Amr Elshabrawy | Front-End Developer",
     description:
       "Let's discuss your next web development project. Available for freelance work and collaboration.",
-    url: "https://amrelshabrawy.dev/contact",
+    url: "https://amrelshabrawydev.github.io/contact",
     images: [
       {
-        url: "https://amrelshabrawy.dev/og-contact.png",
+        url: "https://amrelshabrawydev.github.io/og-contact.png",
         width: 1200,
         height: 630,
         alt: "Contact Amr Elshabrawy",
@@ -145,8 +145,8 @@ export const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Amr Elshabrawy",
-  url: "https://amrelshabrawy.dev",
-  image: "https://amrelshabrawy.dev/profile.png",
+  url: "https://amrelshabrawydev.github.io",
+  image: "https://amrelshabrawydev.github.io/profile.png",
   jobTitle: "Front-End Developer",
   description:
     "Professional Front-End Developer specializing in React, Next.js, and TypeScript with 5+ years of experience.",
@@ -178,8 +178,8 @@ export const professionalServiceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: "Amr Elshabrawy - Front-End Development Services",
-  image: "https://amrelshabrawy.dev/og-image.png",
-  url: "https://amrelshabrawy.dev",
+  image: "https://amrelshabrawydev.github.io/og-image.png",
+  url: "https://amrelshabrawydev.github.io",
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
@@ -213,7 +213,7 @@ export const portfolioSchema = {
       name: "CRUD Operations Dashboard",
       description:
         "Full-featured data management application with real-time updates",
-      url: "https://amrelshabrawy.dev/work/crud-operations",
+      url: "https://amrelshabrawydev.github.io/work/crud-operations",
       author: {
         "@type": "Person",
         name: "Amr Elshabrawy",
@@ -226,7 +226,7 @@ export const portfolioSchema = {
       position: 2,
       name: "Todo List Pro",
       description: "Task management app with drag-and-drop functionality",
-      url: "https://amrelshabrawy.dev/work/todo-list",
+      url: "https://amrelshabrawydev.github.io/work/todo-list",
       author: {
         "@type": "Person",
         name: "Amr Elshabrawy",
@@ -239,7 +239,7 @@ export const portfolioSchema = {
       position: 3,
       name: "Travel Smart UI",
       description: "Modern travel website with stunning animations",
-      url: "https://amrelshabrawy.dev/work/travel-smart",
+      url: "https://amrelshabrawydev.github.io/work/travel-smart",
       author: {
         "@type": "Person",
         name: "Amr Elshabrawy",

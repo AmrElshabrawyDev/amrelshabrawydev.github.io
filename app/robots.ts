@@ -7,6 +7,6 @@ export default function robots() {
       allow: "/",
       disallow: ["/api/", "/admin/"],
     },
-    sitemap: "https://amrelshabrawy.dev/sitemap.xml",
+    sitemap: "https://amrelshabrawydev.github.io/sitemap.xml",
   };
 }

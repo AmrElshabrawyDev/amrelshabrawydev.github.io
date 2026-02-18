@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Amr Elshabrawy",
-      url: "https://amrelshabrawy.dev",
+      url: "https://amrelshabrawydev.github.io",
     },
   ],
   creator: "Amr Elshabrawy",
@@ -108,14 +108,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://amrelshabrawy.dev",
+    url: "https://amrelshabrawydev.github.io",
     siteName: "Amr Elshabrawy - Front-End Developer",
     title: "Amr Elshabrawy | Front-End Developer | React & Next.js Specialist",
     description:
       "Professional Front-End Developer specializing in React, Next.js, and TypeScript. Building fast, accessible web applications with 5+ years of experience.",
     images: [
       {
-        url: "https://amrelshabrawy.dev/og-image.png",
+        url: "https://amrelshabrawydev.github.io/og-image.png",
         width: 1200,
         height: 630,
         alt: "Amr Elshabrawy - Front-End Developer Portfolio",
@@ -132,7 +132,7 @@ export const metadata: Metadata = {
     title: "Amr Elshabrawy | Front-End Developer",
     description:
       "Professional Front-End Developer specializing in React, Next.js, and TypeScript. Building fast, accessible web applications.",
-    images: ["https://amrelshabrawy.dev/twitter-card.png"],
+    images: ["https://amrelshabrawydev.github.io/twitter-card.png"],
   },
 
   // Verification (add after domain setup)
@@ -142,9 +142,9 @@ export const metadata: Metadata = {
 
   // Alternate Languages
   alternates: {
-    canonical: "https://amrelshabrawy.dev",
+    canonical: "https://amrelshabrawydev.github.io",
     languages: {
-      "en-US": "https://amrelshabrawy.dev",
+      "en-US": "https://amrelshabrawydev.github.io",
     },
   },
 

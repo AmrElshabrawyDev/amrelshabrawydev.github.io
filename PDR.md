@@ -747,7 +747,7 @@ export const metadata: Metadata = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Amr Elshabrawy",
-  "url": "https://amrelshabrawy.dev",
+  "url": "https://amrelshabrawydev.github.io",
   "jobTitle": "Front-End Developer",
   "description": "Professional front-end developer...",
   "sameAs": [
