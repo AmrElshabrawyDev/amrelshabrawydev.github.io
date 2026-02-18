@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://amrelshabrawy.dev/sitemap.xml
+Sitemap: https://amrelshabrawydev.github.io/sitemap.xml
