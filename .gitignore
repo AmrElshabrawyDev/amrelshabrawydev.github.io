@@ -44,7 +44,5 @@ next-env.d.ts
 
 # agentic testing
 Master-Prompt.md
-docs/GITHUB_PROJECTS_IMPROVEMENTS.md
+docs/**.md
 .agent/rules/*.md
-.agent/rules/ai-development-rules-for-dark-space-portfolio.md
-.agent/rules/ai-development-rules-for-dark-space-portfolio.md
