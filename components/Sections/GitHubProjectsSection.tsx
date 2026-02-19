@@ -164,7 +164,7 @@ export function GitHubProjectsSection() {
         >
           <Button size="lg" variant="outline" asChild>
             <a
-              href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Amr-Elshabrawy-Dev"}`}
+              href={`https://github.com/AmrElshabrawyDev`}
               target="_blank"
               rel="noopener noreferrer"
             >

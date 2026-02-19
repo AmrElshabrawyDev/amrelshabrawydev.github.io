@@ -15,7 +15,7 @@ import {
 
 export function HeroSection() {
   return (
-    <section className="min-h-[calc(100vh-10rem)] flex items-center justify-center relative overflow-hidden">
+    <section className="min-h-[calc(100vh-5rem)] flex items-center justify-center relative overflow-hidden">
       {/* Background gradient mesh */}
       <div className="absolute inset-0 bg-grid-pattern opacity-50" />
       <div className="absolute inset-0 bg-hero-glow" />
@@ -100,7 +100,7 @@ export function HeroSection() {
         <div className="flex justify-center items-center order-1 lg:order-2">
           <motion.div
             variants={scaleIn}
-            className="relative w-[280px] h-[280px] md:w-[380px] md:h-[380px] lg:w-[450px] lg:h-[450px] animate-float"
+            className="relative w-[280px] h-[280px] md:w-[380px] md:h-[380px] xl:w-[450px] xl:h-[450px] animate-float"
           >
             {/* Glow effects behind image */}
             <div className="absolute -inset-4 bg-linear-to-r from-primary-500 to-accent-500 rounded-full blur-2xl opacity-30 animate-pulse" />

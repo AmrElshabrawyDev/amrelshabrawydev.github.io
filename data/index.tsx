@@ -268,74 +268,6 @@ export interface ProjectData {
   features: string[];
 }
 
-export const projectsData: ProjectData[] = [
-  {
-    title: "CRUD Operations Dashboard",
-    description:
-      "Full-featured data management application with real-time updates",
-    longDescription:
-      "A comprehensive CRUD application showcasing advanced state management, form validation, and responsive data tables. Built with performance and user experience in mind.",
-    thumbnail: "/thumb1.jpg",
-    tags: ["Web App", "Dashboard", "Full CRUD"],
-    technologies: ["React", "TypeScript", "Tailwind CSS", "React Hook Form"],
-    githubUrl: "https://github.com/Amr-Elshabrawy-Dev/crud-operations",
-    liveUrl: "#",
-    performance: {
-      lighthouse: 95,
-      loadTime: "1.2s",
-    },
-    features: [
-      "Real-time data filtering & sorting",
-      "Form validation with error handling",
-      "Responsive data tables",
-      "Local storage persistence",
-    ],
-  },
-  {
-    title: "Todo List Pro",
-    description: "Task management app with drag-and-drop and local persistence",
-    longDescription:
-      "A modern todo application featuring smooth animations, drag-and-drop functionality, and an intuitive user interface. Perfect example of component composition and state management.",
-    thumbnail: "/thumb2.jpg",
-    tags: ["Productivity", "SPA", "Interactive"],
-    technologies: ["React", "Framer Motion", "LocalStorage", "Tailwind CSS"],
-    githubUrl: "https://github.com/Amr-Elshabrawy-Dev/TodoList",
-    liveUrl: "#",
-    performance: {
-      lighthouse: 98,
-      loadTime: "0.8s",
-    },
-    features: [
-      "Drag & drop task reordering",
-      "Category filtering",
-      "Dark/Light theme toggle",
-      "Smooth animations",
-    ],
-  },
-  {
-    title: "Travel Smart UI",
-    description:
-      "Modern travel website with stunning animations and performance",
-    longDescription:
-      "A visually impressive travel website built with Next.js, featuring advanced animations, optimized images, and excellent SEO. Demonstrates modern web development best practices.",
-    thumbnail: "/thumb3.jpg",
-    tags: ["Landing Page", "Next.js", "High Performance"],
-    technologies: ["Next.js 14", "Framer Motion", "Tailwind CSS", "TypeScript"],
-    githubUrl: "https://github.com/Amr-Elshabrawy-Dev/travel-smart-ui",
-    liveUrl: "#",
-    performance: {
-      lighthouse: 96,
-      loadTime: "1.0s",
-    },
-    features: [
-      "Server-side rendering (SSR)",
-      "Image optimization with next/image",
-      "Scroll-triggered animations",
-      "SEO optimized",
-    ],
-  },
-];
-
 /*
 ==========================================
 =========> { testimonial data } <=========
@@ -464,14 +396,14 @@ export const socialLinks: SocialLink[] = [
   {
     platform: "GitHub",
     icon: <Github className="w-5 h-5" />,
-    url: "https://github.com/Amr-Elshabrawy-Dev",
-    username: "@Amr-Elshabrawy-Dev",
+    url: "https://github.com/AmrElshabrawyDev",
+    username: "@AmrElshabrawyDev",
   },
   {
     platform: "LinkedIn",
     icon: <Linkedin className="w-5 h-5" />,
-    url: "https://linkedin.com/in/amr-elshabrawy",
-    username: "amr-elshabrawy",
+    url: "https://linkedin.com/in/amr-elshabrawy-dev",
+    username: "amr-elshabrawy-dev",
   },
   {
     platform: "Email",

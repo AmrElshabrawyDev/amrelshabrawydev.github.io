@@ -19,7 +19,7 @@ export function Footer() {
       <div className="container-custom py-8 md:py-10 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
           {/* Brand + Copyright */}
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-center md:text-left">
+          <div className="flex items-center">
             <Link href="/" className="flex items-center group">
               <motion.div
                 whileHover={{ rotate: 10, scale: 1.05 }}
@@ -38,7 +38,8 @@ export function Footer() {
                 {personalInfo.name}
               </span>
             </Link>
-
+          </div>
+          <div className="flex items-center gap-6">
             <p className="text-text-tertiary text-xs md:text-sm">
               © {currentYear} {personalInfo.name}. All rights reserved.
             </p>
@@ -46,9 +47,9 @@ export function Footer() {
 
           {/* Social Icons */}
           <nav aria-label="Social media">
-            <ul className="flex items-center gap-6">
+            <div className="flex items-center gap-6">
               {socialLinks.map((social, index) => (
-                <motion.li
+                <motion.div
                   key={social.platform}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -67,9 +68,9 @@ export function Footer() {
                   >
                     {social.icon}
                   </a>
-                </motion.li>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </nav>
         </div>
 

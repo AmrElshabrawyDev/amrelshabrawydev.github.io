@@ -191,7 +191,7 @@ export function ContactSection() {
                   <Button
                     type="submit"
                     disabled={status === "loading"}
-                    className="w-full gap-2"
+                    className="w-full gap-2 cursor-pointer"
                     size="lg"
                   >
                     {status === "loading" ? (

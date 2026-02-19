@@ -132,14 +132,22 @@ export function Navbar() {
               className="flex items-center"
               onClick={isOpen ? closeMenu : undefined}
             >
-              <Image
-                src="/logo.svg"
-                alt={personalInfo.name}
-                width={40}
-                height={40}
-                priority
-                className="h-10 w-10"
-              />
+              <motion.div
+                whileHover={{ rotate: 10, scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 250 }}
+              >
+                <Image
+                  src="/logo.svg"
+                  alt={personalInfo.name}
+                  width={42}
+                  height={42}
+                  priority
+                  className="h-10 w-10"
+                />
+              </motion.div>
+              <span className="ml-2 text-sm font-semibold text-text-primary hidden sm:inline-block">
+                {personalInfo.name}
+              </span>
             </Link>
 
             <div className="hidden md:flex items-center gap-8">
