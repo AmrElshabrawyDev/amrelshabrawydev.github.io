@@ -3,6 +3,9 @@ import { workMetadata, portfolioSchema } from "@/lib/metadata";
 import { GitHubProjectsSection } from "@/components/Sections/GitHubProjectsSection";
 import { getAllProjects } from "@/lib/github";
 
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
 export const metadata: Metadata = workMetadata;
 
 export default async function WorkPage() {
