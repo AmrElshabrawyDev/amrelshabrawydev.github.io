@@ -2,7 +2,7 @@
 import { cache } from "react";
 import type { Project } from "@/types/github";
 
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "Amr-Elshabrawy-Dev";
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "AmrElshabrawyDev";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 const FEATURED_REPOS: string[] = [];
