@@ -22,21 +22,19 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const slug = generateSlug(project.title);
+
   return (
     <motion.article
       variants={fadeInUp}
-      className="glass-card overflow-hidden hover:border-border-default transition-all group relative h-full flex flex-col"
+      className="glass-card overflow-hidden hover:border-border-default transition-all group h-full flex flex-col"
       whileHover={{ y: -4 }}
     >
-      {/* Card Link Overlay - Covers entire card apart from buttons */}
+      {/* Project Image — clickable via Link */}
       <Link
-        href={`/work/${generateSlug(project.title)}`}
-        className="absolute inset-0 z-0"
-        aria-label={`View details for ${project.title}`}
-      />
-
-      {/* Project Image */}
-      <div className="relative w-full h-48 bg-bg-elevated overflow-hidden shrink-0">
+        href={`/work/${slug}`}
+        className="relative w-full h-48 bg-bg-elevated overflow-hidden shrink-0 block"
+      >
         <Image
           src={project.image}
           alt={project.title}
@@ -47,16 +45,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8AKp79S29wAAAABJRU5ErkJggg=="
         />
-        <div className="absolute inset-0 bg-linear-to-t from-bg-base/80 to-transparent" />
-      </div>
+        <div className="absolute inset-0 bg-linear-to-t from-bg-base/40 to-transparent" />
+      </Link>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-1 relative z-10 pointer-events-none">
+      <div className="p-6 flex flex-col flex-1">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
-          <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1 mb-2">
-            {project.title}
-          </h3>
+          <Link href={`/work/${slug}`} className="min-w-0">
+            <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1 mb-2">
+              {project.title}
+            </h3>
+          </Link>
           <div className="flex items-center gap-3 text-sm text-text-tertiary shrink-0 ml-2">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4" />
@@ -126,8 +126,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
       </div>
 
-      {/* Footer Buttons - Separated from Link Overlay */}
-      <div className="px-6 pb-6 mt-auto relative z-20 flex items-center justify-between pt-4 border-t border-border-subtle">
+      {/* Footer Buttons */}
+      <div className="px-6 pb-6 mt-auto flex items-center justify-between pt-4 border-t border-border-subtle">
         <div className="flex items-center gap-1 text-sm text-text-tertiary">
           <Clock className="w-3 h-3" />
           <span>{formatDate(project.updatedAt)}</span>

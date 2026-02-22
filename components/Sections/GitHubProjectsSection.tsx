@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Github, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,86 +7,18 @@ import { Badge } from "@/components/ui/badge";
 import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
 import type { Project } from "@/types/github";
 import { ProjectCard } from "./GitHubProjects/ProjectCard";
-import { ProjectSkeleton } from "./GitHubProjects/ProjectSkeleton";
 
 // ====================================
 // 🎨 Component
 // ====================================
 
-export function GitHubProjectsSection() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface GitHubProjectsSectionProps {
+  projects: Project[];
+}
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await fetch("/api/github-projects");
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Failed to fetch projects");
-      }
-
-      const { projects } = await response.json();
-      setProjects(projects);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      console.error("Error fetching projects:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ====================================
-  // 🎬 Loading State
-  // ====================================
-
-  if (loading) {
-    return (
-      <section className="section-spacing bg-bg-base">
-        <div className="container-custom">
-          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">
-            Loading Projects from GitHub...
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <ProjectSkeleton key={i} />
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // ====================================
-  // ❌ Error State
-  // ====================================
-
-  if (error) {
-    return (
-      <section className="section-spacing bg-bg-base">
-        <div className="container-custom text-center">
-          <div className="glass-card p-12 max-w-2xl mx-auto">
-            <h2 className="text-4xl font-bold mb-4 text-error">
-              Oops! Something went wrong
-            </h2>
-            <p className="text-text-secondary mb-8 text-lg">{error}</p>
-            <Button onClick={fetchProjects} size="lg">
-              Try Again
-            </Button>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
+export function GitHubProjectsSection({
+  projects,
+}: GitHubProjectsSectionProps) {
   // ====================================
   // 📭 Empty State
   // ====================================

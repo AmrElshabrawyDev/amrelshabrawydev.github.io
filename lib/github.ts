@@ -1,4 +1,5 @@
 // lib/github.ts
+import { cache } from "react";
 import type { Project } from "@/types/github";
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "Amr-Elshabrawy-Dev";
@@ -87,7 +88,7 @@ async function fetchWithToken(url: string) {
   return response.json();
 }
 
-export async function getAllProjects(): Promise<Project[]> {
+export const getAllProjects = cache(async (): Promise<Project[]> => {
   const repos: GitHubRepo[] = await fetchWithToken(
     `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
   );
@@ -137,7 +138,7 @@ export async function getAllProjects(): Promise<Project[]> {
   );
 
   return projects.filter(Boolean) as Project[];
-}
+});
 
 export async function getProjectReadme(
   fullName: string,

@@ -4,127 +4,326 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Contact Message</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      body {
+      * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
+      }
+
+      body {
         font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        background-color: #f3f4f6;
-        color: #1f2937;
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background-color: #f7f7f5;
+        color: #1a1a1a;
+        padding: 48px 16px;
+        -webkit-font-smoothing: antialiased;
       }
+
       .container {
-        max-width: 600px;
+        max-width: 560px;
         margin: 0 auto;
-        padding: 40px 20px;
       }
-      .card {
-        background-color: #ffffff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow:
-          0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+      /* Top bar */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        padding: 0 2px;
       }
-      .header {
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        padding: 30px;
-        text-align: center;
-      }
-      .header h1 {
-        color: #ffffff;
-        margin: 0;
-        font-size: 24px;
-        font-weight: 700;
-      }
-      .content {
-        padding: 30px;
-      }
-      .field {
-        margin-bottom: 20px;
-      }
-      .label {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #6b7280;
-        margin-bottom: 4px;
+
+      .topbar-brand {
+        font-size: 13px;
         font-weight: 600;
+        color: #888;
+        letter-spacing: -0.01em;
       }
-      .value {
-        font-size: 16px;
-        color: #111827;
-        line-height: 1.5;
+
+      .topbar-tag {
+        font-size: 11px;
+        font-weight: 500;
+        color: #888;
+        background: #ebebeb;
+        border-radius: 4px;
+        padding: 3px 8px;
+        letter-spacing: 0.02em;
       }
-      .message-box {
-        background-color: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        padding: 16px;
-        margin-top: 8px;
-        white-space: pre-wrap;
+
+      /* Main card */
+      .card {
+        background: #ffffff;
+        border: 1px solid #e5e5e3;
+        border-radius: 10px;
+        overflow: hidden;
       }
-      .footer {
-        text-align: center;
-        padding: 20px;
-        color: #9ca3af;
+
+      /* Card header */
+      .card-header {
+        padding: 28px 32px 24px;
+        border-bottom: 1px solid #f0f0ee;
+      }
+
+      .card-header-meta {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #aaa;
+        margin-bottom: 8px;
+      }
+
+      .card-header h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111;
+        letter-spacing: -0.03em;
+        line-height: 1.3;
+      }
+
+      /* Card body */
+      .card-body {
+        padding: 28px 32px;
+      }
+
+      /* Row */
+      .row {
+        display: flex;
+        gap: 12px;
+        padding: 14px 0;
+        border-bottom: 1px solid #f0f0ee;
+        align-items: flex-start;
+      }
+
+      .row:last-of-type {
+        border-bottom: none;
+      }
+
+      .row-label {
         font-size: 12px;
+        font-weight: 600;
+        color: #aaa;
+        min-width: 72px;
+        padding-top: 2px;
+        flex-shrink: 0;
+        letter-spacing: 0.01em;
       }
+
+      .row-value {
+        font-size: 14px;
+        color: #1a1a1a;
+        font-weight: 500;
+        line-height: 1.5;
+        flex: 1;
+      }
+
+      .row-value a {
+        color: #1a1a1a;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      /* Message field */
+      .message-value {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.75;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-weight: 400;
+        background: #fafaf9;
+        border: 1px solid #ebebeb;
+        border-radius: 6px;
+        padding: 14px 16px;
+        margin-top: 4px;
+      }
+
+      .message-section {
+        padding: 16px 0 0;
+      }
+
+      .message-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #aaa;
+        letter-spacing: 0.01em;
+        margin-bottom: 10px;
+      }
+
+      /* Card footer */
+      .card-footer {
+        padding: 20px 32px;
+        background: #fafaf9;
+        border-top: 1px solid #f0f0ee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .footer-logo {
+        width: 40px;
+        height: 40px;
+      }
+
       .button {
         display: inline-block;
-        background-color: #3b82f6;
+        background: #111;
         color: #ffffff;
-        padding: 12px 24px;
+        padding: 9px 18px;
         border-radius: 6px;
         text-decoration: none;
+        font-size: 13px;
         font-weight: 600;
-        margin-top: 20px;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      /* Bottom note */
+      .bottom-note {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 11px;
+        color: #ccc;
       }
     </style>
   </head>
   <body>
     <div class="container">
+      <!-- Top bar -->
+      <div class="topbar">
+        <span class="topbar-brand">Amr Elshabrawy</span>
+        <span class="topbar-tag">📬 Portfolio Form</span>
+      </div>
+
+      <!-- Card -->
       <div class="card">
-        <div class="header">
-          <h1>New Contact Message</h1>
+        <!-- Header -->
+        <div class="card-header">
+          <div class="card-header-meta">New message</div>
+          <h1>Someone reached out<br />from your portfolio.</h1>
         </div>
-        <div class="content">
-          <p style="margin-bottom: 24px; font-size: 16px">
-            You have received a new message from your portfolio contact form.
-          </p>
 
-          <div class="field">
-            <div class="label">From</div>
-            <div class="value">
-              <strong>{{from_name}}</strong> (<a
-                href="mailto:{{from_email}}"
-                style="color: #3b82f6; text-decoration: none"
-                >{{from_email}}</a
-              >)
-            </div>
+        <!-- Body -->
+        <div class="card-body">
+          <div class="row">
+            <span class="row-label">Name</span>
+            <span class="row-value">{{from_name}}</span>
           </div>
 
-          <div class="field">
-            <div class="label">Message</div>
-            <div class="value message-box">{{message}}</div>
+          <div class="row">
+            <span class="row-label">Email</span>
+            <span class="row-value">
+              <a href="mailto:{{from_email}}">{{from_email}}</a>
+            </span>
           </div>
 
-          <div style="text-align: center">
-            <a
-              href="mailto:{{from_email}}?subject=Re: Contact from Portfolio"
-              class="button"
-              >Reply via Email</a
+          <div class="message-section">
+            <div class="message-label">Message</div>
+            <div class="message-value">{{message}}</div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+          <span class="footer-logo">
+            <svg
+              viewBox="0 0 572 572"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              preserveAspectRatio="xMidYMid meet"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-          </div>
+              <defs>
+                <!-- Updated gradient: Blue to Purple -->
+                <radialGradient id="logoGradient">
+                  <stop offset="20%" stop-color="#3B82F6" />
+                  <stop offset="90%" stop-color="#0A0E27" />
+                </radialGradient>
+
+                <!-- Enhanced glow with blue-purple combination -->
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow
+                    dx="0"
+                    dy="0"
+                    stdDeviation="3"
+                    flood-color="#3B82F6"
+                    flood-opacity="1"
+                  />
+                  <feDropShadow
+                    dx="0"
+                    dy="0"
+                    stdDeviation="8"
+                    flood-color="#3086fe"
+                    flood-opacity="0.7"
+                  />
+                  <feDropShadow
+                    dx="0"
+                    dy="0"
+                    stdDeviation="15"
+                    flood-color="#3B82F6"
+                    flood-opacity="0.5"
+                  />
+                </filter>
+              </defs>
+              <!-- Main hexagon shape with updated colors -->
+              <path
+                class="shape"
+                stroke="#3B82F6"
+                stroke-width="25"
+                fill="url(#logoGradient)"
+                filter="url(#glow)"
+                d="M 256 68.5, L 41 183.5, 41 378.5, 256 503.5, 317 503.5, 531 378.5, 531 183.5, 317 68.5, z"
+              />
+
+              <!-- Letter A - Updated to match theme -->
+              <path
+                class="A"
+                fill="#E0E7FF"
+                stroke="#1F2937"
+                stroke-width="2"
+                d="M 116 305.5, L 116 385.5, 76 360.5, 76 200.5, 196 136.5, 196 430.5, 156 405.5, 156 305.5, z M 116 225.5, L 116 265.5, 156 265.5, 156 205.5, z"
+              />
+
+              <!-- Letter M - Updated to match theme -->
+              <path
+                class="M"
+                fill="#E0E7FF"
+                stroke="#1F2937"
+                stroke-width="2"
+                d="M 271 265.5, L 256 225.5, 256 465.5, 216 440.5, 216 125.5, 256 103.5, 286 205.5, 316 103.5, 356 125.5, 356 440.5, 316 465.5, 316 225.5, 300 265.5, z"
+              />
+
+              <!-- Letter R - Updated to match theme -->
+              <path
+                class="R"
+                fill="#E0E7FF"
+                stroke="#1F2937"
+                stroke-width="2"
+                d="M 416 305.5, L 416 405.5, 376 430.5, 376 136.5, 496 200.5, 496 270.5, 476 280.5, 496 290.5, 496 360.5, 456 385.5, 456 325.5, 431 305.5, z M 416 205.5, L 416 265.5, 431 265.5, 456 240.5, 456 225.5, z"
+              />
+            </svg>
+          </span>
+          <a
+            href="mailto:{{from_email}}?subject=Re: Your message — Amr Elshabrawy"
+            class="button"
+          >
+            Reply →
+          </a>
         </div>
       </div>
-      <div class="footer">
-        <p>Sent from Amr Elshabrawy - Professional Portfolio</p>
-        <p style="margin-top: 8px; font-size: 10px; color: #d1d5db">
-          Time: {{time}}
-        </p>
-      </div>
+
+      <!-- Bottom note -->
+      <p class="bottom-note">Automated notification · amrelshabrawy.dev</p>
     </div>
   </body>
 </html>

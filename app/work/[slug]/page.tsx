@@ -10,6 +10,7 @@ import {
   GitFork,
   Calendar,
   HardDrive,
+  BookOpen,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -237,7 +238,7 @@ export default async function ProjectPage({ params }: Props) {
           {project.readme && (
             <section className="border-t border-border-subtle pt-8">
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                📖 README
+                <BookOpen className="w-5 h-5" /> README
               </h2>
               <div className="markdown-body bg-bg-elevated/50 rounded-lg p-6 prose prose-invert prose-blue max-w-none [&_a_img]:inline-block!">
                 <ReactMarkdown

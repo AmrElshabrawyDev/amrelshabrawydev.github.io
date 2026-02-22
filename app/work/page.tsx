@@ -1,10 +1,13 @@
 import { Metadata } from "next";
 import { workMetadata, portfolioSchema } from "@/lib/metadata";
 import { GitHubProjectsSection } from "@/components/Sections/GitHubProjectsSection";
+import { getAllProjects } from "@/lib/github";
 
 export const metadata: Metadata = workMetadata;
 
-export default function WorkPage() {
+export default async function WorkPage() {
+  const projects = await getAllProjects();
+
   return (
     <>
       {/* JSON-LD for SEO */}
@@ -14,7 +17,7 @@ export default function WorkPage() {
           __html: JSON.stringify(portfolioSchema),
         }}
       />
-      <GitHubProjectsSection />
+      <GitHubProjectsSection projects={projects} />
     </>
   );
 }
