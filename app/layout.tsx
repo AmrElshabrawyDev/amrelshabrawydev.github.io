@@ -1,4 +1,4 @@
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Archivo, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
@@ -7,15 +7,17 @@ import "./globals.css";
 // 🎨 Fonts Configuration
 // ====================================
 
-const spaceGrotesk = Space_Grotesk({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -190,7 +192,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+    <html lang="en" className={`${archivo.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>

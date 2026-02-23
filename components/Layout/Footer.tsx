@@ -16,7 +16,7 @@ export function Footer() {
       {/* ✨ Gradient Glow Border */}
       <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-primary-500/0 via-primary-500/70 to-accent-500/0 blur-[2px]" />
 
-      <div className="container-custom py-8 md:py-10 relative z-10">
+      <div className="container-custom py-3 md:py-5 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
           {/* Brand + Copyright */}
           <div className="flex items-center">
@@ -72,13 +72,6 @@ export function Footer() {
               ))}
             </div>
           </nav>
-        </div>
-
-        {/* Bottom Note */}
-        <div className="mt-6 text-center text-xs text-text-tertiary">
-          Built with ❤️ using{" "}
-          <span className="font-semibold text-primary-400">Next.js</span> &
-          <span className="font-semibold text-accent-400"> TailwindCSS</span>.
         </div>
       </div>
     </footer>

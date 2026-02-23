@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { personalInfo } from "@/data";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -118,12 +119,16 @@ export function Navbar() {
       </AnimatePresence>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
           isOpen
-            ? "bg-bg-base"
-            : scrolled &&
-              "bg-bg-base/80 backdrop-blur-lg border-b border-border-subtle"
-        }`}
+            ? "bg-bg-base border-transparent shadow-none"
+            : "bg-bg-base/80 backdrop-blur-lg",
+          !isOpen && scrolled
+            ? "border-border-subtle shadow-md"
+            : "border-transparent",
+          !isOpen && !scrolled && "border-transparent",
+        )}
       >
         <nav className="container-custom">
           <div className="flex items-center justify-between h-20">
@@ -145,7 +150,7 @@ export function Navbar() {
                   className="h-10 w-10"
                 />
               </motion.div>
-              <span className="ml-2 text-sm font-semibold text-text-primary hidden sm:inline-block">
+              <span className="ml-2 text-sm font-semibold text-text-primary hidden sm:inline-block font-heading">
                 {personalInfo.name}
               </span>
             </Link>

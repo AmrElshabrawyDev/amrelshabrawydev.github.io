@@ -53,7 +53,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <Link href={`/work/${slug}`} className="min-w-0">
-            <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1 mb-2">
+            <h3 className="text-lg font-bold text-white group-hover:text-primary-400 transition-colors line-clamp-1 mb-2">
               {project.title}
             </h3>
           </Link>

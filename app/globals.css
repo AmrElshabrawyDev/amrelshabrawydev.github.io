@@ -2,7 +2,7 @@
 
 @theme {
   /* ====================================
-     🎨 Color System - Professional Blue + Purple
+         🎨 Color System - Professional Blue + Purple
      ==================================== */
 
   /* Background Layers */
@@ -42,8 +42,8 @@
      ==================================== */
 
   /* Font Families (use with next/font) */
-  --font-heading: var(--font-space-grotesk);
-  --font-body: var(--font-inter);
+  --font-heading: var(--font-archivo);
+  --font-body: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
 
   /* Font Sizes */
@@ -347,22 +347,7 @@
   background:
     radial-gradient(at 27% 37%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
     radial-gradient(at 97% 21%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(at 52% 99%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
-}
-
-/* ====================================
-   🎭 Scroll Progress Bar
-   ==================================== */
-
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--gradient-primary);
-  transform-origin: left;
-  z-index: 9999;
+    radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
 }
 
 /* ====================================

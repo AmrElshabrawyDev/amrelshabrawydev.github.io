@@ -45,4 +45,5 @@ next-env.d.ts
 Master-Prompt.md
 docs/**.md
 .agent/rules/*.md
+.agent/skills/
 .hintrc
