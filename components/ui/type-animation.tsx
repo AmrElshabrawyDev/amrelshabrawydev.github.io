@@ -79,7 +79,7 @@ export function TypeAnimation({
           key={currentText}
           initial={{ opacity: 0.8 }}
           animate={{ opacity: 1 }}
-          className="gradient-text"
+          className="text-white"
           data-testid="typewriter-text"
         >
           {currentText}
@@ -92,7 +92,7 @@ export function TypeAnimation({
           repeat: Infinity,
           repeatType: "reverse",
         }}
-        className="ml-1 w-0.5 h-[1.2em] bg-primary-500 inline-block"
+        className="ml-1 w-0.5 h-[1em] bg-primary-500 inline-block"
         data-testid="typewriter-cursor"
         aria-hidden="true"
       />

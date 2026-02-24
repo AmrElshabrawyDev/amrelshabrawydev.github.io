@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Code2 } from "lucide-react";
+import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
 import type { Project } from "@/types/github";
 import { ProjectCard } from "./GitHubProjects/ProjectCard";
@@ -54,16 +53,9 @@ export function GitHubProjectsSection({
           variants={fadeInUp}
           className="flex flex-col items-center text-center mb-20"
         >
-          <Badge
-            variant="outline"
-            className="mb-6 px-4 py-1 border-primary-500/30 bg-primary-500/5 text-primary-400 font-medium tracking-widest uppercase text-[10px] rounded-full"
-          >
-            <Code2 className="w-3 h-3 mr-2" />
-            Open Source Work
-          </Badge>
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 gradient-text tracking-tight">
-            Featured Projects
-          </h2>
+          <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
+            Featured <span className="gradient-text">Projects</span>
+          </h1>
           <div className="h-1 w-20 bg-linear-to-r from-primary-500 to-accent-500 rounded-full mb-8 opacity-40 shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
           <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
             A curated selection of my latest work from GitHub, demonstrating my

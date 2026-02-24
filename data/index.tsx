@@ -52,22 +52,23 @@ export interface HeroData {
 }
 
 export const heroData: HeroData = {
-  greeting: "Hi, I'm",
+  greeting: "Hello, I'm",
   name: "Amr Elshabrawy",
   roles: [
-    "React Specialist",
-    "Next.js Developer",
-    "UI Engineer",
+    "Front-End Developer",
+    "React & Next.js Expert",
+    "UI/UX Developer",
     "Performance Optimizer",
+    "SEO Enthusiast",
   ],
   description:
-    "I turn ideas into production-ready applications. Focused on clean code, smooth animations, and pixel-perfect implementations.",
-  primaryCTA: "View My Work",
-  secondaryCTA: "Get In Touch",
+    "I build high-performance, SEO-friendly web applications using React and Next.js. Passionate about crafting clean, maintainable code and creating delightful user experiences with attention to every detail — from smooth animations to accessible design.",
+  primaryCTA: "Explore My Work",
+  secondaryCTA: "Let's Connect",
   stats: {
     yearsOfExperience: "5+",
-    projectsCompleted: "50+",
-    happyClients: "30+",
+    projectsCompleted: "25+",
+    happyClients: "20+",
   },
 };
 

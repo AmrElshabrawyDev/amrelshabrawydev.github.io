@@ -15,7 +15,7 @@ import {
 
 export function HeroSection() {
   return (
-    <section className="min-h-[calc(100vh-5rem)] flex items-center justify-center relative overflow-hidden">
+    <section className="min-h-[calc(100vh-10.2rem)] flex items-center justify-center relative overflow-hidden">
       {/* Background gradient mesh */}
       <div className="absolute inset-0 bg-grid-pattern opacity-50" />
       <div className="absolute inset-0 bg-hero-glow" />
@@ -27,7 +27,7 @@ export function HeroSection() {
         className="container-custom relative z-10 grid lg:grid-cols-2 gap-8 items-center"
       >
         {/* Left Column: Text Content */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 my-10">
           {/* Greeting */}
           <motion.p
             variants={fadeInUp}
@@ -49,12 +49,18 @@ export function HeroSection() {
             variants={fadeInUp}
             className="text-xl md:text-2xl lg:text-3xl font-heading mb-4 h-10 flex items-center lg:justify-start justify-center text-text-secondary font-medium"
           >
+            <span className="text-3xl font-mono gradient-text font-black mr-2">
+              {"{"}
+            </span>
             <TypeAnimation
               words={heroData.roles}
               typingSpeed={80}
               deletingSpeed={40}
               pauseDuration={2500}
             />
+            <span className="text-3xl font-mono gradient-text font-black ml-2">
+              {"}"}
+            </span>
           </motion.div>
 
           {/* Description */}
@@ -97,7 +103,7 @@ export function HeroSection() {
         </div>
 
         {/* Right Column: Profile Image */}
-        <div className="flex justify-center items-center order-1 lg:order-2">
+        <div className="flex justify-center items-center order-1 lg:order-2 mt-10">
           <motion.div
             variants={scaleIn}
             className="relative w-[280px] h-[280px] md:w-[380px] md:h-[380px] xl:w-[450px] xl:h-[450px] animate-float"

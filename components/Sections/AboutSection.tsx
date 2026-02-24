@@ -61,7 +61,7 @@ export function AboutSection() {
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {statsData.map((stat, index) => (
+                    {statsData.map((stat) => (
                       <div
                         key={stat.label}
                         className="text-center p-3 rounded-xl bg-bg-base/30 border border-border-subtle"
@@ -82,7 +82,7 @@ export function AboutSection() {
 
                 {/* Profile Image - Right Side */}
                 <div className="relative min-h-[300px] lg:h-full lg:col-span-2 overflow-hidden bg-bg-elevated/50">
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg-base/80 to-transparent z-10 lg:bg-gradient-to-l" />
+                  <div className="absolute inset-0 bg-linear-to-t from-bg-base/80 to-transparent z-10 lg:bg-linear-to-l" />
                   <div className="absolute inset-0 bg-linear-to-tr from-primary-500/20 to-accent-500/20 mix-blend-overlay z-10" />
 
                   <Image

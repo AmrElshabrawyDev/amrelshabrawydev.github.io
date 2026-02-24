@@ -150,8 +150,8 @@ export function Navbar() {
                   className="h-10 w-10"
                 />
               </motion.div>
-              <span className="ml-2 text-sm font-semibold text-text-primary hidden sm:inline-block font-heading">
-                {personalInfo.name}
+              <span className="ml-1 text-sm font-semibold text-text-primary hidden sm:inline-block font-heading">
+                {personalInfo.name.slice(4)}
               </span>
             </Link>
 

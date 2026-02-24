@@ -1,4 +1,4 @@
-import { Archivo, Space_Grotesk } from "next/font/google";
+import { Archivo, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
@@ -18,6 +18,12 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -139,7 +145,7 @@ export const metadata: Metadata = {
 
   // Verification (add after domain setup)
   verification: {
-    google: "your-google-verification-code",
+    google: "KgRDbESCG4O2UXsHZBtAvTpkDVi7dr-nMXfYZbWGdS4",
   },
 
   // Alternate Languages
@@ -192,7 +198,10 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className={`${archivo.variable} ${spaceGrotesk.variable}`}>
+    <html
+      lang="en"
+      className={`${archivo.variable} ${spaceGrotesk.variable} ${mono.variable}`}
+    >
       <body className="antialiased min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>
