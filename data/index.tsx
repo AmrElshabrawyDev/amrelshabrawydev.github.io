@@ -415,7 +415,7 @@ export const socialLinks: SocialLink[] = [
   {
     platform: "Resume",
     icon: <FileText className="w-5 h-5" />,
-    url: "/amr-elshabrawy-resume.pdf",
+    url: "/AmrElshabrawy-FrontendDeveloper_React_NEXTJS-Resume.pdf",
     username: "Download CV",
   },
 ];

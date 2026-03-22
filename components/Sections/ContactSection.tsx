@@ -4,17 +4,13 @@ import { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import emailjs from "@emailjs/browser";
+import Confetti from "react-confetti";
 import { personalInfo, socialLinks, contactData } from "@/data";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
-
-// EmailJS configuration
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
 interface FormData {
   name: string;
@@ -32,6 +28,12 @@ export function ContactSection() {
   });
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false);
+
+// EmailJS configuration
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -53,6 +55,7 @@ export function ContactSection() {
 
       setStatus("success");
       setFormData({ name: "", email: "", message: "" });
+      setShowConfetti(true);
     } catch (error) {
       setStatus("error");
       setErrorMessage("Failed to send message. Please try again.");
@@ -106,8 +109,9 @@ export function ContactSection() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center py-12 text-center"
+                  className="relative flex flex-col items-center justify-center py-12 text-center"
                 >
+                  {showConfetti && <Confetti recycle={false} numberOfPieces={200} gravity={0.08} initialVelocityY={30}/>}
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -122,7 +126,13 @@ export function ContactSection() {
                   <p className="text-text-secondary mb-6">
                     {contactData.successMessage.description}
                   </p>
-                  <Button onClick={() => setStatus("idle")} variant="outline">
+                  <Button
+                    onClick={() => {
+                      setStatus("idle");
+                      setShowConfetti(false);
+                    }}
+                    variant="outline"
+                  >
                     {contactData.successMessage.buttonText}
                   </Button>
                 </motion.div>
