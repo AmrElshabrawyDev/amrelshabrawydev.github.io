@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface TypeAnimationProps {
@@ -74,17 +74,9 @@ export function TypeAnimation({
       data-testid="typewriter-container"
       data-current-word={currentWordIndex}
     >
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={currentText}
-          initial={{ opacity: 0.8 }}
-          animate={{ opacity: 1 }}
-          className="text-white"
-          data-testid="typewriter-text"
-        >
-          {currentText}
-        </motion.span>
-      </AnimatePresence>
+      <span className="text-white" data-testid="typewriter-text">
+        {currentText}
+      </span>
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{
