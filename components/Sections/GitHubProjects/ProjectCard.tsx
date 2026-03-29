@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import {
   ExternalLink,
   Github,
@@ -13,7 +15,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { fadeInUp } from "@/components/Layout/PageTransition";
 import { formatDate, generateSlug } from "@/lib/utils";
 import type { Project } from "@/types/github";
 
@@ -23,12 +24,31 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const slug = generateSlug(project.title);
+  const cardRef = useRef<HTMLElement>(null);
+  const { contextSafe } = useGSAP({ scope: cardRef });
+
+  const handleMouseEnter = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      y: -4,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  });
+
+  const handleMouseLeave = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      y: 0,
+      duration: 0.3,
+      ease: "power2.inOut",
+    });
+  });
 
   return (
-    <motion.article
-      variants={fadeInUp}
-      className="glass-card overflow-hidden hover:border-border-default transition-all group h-full flex flex-col"
-      whileHover={{ y: -4 }}
+    <article
+      ref={cardRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="gsap-project-card opacity-0 glass-card overflow-hidden hover:border-border-default transition-all group h-full flex flex-col"
     >
       {/* Project Image — clickable via Link */}
       <Link
@@ -157,6 +177,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }

@@ -1,15 +1,53 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { personalInfo, socialLinks } from "@/data";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const logoBoxRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
+
+  // Logo Hover Animation
+  const { contextSafe } = useGSAP({ scope: footerRef });
+  const handleLogoEnter = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      rotate: 10,
+      scale: 1.05,
+      duration: 0.4,
+      ease: "back.out(1.7)",
+    });
+  });
+  const handleLogoLeave = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      rotate: 0,
+      scale: 1,
+      duration: 0.4,
+      ease: "power2.inOut",
+    });
+  });
+
+  // Social Icons Animation
+  useGSAP(() => {
+    gsap.fromTo(".gsap-social-icon",
+      { opacity: 0, y: 10 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.5, 
+        stagger: 0.1, 
+        ease: "power2.out" 
+      }
+    );
+  }, { scope: footerRef });
 
   return (
     <footer
+      ref={footerRef}
       aria-label="Site Footer"
       className="relative bg-bg-elevated border-t border-border-subtle backdrop-blur-lg"
     >
@@ -21,9 +59,10 @@ export function Footer() {
           {/* Brand + Copyright */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
-              <motion.div
-                whileHover={{ rotate: 10, scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 250 }}
+              <div
+                ref={logoBoxRef}
+                onMouseEnter={handleLogoEnter}
+                onMouseLeave={handleLogoLeave}
               >
                 <Image
                   src="/logo.svg"
@@ -33,7 +72,7 @@ export function Footer() {
                   priority
                   className="h-10 w-10"
                 />
-              </motion.div>
+              </div>
               <span className="ml-1 text-sm font-semibold text-text-primary hidden sm:inline-block">
                 {personalInfo.name.slice(4)}
               </span>
@@ -48,12 +87,10 @@ export function Footer() {
           {/* Social Icons */}
           <nav aria-label="Social media">
             <div className="flex items-center gap-6">
-              {socialLinks.map((social, index) => (
-                <motion.div
+              {socialLinks.map((social) => (
+                <div
                   key={social.platform}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  className="gsap-social-icon opacity-0"
                 >
                   <a
                     href={social.url}
@@ -63,12 +100,12 @@ export function Footer() {
                         ? "noopener noreferrer"
                         : undefined
                     }
-                    className="text-text-secondary hover:text-primary-400 transition-all duration-300 hover:-translate-y-1.5 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500/30 rounded-sm"
+                    className="text-text-secondary hover:text-primary-400 transition-all duration-300 hover:-translate-y-1.5 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500/30 rounded-sm inline-block"
                     aria-label={social.platform}
                   >
                     {social.icon}
                   </a>
-                </motion.div>
+                </div>
               ))}
             </div>
           </nav>

@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { Menu, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { personalInfo } from "@/data";
@@ -23,18 +24,76 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const prevPathnameRef = useRef(pathname);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const logoBoxRef = useRef<HTMLDivElement>(null);
 
-  // Close menu on route change (use pathname only)
+  // Logo Hover Animation
+  const { contextSafe } = useGSAP({ scope: logoBoxRef });
+  const handleLogoEnter = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      rotate: 10,
+      scale: 1.05,
+      duration: 0.4,
+      ease: "back.out(1.7)",
+    });
+  });
+  const handleLogoLeave = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      rotate: 0,
+      scale: 1,
+      duration: 0.4,
+      ease: "power2.inOut",
+    });
+  });
+
+  // Mobile Menu Animation
+  useGSAP(() => {
+    if (isOpen) {
+      gsap.to(mobileMenuRef.current, {
+        autoAlpha: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      gsap.fromTo(".gsap-mobile-link",
+        { opacity: 0, y: 20 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.4, 
+          stagger: 0.08, 
+          ease: "power2.out",
+          delay: 0.1
+        }
+      );
+      gsap.fromTo(".gsap-mobile-button",
+        { opacity: 0, y: 20 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.4, 
+          ease: "power2.out",
+          delay: 0.5
+        }
+      );
+    } else {
+      gsap.to(mobileMenuRef.current, {
+        autoAlpha: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    }
+  }, [isOpen]);
+
+  // Close menu on route change
   useEffect(() => {
     if (prevPathnameRef.current !== pathname) {
       prevPathnameRef.current = pathname;
-      // always schedule closing after navigation commit
       const raf = requestAnimationFrame(() => setIsOpen(false));
       return () => cancelAnimationFrame(raf);
     }
   }, [pathname]);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -46,7 +105,7 @@ export function Navbar() {
     };
   }, [isOpen]);
 
-  // Efficient scroll handler using rAF
+  // Scroll handler
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
@@ -63,60 +122,43 @@ export function Navbar() {
   }, []);
 
   const closeMenu = useCallback(() => setIsOpen(false), []);
-  // Use functional toggle to avoid stale state
   const toggleMenu = useCallback(() => setIsOpen((v) => !v), []);
 
   return (
     <>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="mobile-menu-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-bg-base/95 backdrop-blur-md md:hidden"
-            id="mobile-menu"
-          >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08 }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={closeMenu}
-                    className={`text-2xl font-heading font-medium transition-colors ${
-                      pathname === link.href
-                        ? "gradient-text"
-                        : "text-text-secondary hover:text-text-primary"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
+      {/* Mobile Menu Overlay */}
+      <div
+        ref={mobileMenuRef}
+        className="fixed inset-0 z-40 bg-bg-base/95 backdrop-blur-md md:hidden invisible opacity-0"
+        id="mobile-menu"
+      >
+        <div className="flex flex-col items-center justify-center h-full gap-8">
+          {navLinks.map((link) => (
+            <div key={link.href} className="gsap-mobile-link opacity-0">
+              <Link
+                href={link.href}
+                onClick={closeMenu}
+                className={`text-2xl font-heading font-medium transition-colors ${
+                  pathname === link.href
+                    ? "gradient-text"
+                    : "text-text-secondary hover:text-text-primary"
+                }`}
               >
-                <Button asChild size="lg" className="gap-2 mt-4">
-                  <a href={personalInfo.resume} download onClick={closeMenu}>
-                    <Download className="w-5 h-5" />
-                    Download CV
-                  </a>
-                </Button>
-              </motion.div>
+                {link.label}
+              </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          ))}
+
+          <div className="gsap-mobile-button opacity-0">
+            <Button asChild size="lg" className="gap-2 mt-4">
+              <a href={personalInfo.resume} download onClick={closeMenu}>
+                <Download className="w-5 h-5" />
+                Download CV
+              </a>
+            </Button>
+          </div>
+        </div>
+      </div>
 
       <header
         className={cn(
@@ -137,9 +179,10 @@ export function Navbar() {
               className="flex items-center"
               onClick={isOpen ? closeMenu : undefined}
             >
-              <motion.div
-                whileHover={{ rotate: 10, scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 250 }}
+              <div
+                ref={logoBoxRef}
+                onMouseEnter={handleLogoEnter}
+                onMouseLeave={handleLogoLeave}
               >
                 <Image
                   src="/logo.svg"
@@ -149,7 +192,7 @@ export function Navbar() {
                   priority
                   className="h-10 w-10"
                 />
-              </motion.div>
+              </div>
               <span className="ml-1 text-sm font-semibold text-text-primary hidden sm:inline-block font-heading">
                 {personalInfo.name.slice(4)}
               </span>

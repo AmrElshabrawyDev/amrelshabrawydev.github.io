@@ -42,8 +42,8 @@
      ==================================== */
 
   /* Font Families (use with next/font) */
-  --font-heading: var(--font-archivo);
-  --font-body: var(--font-space-grotesk);
+  --font-heading: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 
   /* Font Sizes */

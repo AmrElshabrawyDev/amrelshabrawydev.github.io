@@ -1,11 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { aboutData, statsData } from "@/data";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Badge } from "@/components/ui/badge";
-import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const proficiencyColors = {
   expert: "bg-success/20 text-success border-success/30",
@@ -14,38 +20,61 @@ const proficiencyColors = {
 };
 
 export function AboutSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    // Animate Header
+    tl.fromTo(".gsap-header",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    );
+
+    // Animate Main Bio Card
+    tl.fromTo(".gsap-bio-card",
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+      "-=0.3"
+    );
+
+    // Animate Skill Cards
+    tl.fromTo(".gsap-skill-card",
+      { opacity: 0, y: 30 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.5, 
+        stagger: 0.1, 
+        ease: "power2.out" 
+      },
+      "-=0.4"
+    );
+  }, { scope: containerRef });
+
   return (
-    <section className="section-spacing">
+    <section ref={containerRef} className="section-spacing">
       <div className="container-custom">
         {/* Section Header */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-16"
-        >
+        <div className="gsap-header opacity-0 text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
             About <span className="gradient-text">Me</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto">
             Passionate about creating exceptional web experiences
           </p>
-        </motion.div>
+        </div>
 
         {/* Grid Layout */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Main Bio Card - Full Width on LG */}
-          <motion.div
-            variants={fadeInUp}
-            className="col-span-1 md:col-span-2 lg:col-span-3"
-          >
+          <div className="gsap-bio-card opacity-0 col-span-1 md:col-span-2 lg:col-span-3">
             <GlassCard variant="hover" className="p-0 overflow-hidden h-full">
               <div className="grid lg:grid-cols-5 gap-0 h-full">
                 {/* Text Content */}
@@ -100,11 +129,14 @@ export function AboutSection() {
                 </div>
               </div>
             </GlassCard>
-          </motion.div>
+          </div>
 
           {/* Skill Category Cards */}
-          {aboutData.skillCategories.map((category, index) => (
-            <motion.div key={category.title} variants={fadeInUp} custom={index}>
+          {aboutData.skillCategories.map((category) => (
+            <div 
+              key={category.title} 
+              className="gsap-skill-card opacity-0"
+            >
               <GlassCard variant="hover" className="p-6 h-full flex flex-col">
                 <div className="space-y-4 flex-1">
                   {/* Icon & Title */}
@@ -144,9 +176,9 @@ export function AboutSection() {
                   </div>
                 </div>
               </GlassCard>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

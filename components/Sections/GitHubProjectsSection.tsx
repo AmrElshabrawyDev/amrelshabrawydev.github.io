@@ -1,11 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
 import type { Project } from "@/types/github";
 import { ProjectCard } from "./GitHubProjects/ProjectCard";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // ====================================
 // 🎨 Component
@@ -18,6 +24,58 @@ interface GitHubProjectsSectionProps {
 export function GitHubProjectsSection({
   projects,
 }: GitHubProjectsSectionProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    // Animate Header
+    tl.fromTo(".gsap-header", 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    );
+
+    // Animate Line
+    tl.fromTo(".gsap-line",
+      { width: 0, opacity: 0 },
+      { width: 80, opacity: 0.4, duration: 0.8, ease: "power2.out" },
+      "-=0.3"
+    );
+
+    // Animate Description
+    tl.fromTo(".gsap-desc",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.4"
+    );
+
+    // Animate Projects Grid
+    tl.fromTo(".gsap-project-card",
+      { opacity: 0, y: 30 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.5, 
+        stagger: 0.1, 
+        ease: "power2.out" 
+      },
+      "-=0.3"
+    );
+
+    // Animate CTA
+    tl.fromTo(".gsap-cta",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      "-=0.3"
+    );
+  }, { scope: containerRef });
+
   // ====================================
   // 📭 Empty State
   // ====================================
@@ -43,48 +101,30 @@ export function GitHubProjectsSection({
   // ====================================
 
   return (
-    <section className="section-spacing bg-bg-base">
+    <section ref={containerRef} className="section-spacing bg-bg-base">
       <div className="container-custom">
         {/* Header */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          className="flex flex-col items-center text-center mb-20"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
+        <div className="flex flex-col items-center text-center mb-20">
+          <h1 className="gsap-header opacity-0 text-4xl md:text-5xl font-bold font-heading mb-4">
             Featured <span className="gradient-text">Projects</span>
           </h1>
-          <div className="h-1 w-20 bg-linear-to-r from-primary-500 to-accent-500 rounded-full mb-8 opacity-40 shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
-          <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
+          <div className="gsap-line opacity-0 h-1 w-20 bg-linear-to-r from-primary-500 to-accent-500 rounded-full mb-8 shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+          <p className="gsap-desc opacity-0 text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
             A curated selection of my latest work from GitHub, demonstrating my
             commitment to clean code, performance, and exceptional UI
             engineering.
           </p>
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-        </motion.div>
+        </div>
 
         {/* View All on GitHub */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          className="text-center mt-12"
-        >
+        <div className="gsap-cta opacity-0 text-center mt-12">
           <Button size="lg" variant="outline" asChild>
             <a
               href={`https://github.com/AmrElshabrawyDev`}
@@ -95,7 +135,7 @@ export function GitHubProjectsSection({
               View All Projects on GitHub
             </a>
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

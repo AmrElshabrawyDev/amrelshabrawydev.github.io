@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { motion } from "framer-motion";
+import { useState, FormEvent, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import Confetti from "react-confetti";
@@ -10,7 +12,10 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface FormData {
   name: string;
@@ -29,6 +34,49 @@ export function ContactSection() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    tl.fromTo(".gsap-header",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    );
+
+    tl.fromTo(".gsap-contact-content",
+      { opacity: 0, y: 30 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.6, 
+        stagger: 0.2, 
+        ease: "power2.out" 
+      },
+      "-=0.3"
+    );
+  }, { scope: containerRef });
+
+  useGSAP(() => {
+    if (status === "success" && successRef.current) {
+      gsap.fromTo(successRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
+      );
+      gsap.fromTo(".gsap-check-icon",
+        { scale: 0 },
+        { scale: 1, duration: 0.5, delay: 0.2, ease: "back.out(1.7)" }
+      );
+    }
+  }, [status]);
 
 // EmailJS configuration
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
@@ -71,16 +119,10 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
   };
 
   return (
-    <section className="section-spacing">
+    <section ref={containerRef} className="section-spacing">
       <div className="container-custom">
         {/* Section Header */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-16"
-        >
+        <div className="gsap-header opacity-0 text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
             {contactData.header.title.first}{" "}
             <span className="gradient-text">
@@ -93,33 +135,21 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
           <p className="text-text-secondary mb-6 max-w-2xl mx-auto">
             {contactData.header.subDescription}
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <motion.div variants={fadeInUp}>
+          <div className="gsap-contact-content opacity-0">
             <GlassCard variant="strong" className="p-8">
               {status === "success" ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                <div
+                  ref={successRef}
                   className="relative flex flex-col items-center justify-center py-12 text-center"
                 >
                   {showConfetti && <Confetti recycle={false} numberOfPieces={200} gravity={0.08} initialVelocityY={30}/>}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                    className="mb-6"
-                  >
+                  <div className="gsap-check-icon mb-6">
                     <CheckCircle className="w-16 h-16 text-success" />
-                  </motion.div>
+                  </div>
                   <h3 className="text-2xl font-heading font-bold mb-2">
                     {contactData.successMessage.title}
                   </h3>
@@ -135,7 +165,7 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
                   >
                     {contactData.successMessage.buttonText}
                   </Button>
-                </motion.div>
+                </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
@@ -219,10 +249,10 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
                 </form>
               )}
             </GlassCard>
-          </motion.div>
+          </div>
 
           {/* Contact Info */}
-          <motion.div variants={fadeInUp} className="space-y-6">
+          <div className="gsap-contact-content opacity-0 space-y-6">
             {/* Contact Methods */}
             <div className="space-y-4">
               {socialLinks.map((link) => (
@@ -265,8 +295,8 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
                 </span>
               </div>
             </GlassCard>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

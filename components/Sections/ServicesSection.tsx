@@ -1,23 +1,54 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Check } from "lucide-react";
 import { serviceData } from "@/data";
 import { GlassCard } from "@/components/ui/glass-card";
-import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function ServicesSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    // Animate Header
+    tl.fromTo(".gsap-header",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    );
+
+    // Animate Services Grid Cards
+    tl.fromTo(".gsap-service-card",
+      { opacity: 0, y: 30 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.5, 
+        stagger: 0.1, 
+        ease: "power2.out" 
+      },
+      "-=0.4"
+    );
+  }, { scope: containerRef });
+
   return (
-    <section className="section-spacing">
+    <section ref={containerRef} className="section-spacing">
       <div className="container-custom">
         {/* Section Header */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-16"
-        >
+        <div className="gsap-header opacity-0 text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
             My <span className="gradient-text">Services</span>
           </h1>
@@ -25,27 +56,18 @@ export function ServicesSection() {
             Comprehensive front-end development solutions to bring your ideas to
             life
           </p>
-        </motion.div>
+        </div>
 
         {/* Services Grid */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {serviceData.map((service, index) => (
-            <motion.div key={service.title} variants={fadeInUp} custom={index}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {serviceData.map((service) => (
+            <div key={service.title} className="gsap-service-card opacity-0">
               <GlassCard variant="hover" className="p-8 h-full group">
                 <div className="space-y-6">
                   {/* Icon */}
-                  <motion.div
-                    className="inline-flex p-3 rounded-xl bg-primary-500/10 text-primary-500 group-hover:bg-primary-500/20 group-hover:scale-110 transition-all duration-300"
-                    whileHover={{ rotate: 5 }}
-                  >
+                  <div className="inline-flex p-3 rounded-xl bg-primary-500/10 text-primary-500 group-hover:bg-primary-500/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                     {service.icon}
-                  </motion.div>
+                  </div>
 
                   {/* Title & Description */}
                   <div>
@@ -71,9 +93,9 @@ export function ServicesSection() {
                   </ul>
                 </div>
               </GlassCard>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

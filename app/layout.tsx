@@ -1,4 +1,4 @@
-import { Archivo, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Orbitron, Share_Tech_Mono, JetBrains_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
@@ -7,17 +7,16 @@ import "./globals.css";
 // 🎨 Fonts Configuration
 // ====================================
 
-const archivo = Archivo({
+const orbitron = Orbitron({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-archivo",
+  variable: "--font-orbitron",
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const shareTechMono = Share_Tech_Mono({
+  weight: "400",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  variable: "--font-share-tech-mono",
   display: "swap",
 });
 
@@ -200,7 +199,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${spaceGrotesk.variable} ${mono.variable}`}
+      className={`${orbitron.variable} ${shareTechMono.variable} ${mono.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col">
         <Navbar />

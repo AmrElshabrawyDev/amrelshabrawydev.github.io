@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { cn } from "@/lib/utils";
 
 interface TypeAnimationProps {
@@ -23,6 +24,20 @@ export function TypeAnimation({
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
+  const cursorRef = useRef<HTMLSpanElement>(null);
+
+  useGSAP(() => {
+    if (cursorRef.current) {
+      gsap.to(cursorRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+    }
+  });
 
   const currentWord = words[currentWordIndex];
 
@@ -77,13 +92,8 @@ export function TypeAnimation({
       <span className="text-white" data-testid="typewriter-text">
         {currentText}
       </span>
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{
-          duration: 0.5,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
+      <span
+        ref={cursorRef}
         className="ml-1 w-0.5 h-[1em] bg-primary-500 inline-block"
         data-testid="typewriter-cursor"
         aria-hidden="true"
