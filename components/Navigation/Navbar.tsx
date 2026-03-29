@@ -2,21 +2,18 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { Menu, X, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X, Download, User, Terminal } from "lucide-react";
 import { personalInfo } from "@/data";
 import { cn } from "@/lib/utils";
+import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/work", label: "Work" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "HOME", color: "secondary" as const },
+  { href: "/about", label: "ABOUT", color: "surface" as const },
+  { href: "/services", label: "SERVICES", color: "surface" as const },
+  { href: "/work", label: "WORK", color: "surface" as const },
+  { href: "/contact", label: "CONTACT", color: "surface" as const },
 ];
 
 export function Navbar() {
@@ -24,220 +21,119 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const prevPathnameRef = useRef(pathname);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const logoBoxRef = useRef<HTMLDivElement>(null);
-
-  // Logo Hover Animation
-  const { contextSafe } = useGSAP({ scope: logoBoxRef });
-  const handleLogoEnter = contextSafe((e: React.MouseEvent) => {
-    gsap.to(e.currentTarget, {
-      rotate: 10,
-      scale: 1.05,
-      duration: 0.4,
-      ease: "back.out(1.7)",
-    });
-  });
-  const handleLogoLeave = contextSafe((e: React.MouseEvent) => {
-    gsap.to(e.currentTarget, {
-      rotate: 0,
-      scale: 1,
-      duration: 0.4,
-      ease: "power2.inOut",
-    });
-  });
-
-  // Mobile Menu Animation
-  useGSAP(() => {
-    if (isOpen) {
-      gsap.to(mobileMenuRef.current, {
-        autoAlpha: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-      gsap.fromTo(".gsap-mobile-link",
-        { opacity: 0, y: 20 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.4, 
-          stagger: 0.08, 
-          ease: "power2.out",
-          delay: 0.1
-        }
-      );
-      gsap.fromTo(".gsap-mobile-button",
-        { opacity: 0, y: 20 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.4, 
-          ease: "power2.out",
-          delay: 0.5
-        }
-      );
-    } else {
-      gsap.to(mobileMenuRef.current, {
-        autoAlpha: 0,
-        duration: 0.3,
-        ease: "power2.in",
-      });
-    }
-  }, [isOpen]);
 
   // Close menu on route change
   useEffect(() => {
     if (prevPathnameRef.current !== pathname) {
       prevPathnameRef.current = pathname;
-      const raf = requestAnimationFrame(() => setIsOpen(false));
-      return () => cancelAnimationFrame(raf);
+      setIsOpen(false);
     }
   }, [pathname]);
 
   // Lock body scroll
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   // Scroll handler
   useEffect(() => {
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 30);
-          ticking = false;
-        });
-      }
-    };
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const closeMenu = useCallback(() => setIsOpen(false), []);
   const toggleMenu = useCallback(() => setIsOpen((v) => !v), []);
 
   return (
-    <>
-      {/* Mobile Menu Overlay */}
-      <div
-        ref={mobileMenuRef}
-        className="fixed inset-0 z-40 bg-bg-base/95 backdrop-blur-md md:hidden invisible opacity-0"
-        id="mobile-menu"
-      >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
-          {navLinks.map((link) => (
-            <div key={link.href} className="gsap-mobile-link opacity-0">
-              <Link
-                href={link.href}
-                onClick={closeMenu}
-                className={`text-2xl font-heading font-medium transition-colors ${
-                  pathname === link.href
-                    ? "gradient-text"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {link.label}
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-colors duration-200",
+        scrolled ? "bg-bg-base/80 backdrop-blur-md border-b border-border-subtle" : "bg-transparent"
+      )}
+    >
+      <nav className="container-custom py-4">
+        <div className="flex items-center justify-between">
+          {/* Powerline Nav Bar (Desktop) */}
+          <div className="hidden md:flex items-stretch">
+            <PowerlineGroup>
+              <Link href="/">
+                <PowerlineSegment color="primary" icon={<User className="w-4 h-4" />}>
+                  {personalInfo.name.split(" ")[0].toUpperCase()}
+                </PowerlineSegment>
               </Link>
-            </div>
-          ))}
+              
+              {navLinks.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  <PowerlineSegment 
+                    color={pathname === link.href ? "secondary" : "surface"}
+                    className={cn(
+                      "transition-all",
+                      pathname === link.href ? "font-bold" : "text-text-secondary"
+                    )}
+                  >
+                    {link.label}
+                  </PowerlineSegment>
+                </Link>
+              ))}
 
-          <div className="gsap-mobile-button opacity-0">
-            <Button asChild size="lg" className="gap-2 mt-4">
-              <a href={personalInfo.resume} download onClick={closeMenu}>
-                <Download className="w-5 h-5" />
-                Download CV
+              <a href={personalInfo.resume} download>
+                <PowerlineSegment color="warning" icon={<Download className="w-4 h-4" />}>
+                  CV.EXE
+                </PowerlineSegment>
               </a>
-            </Button>
+            </PowerlineGroup>
           </div>
+
+          {/* Logo (Mobile) */}
+          <Link href="/" className="md:hidden flex items-center gap-2">
+            <div className="bg-primary p-1">
+              <Terminal className="w-5 h-5 text-bg-base" />
+            </div>
+            <span className="font-bold tracking-tighter text-text-primary">
+              {personalInfo.name.toUpperCase()}
+            </span>
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 text-text-primary hover:text-primary transition-colors z-50"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-      </div>
 
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-          isOpen
-            ? "bg-bg-base border-transparent shadow-none"
-            : "bg-bg-base/80 backdrop-blur-lg",
-          !isOpen && scrolled
-            ? "border-border-subtle shadow-md"
-            : "border-transparent",
-          !isOpen && !scrolled && "border-transparent",
-        )}
-      >
-        <nav className="container-custom">
-          <div className="flex items-center justify-between h-20">
-            <Link
-              href="/"
-              className="flex items-center"
-              onClick={isOpen ? closeMenu : undefined}
-            >
-              <div
-                ref={logoBoxRef}
-                onMouseEnter={handleLogoEnter}
-                onMouseLeave={handleLogoLeave}
-              >
-                <Image
-                  src="/logo.svg"
-                  alt={personalInfo.name}
-                  width={42}
-                  height={42}
-                  priority
-                  className="h-10 w-10"
-                />
-              </div>
-              <span className="ml-1 text-sm font-semibold text-text-primary hidden sm:inline-block font-heading">
-                {personalInfo.name.slice(4)}
-              </span>
-            </Link>
-
-            <div className="hidden md:flex items-center gap-8">
+        {/* Mobile Menu Overlay */}
+        {isOpen && (
+          <div className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 md:hidden">
+            <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-sm font-medium transition-colors duration-200 ${
-                    pathname === link.href
-                      ? "text-primary-400"
-                      : "text-text-secondary hover:text-text-primary"
-                  }`}
+                  className={cn(
+                    "text-2xl font-bold tracking-widest p-4 border-l-4",
+                    pathname === link.href 
+                      ? "border-secondary bg-secondary/10 text-secondary" 
+                      : "border-border-subtle text-text-secondary"
+                  )}
                 >
                   {link.label}
                 </Link>
               ))}
+              <a 
+                href={personalInfo.resume} 
+                className="mt-4 p-4 bg-warning text-bg-base font-bold text-center flex items-center justify-center gap-2"
+              >
+                <Download className="w-5 h-5" />
+                DOWNLOAD CV
+              </a>
             </div>
-
-            <div className="hidden md:block">
-              <Button asChild size="sm" className="gap-2">
-                <a href={personalInfo.resume} download>
-                  <Download className="w-4 h-4" />
-                  Download CV
-                </a>
-              </Button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 text-text-primary hover:text-primary-400 transition-colors relative z-50"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-            >
-              {isOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
           </div>
-        </nav>
-      </header>
-    </>
+        )}
+      </nav>
+    </header>
   );
 }

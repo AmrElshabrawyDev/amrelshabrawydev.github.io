@@ -1,43 +1,33 @@
-"use client";
+import React from "react";
 
 export function ProjectSkeleton() {
   return (
-    <div className="glass-card overflow-hidden animate-pulse">
-      {/* Image Skeleton */}
-      <div className="w-full h-48 bg-primary-500/10" />
+    <div className="terminal-card animate-pulse">
+      <div className="terminal-header flex items-center justify-between">
+        <div className="h-3 w-24 bg-secondary/10" />
+      </div>
+      
+      <div className="aspect-video bg-bg-base/50 border-b border-border-subtle" />
 
-      <div className="p-6">
-        {/* Title */}
-        <div className="flex justify-between mb-4">
-          <div className="h-7 bg-primary-500/20 rounded w-3/4" />
+      <div className="p-6 space-y-6">
+        <div className="h-6 bg-secondary/20 w-3/4" />
+        
+        <div className="space-y-3">
+          <div className="h-4 bg-secondary/10 w-full" />
+          <div className="h-4 bg-secondary/10 w-5/6" />
+        </div>
+
+        <div className="flex gap-2">
+          <div className="h-8 w-16 bg-secondary/5" />
+          <div className="h-8 w-16 bg-secondary/5" />
+          <div className="h-8 w-16 bg-secondary/5" />
+        </div>
+
+        <div className="pt-4 border-t border-border-subtle flex justify-between">
+          <div className="h-4 w-20 bg-secondary/10" />
           <div className="flex gap-2">
-            <div className="h-5 w-12 bg-primary-500/10 rounded" />
-            <div className="h-5 w-12 bg-primary-500/10 rounded" />
-          </div>
-        </div>
-
-        {/* Description */}
-        <div className="space-y-2 mb-4">
-          <div className="h-4 bg-primary-500/10 rounded w-full" />
-          <div className="h-4 bg-primary-500/10 rounded w-5/6" />
-        </div>
-
-        {/* Languages bar */}
-        <div className="h-2 bg-primary-500/10 rounded-full mb-4" />
-
-        {/* Tags */}
-        <div className="flex gap-2 mb-6">
-          <div className="h-6 w-20 bg-primary-500/10 rounded-full" />
-          <div className="h-6 w-16 bg-primary-500/10 rounded-full" />
-          <div className="h-6 w-24 bg-primary-500/10 rounded-full" />
-        </div>
-
-        {/* Footer */}
-        <div className="flex justify-between pt-4 border-t border-border-subtle">
-          <div className="h-4 w-24 bg-primary-500/10 rounded" />
-          <div className="flex gap-2">
-            <div className="h-8 w-8 bg-primary-500/10 rounded" />
-            <div className="h-8 w-8 bg-primary-500/10 rounded" />
+            <div className="h-6 w-6 bg-secondary/10" />
+            <div className="h-6 w-6 bg-secondary/10" />
           </div>
         </div>
       </div>

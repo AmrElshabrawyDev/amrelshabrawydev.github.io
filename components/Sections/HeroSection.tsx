@@ -1,125 +1,131 @@
 "use client";
 
-import { useRef } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ArrowRight, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { TypeAnimation } from "@/components/ui/type-animation";
-import { heroData } from "@/data";
+import { ArrowRight, Terminal, User, Code, Globe, Zap } from "lucide-react";
+import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { heroData, personalInfo } from "@/data";
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLElement>(null);
-
-  useGSAP(() => {
-    // Text elements stagger
-    gsap.fromTo(".animate-fade-up",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }
-    );
-    // Profile image
-    gsap.fromTo(".animate-scale-in",
-      { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 0.6, delay: 0.3, ease: "power2.out" }
-    );
-  }, { scope: containerRef });
-
   return (
-    <section 
-      ref={containerRef}
-      className="min-h-[calc(100vh-10.2rem)] flex items-center justify-center relative overflow-hidden"
-    >
-      {/* Background gradient mesh */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-50" />
-      <div className="absolute inset-0 bg-hero-glow" />
-
-      <div
-        className="container-custom relative z-10 grid lg:grid-cols-2 gap-8 items-center"
-      >
-        {/* Left Column: Text Content */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 my-10">
-          {/* Greeting */}
-          <p className="animate-fade-up text-accent-400 text-base md:text-lg font-medium mb-2 opacity-0">
-            {heroData.greeting}
-          </p>
-
-          {/* Name */}
-          <h1 className="animate-fade-up text-4xl md:text-6xl lg:text-7xl font-bold font-heading mb-4 tracking-tight opacity-0">
-            {heroData.name}
-          </h1>
-
-          {/* Animated Roles */}
-          <div className="animate-fade-up text-xl md:text-2xl lg:text-3xl font-heading mb-4 h-10 flex items-center lg:justify-start justify-center text-text-secondary font-medium opacity-0">
-            <span className="text-3xl font-mono gradient-text font-black mr-2">
-              {"{"}
-            </span>
-            <TypeAnimation
-              words={heroData.roles}
-              typingSpeed={80}
-              deletingSpeed={40}
-              pauseDuration={2500}
-            />
-            <span className="text-3xl font-mono gradient-text font-black ml-2">
-              {"}"}
-            </span>
+    <section className="min-h-[calc(100vh-8rem)] flex items-center justify-center relative overflow-hidden bg-bg-base py-20">
+      <div className="container-custom relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+        
+        {/* Left Column: Terminal Content */}
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+          
+          {/* Powerline Identity Row */}
+          <div className="mb-8 w-full flex justify-center lg:justify-start animate-fade-in-left [animation-delay:100ms] opacity-0">
+            <PowerlineGroup>
+              <PowerlineSegment color="primary" icon={<User className="w-4 h-4" />}>
+                {personalInfo.name.toUpperCase()}
+              </PowerlineSegment>
+              <PowerlineSegment color="secondary" icon={<Code className="w-4 h-4" />}>
+                {personalInfo.role.toUpperCase()}
+              </PowerlineSegment>
+            </PowerlineGroup>
           </div>
 
-          {/* Description */}
-          <p className="animate-fade-up text-text-secondary text-base md:text-lg max-w-xl mb-8 leading-relaxed opacity-0">
-            {heroData.description}
-          </p>
+          {/* Large Hero Text */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-heading mb-8 tracking-tighter leading-none text-text-primary animate-fade-in-up [animation-delay:200ms] opacity-0">
+            ENGINEERING <br />
+            <span className="text-secondary">DIGITAL</span> <br />
+            EXPERIENCES
+          </h1>
 
-          {/* CTAs */}
-          <div className="animate-fade-up flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto opacity-0">
-            <Button
-              asChild
-              size="lg"
-              className="gap-2 group w-full sm:w-auto shadow-lg shadow-primary-500/20"
-              data-testid="cta-view-work"
-            >
-              <Link href="/work">
-                {heroData.primaryCTA}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="gap-2 w-full sm:w-auto hover:bg-white/5 border-border-strong text-text-primary"
-              data-testid="cta-contact"
-            >
-              <Link href="/contact">
-                <Mail className="w-4 h-4" />
-                {heroData.secondaryCTA}
-              </Link>
-            </Button>
+          {/* Powerline Roles Row */}
+          <div className="mb-10 w-full flex justify-center lg:justify-start animate-fade-in-left [animation-delay:300ms] opacity-0">
+            <PowerlineGroup>
+              <PowerlineSegment color="info" icon={<Globe className="w-4 h-4" />}>
+                EGYPT
+              </PowerlineSegment>
+              <PowerlineSegment color="success" icon={<Zap className="w-4 h-4" />}>
+                {heroData.roles[0].toUpperCase()}
+              </PowerlineSegment>
+              <PowerlineSegment color="surface" showArrow={false}>
+                v2.0.0
+              </PowerlineSegment>
+            </PowerlineGroup>
+          </div>
+
+          {/* Description Block */}
+          <div className="text-text-secondary text-base md:text-lg max-w-xl mb-12 leading-relaxed font-mono border border-border-subtle p-6 bg-bg-elevated relative overflow-hidden animate-fade-in-up [animation-delay:400ms] opacity-0">
+            <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+            <div className="flex items-center gap-2 mb-4 text-text-tertiary text-xs uppercase tracking-widest">
+              <Terminal className="w-3 h-3" />
+              <span>system_info.md</span>
+            </div>
+            {heroData.description}
+          </div>
+
+          {/* CTAs as Segments */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 animate-fade-in-up [animation-delay:500ms] opacity-0">
+            <Link href="/work" className="hover:no-underline">
+              <PowerlineGroup>
+                <PowerlineSegment color="primary" className="h-14 px-8 text-lg" icon={<ArrowRight className="w-5 h-5" />}>
+                  {heroData.primaryCTA.toUpperCase()}
+                </PowerlineSegment>
+              </PowerlineGroup>
+            </Link>
+
+            <Link href="/contact" className="hover:no-underline">
+              <PowerlineGroup>
+                <PowerlineSegment color="surface" className="h-14 px-8 text-lg" showArrow={false}>
+                  {heroData.secondaryCTA.toUpperCase()}
+                </PowerlineSegment>
+              </PowerlineGroup>
+            </Link>
           </div>
         </div>
 
-        {/* Right Column: Profile Image */}
-        <div className="flex justify-center items-center order-1 lg:order-2 mt-10">
-          <div className="animate-scale-in relative w-[280px] h-[280px] md:w-[380px] md:h-[380px] xl:w-[450px] xl:h-[450px] animate-float opacity-0 block">
-            {/* Glow effects behind image */}
-            <div className="absolute -inset-4 bg-linear-to-r from-primary-500 to-accent-500 rounded-full blur-2xl opacity-30 animate-pulse" />
-            <div className="absolute -inset-1 bg-linear-to-r from-primary-500 to-accent-500 rounded-full blur-sm opacity-50" />
-
-            <div className="relative w-full h-full rounded-full border-2 border-white/10 overflow-hidden shadow-2xl bg-bg-elevated/50 backdrop-blur-sm">
-              <Image
-                src="/profile.png"
-                alt={heroData.name}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 768px) 280px, (max-width: 1024px) 380px, 450px"
-              />
+        {/* Right Column: Profile Image Block */}
+        <div className="relative flex justify-center items-center animate-fade-in [animation-delay:600ms] opacity-0">
+          {/* Terminal Window Container */}
+          <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] terminal-card overflow-hidden">
+            {/* Window Controls */}
+            <div className="terminal-header flex items-center justify-between">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 bg-accent" />
+                <div className="w-3 h-3 bg-warning" />
+                <div className="w-3 h-3 bg-success" />
+              </div>
+              <div className="text-[10px] text-text-tertiary font-mono tracking-tighter">
+                PROFILE_VIEWER.SH — 80x24
+              </div>
             </div>
 
-            {/* Decorative orbit/ring (optional) */}
-            <div className="absolute -inset-8 border border-white/5 rounded-full z-0 pointer-events-none" />
-            <div className="absolute -inset-16 border border-white/5 rounded-full z-0 pointer-events-none opacity-50" />
+            {/* Profile Image with Terminal Effect */}
+            <div className="relative w-full h-full p-4">
+              <div className="relative w-full h-full border border-border-subtle grayscale hover:grayscale-0 transition-all duration-500 overflow-hidden group">
+                {/* Scanline Overlay */}
+                <div className="absolute inset-0 bg-linear-to-b from-transparent via-white/5 to-transparent h-2 w-full animate-scanline z-10 pointer-events-none opacity-20" />
+                
+                <Image
+                  src="/profile.png"
+                  alt={personalInfo.name}
+                  fill
+                  priority
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 768px) 300px, 450px"
+                />
+                
+                {/* Terminal Grid Overlay */}
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(17,17,27,0.2)_100%)]" />
+              </div>
+            </div>
+
+            {/* Status Footer */}
+            <div className="absolute bottom-4 left-4 right-4 z-20">
+              <PowerlineGroup>
+                <PowerlineSegment color="secondary" className="h-8 text-[10px]">
+                  OS: NEON_TERMINAL
+                </PowerlineSegment>
+                <PowerlineSegment color="surface" className="h-8 text-[10px]" showArrow={false}>
+                  READY
+                </PowerlineSegment>
+              </PowerlineGroup>
+            </div>
           </div>
         </div>
       </div>

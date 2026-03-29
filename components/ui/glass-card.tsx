@@ -26,8 +26,9 @@ export function GlassCard({
   const handleMouseEnter = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
     if (variant === "hover") {
       gsap.to(e.currentTarget, {
-        y: -4,
-        boxShadow: "0 20px 40px rgba(59, 130, 246, 0.15)",
+        y: -8,
+        borderColor: "#FF00FF",
+        boxShadow: "0 0 30px rgba(255, 0, 255, 0.3)",
         duration: 0.3,
         ease: "power2.out",
       });
@@ -39,6 +40,7 @@ export function GlassCard({
     if (variant === "hover") {
       gsap.to(e.currentTarget, {
         y: 0,
+        borderColor: "#2D1B4E",
         boxShadow: "none",
         duration: 0.3,
         ease: "power2.inOut",
@@ -48,12 +50,12 @@ export function GlassCard({
   });
 
   const baseClasses = cn(
-    "rounded-2xl border",
+    "retro-card border-none",
     {
-      "bg-bg-overlay/60 backdrop-blur-xl border-border-subtle": variant === "default",
-      "bg-bg-overlay/60 backdrop-blur-xl border-border-subtle cursor-pointer": variant === "hover",
-      "bg-bg-overlay/80 backdrop-blur-xl border-border-default": variant === "strong",
-      "glow-subtle": glow,
+      "bg-bg-overlay backdrop-blur-xl": variant === "default",
+      "bg-bg-overlay backdrop-blur-xl cursor-pointer": variant === "hover",
+      "bg-bg-overlay/90 backdrop-blur-2xl border-2 border-secondary": variant === "strong",
+      "shadow-neon-cyan": glow,
     },
     className,
   );
