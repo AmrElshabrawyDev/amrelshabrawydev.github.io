@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { cn } from "@/lib/utils";
 
 interface TypeAnimationProps {
   words: string[];
@@ -15,7 +14,7 @@ interface TypeAnimationProps {
 
 export function TypeAnimation({
   words,
-  className,
+  className = "",
   typingSpeed = 100,
   deletingSpeed = 50,
   pauseDuration = 2000,
@@ -83,7 +82,7 @@ export function TypeAnimation({
 
   return (
     <span
-      className={cn("inline-flex items-center", className)}
+      className={`inline-flex items-center ${className}`}
       aria-live="polite"
       aria-atomic="true"
       data-testid="typewriter-container"

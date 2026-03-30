@@ -52,41 +52,6 @@
   --font-size-7xl: 4.5rem;
 
   /* ====================================
-     🎨 shadcn/ui Theme Variables (Neon Terminal)
-     ==================================== */
-
-  --background: #11111b;
-  --foreground: #cdd6f4;
-
-  --card: #181825;
-  --card-foreground: #cdd6f4;
-
-  --popover: #181825;
-  --popover-foreground: #cdd6f4;
-
-  --primary: #89b4fa;
-  --primary-foreground: #11111b;
-
-  --secondary: #94e2d5;
-  --secondary-foreground: #11111b;
-
-  --muted: #313244;
-  --muted-foreground: #6c7086;
-
-  --accent: #f38ba8;
-  --accent-foreground: #11111b;
-
-  --destructive: #f38ba8;
-  --destructive-foreground: #11111b;
-
-  --border: #313244;
-  --input: #1e1e2e;
-
-  --ring: #89b4fa;
-
-  --radius: 0; /* Strict angularity */
-
-  /* ====================================
      ✨ Animations
      ==================================== */
   --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;

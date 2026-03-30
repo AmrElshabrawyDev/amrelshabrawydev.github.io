@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { FileQuestion, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default function ProjectNotFound() {
   return (
@@ -15,12 +14,13 @@ export default function ProjectNotFound() {
             The project you&apos;re looking for doesn&apos;t exist or has been
             removed.
           </p>
-          <Button asChild size="lg">
-            <Link href="/work">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Projects
-            </Link>
-          </Button>
+          <Link
+            href="/work"
+            className="inline-flex items-center px-8 h-12 bg-primary text-bg-base font-bold hover:brightness-110 transition-all text-sm mx-auto"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back to Projects
+          </Link>
         </div>
       </div>
     </main>

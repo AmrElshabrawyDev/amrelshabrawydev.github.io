@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Download, User, Terminal } from "lucide-react";
 import { personalInfo } from "@/data";
-import { cn } from "@/lib/utils";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 
 const navLinks = [
@@ -47,10 +46,9 @@ export function Navbar() {
 
   return (
     <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-colors duration-200",
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
         scrolled ? "bg-bg-base/80 backdrop-blur-md border-b border-border-subtle" : "bg-transparent"
-      )}
+      }`}
     >
       <nav className="container-custom py-4">
         <div className="flex items-center justify-between">
@@ -67,10 +65,9 @@ export function Navbar() {
                 <Link key={link.href} href={link.href}>
                   <PowerlineSegment 
                     color={pathname === link.href ? "secondary" : "surface"}
-                    className={cn(
-                      "transition-all",
-                      pathname === link.href ? "font-bold" : "text-text-secondary"
-                    )}
+                    className={`transition-all ${
+link.href ? "font-bold text-secondary" : "text-text-secondary"
+                    }`}
                   >
                     {link.label}
                   </PowerlineSegment>
@@ -113,12 +110,11 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={cn(
-                    "text-2xl font-bold tracking-widest p-4 border-l-4",
+                  className={`text-2xl font-bold tracking-widest p-4 border-l-4 ${
                     pathname === link.href 
                       ? "border-secondary bg-secondary/10 text-secondary" 
                       : "border-border-subtle text-text-secondary"
-                  )}
+                  }`}
                 >
                   {link.label}
                 </Link>

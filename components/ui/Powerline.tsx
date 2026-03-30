@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { cn } from "@/lib/utils";
 
 /**
  * Powerline Design System Components
@@ -13,9 +12,9 @@ interface PowerlineGroupProps {
   className?: string;
 }
 
-export function PowerlineGroup({ children, className }: PowerlineGroupProps) {
+export function PowerlineGroup({ children, className = "" }: PowerlineGroupProps) {
   return (
-    <div className={cn("powerline-container flex-wrap gap-y-2", className)}>
+    <div className={`powerline-container flex-wrap gap-y-2 ${className}`}>
       {children}
     </div>
   );
@@ -63,20 +62,16 @@ export function PowerlineSegment({
   children,
   color = "primary",
   showArrow = true,
-  className,
+  className = "",
   icon,
   onClick,
 }: PowerlineSegmentProps) {
   return (
     <div
       onClick={onClick}
-      className={cn(
-        "powerline-segment group relative z-0",
-        "transition-transform duration-200 ease-out",
-        onClick && "cursor-pointer hover:translate-x-1",
-        colorMap[color],
-        className
-      )}
+      className={`powerline-segment group relative z-0 transition-transform duration-200 ease-out ${
+        onClick ? "cursor-pointer hover:translate-x-1" : ""
+      } ${colorMap[color]} ${className}`}
     >
       <div className="flex items-center gap-2">
         {icon && <span className="opacity-80">{icon}</span>}
@@ -85,10 +80,7 @@ export function PowerlineSegment({
       
       {showArrow && (
         <div 
-          className={cn(
-            "powerline-arrow",
-            arrowColorMap[color]
-          )} 
+          className={`powerline-arrow ${arrowColorMap[color]}`} 
         />
       )}
     </div>

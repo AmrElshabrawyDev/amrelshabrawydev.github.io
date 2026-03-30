@@ -16,8 +16,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { formatDate, generateSlug } from "@/lib/utils";
 import type { Project } from "@/types/github";
 import { markdownComponents } from "@/components/ui/markdown-components";
@@ -114,13 +112,12 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* Back Button */}
         <Link href="/work" className="absolute top-8 left-8 z-10">
-          <Button
-            variant="outline"
-            className="gap-2 backdrop-blur-sm bg-bg-base/50"
+          <button
+            className="flex items-center gap-2 px-4 py-2 border border-border-default backdrop-blur-sm bg-bg-base/50 text-text-primary hover:bg-bg-elevated transition-colors text-sm font-medium"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Projects
-          </Button>
+          </button>
         </Link>
       </div>
 
@@ -139,27 +136,25 @@ export default async function ProjectPage({ params }: Props) {
             </div>
 
             <div className="flex gap-3 shrink-0">
-              <Button asChild size="lg">
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 h-12 bg-primary text-bg-base font-bold hover:brightness-110 transition-all text-sm"
+              >
+                <Github className="w-5 h-5 mr-2" />
+                View Code
+              </a>
+              {project.liveUrl && (
                 <a
-                  href={project.githubUrl}
+                  href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="inline-flex items-center px-6 h-12 border border-primary text-primary font-bold hover:bg-primary/10 transition-all text-sm"
                 >
-                  <Github className="w-5 h-5 mr-2" />
-                  View Code
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                  Live Demo
                 </a>
-              </Button>
-              {project.liveUrl && (
-                <Button asChild variant="outline" size="lg">
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ExternalLink className="w-5 h-5 mr-2" />
-                    Live Demo
-                  </a>
-                </Button>
               )}
             </div>
           </header>
@@ -189,13 +184,12 @@ export default async function ProjectPage({ params }: Props) {
             <h2 className="text-xl font-semibold mb-4">Technologies</h2>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech, idx) => (
-                <Badge
+                <span
                   key={idx}
-                  variant="secondary"
-                  className="bg-primary-500/10 text-primary-400"
+                  className="px-2.5 py-0.5 text-xs font-semibold bg-primary-500/10 text-primary-400 border border-primary-500/20"
                 >
                   {tech}
-                </Badge>
+                </span>
               ))}
             </div>
           </section>
