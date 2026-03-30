@@ -48,31 +48,31 @@ const segmentStyles: Record<
 > = {
   primary: {
     segment: "bg-primary text-bg-base",
-    arrow: "bg-primary border-1 border-primary",
+    arrow: "bg-primary border-2 border-primary",
   },
   secondary: {
     segment: "bg-secondary text-bg-base",
-    arrow: "bg-secondary border-1 border-secondary",
+    arrow: "bg-secondary border-2 border-secondary",
   },
   accent: {
     segment: "bg-accent text-bg-base",
-    arrow: "bg-accent border-1 border-accent",
+    arrow: "bg-accent border-2 border-accent",
   },
   warning: {
     segment: "bg-warning text-bg-base",
-    arrow: "bg-warning border-1 border-warning",
+    arrow: "bg-warning border-2 border-warning",
   },
   success: {
     segment: "bg-success text-bg-base",
-    arrow: "bg-success border-1 border-success",
+    arrow: "bg-success border-2 border-success",
   },
   info: {
     segment: "bg-info text-bg-base",
-    arrow: "bg-info border-1 border-info",
+    arrow: "bg-info border-2 border-info",
   },
   surface: {
     segment: "bg-bg-elevated text-text-primary",
-    arrow: "bg-bg-elevated border-1 border-bg-elevated",
+    arrow: "bg-bg-elevated border-2 border-bg-elevated",
   },
 };
 
@@ -92,12 +92,12 @@ export function PowerlineSegment({
   return (
     <div
       onClick={onClick}
-      className={`powerline-segment group relative z-0 transition-transform duration-200 ease-out ${
-        onClick ? "cursor-pointer hover:translate-x-1" : ""
-      } ${styles.segment} ${className}`}
+      className={`powerline-segment relative ${isLeft ? "pl-5 pr-1" : ""} ${isRight ? "pl-1 pr-5" : ""} ${styles.segment} ${className}`}
     >
       {showArrow && isRight && (
-        <div className={`powerline-arrow-right ${styles.arrow}`} />
+        <div
+          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent ${styles.arrow}`}
+        />
       )}
 
       <div className="flex items-center gap-2">
@@ -106,7 +106,9 @@ export function PowerlineSegment({
       </div>
 
       {showArrow && isLeft && (
-        <div className={`powerline-arrow-left z-10 ${styles.arrow}`} />
+        <div
+          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent ${styles.arrow}`}
+        />
       )}
     </div>
   );

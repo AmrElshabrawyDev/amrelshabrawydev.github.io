@@ -182,6 +182,10 @@
     color: var(--color-secondary);
     background-color: rgba(148, 226, 213, 0.1);
   }
+
+  button {
+    cursor: pointer;
+  }
 }
 
 /* ====================================
@@ -198,7 +202,6 @@
 
   .powerline-segment {
     position: relative;
-    padding-inline: 1.5rem;
     height: 2.5rem;
     display: flex;
     align-items: center;
@@ -208,11 +211,6 @@
     letter-spacing: 0.05em;
     font-size: 0.875rem;
     white-space: nowrap;
-    transition: filter 0.2s ease;
-  }
-
-  .powerline-segment:hover {
-    filter: brightness(1.2);
   }
 
   .powerline-arrow-left {
@@ -233,6 +231,12 @@
     left: -14px;
     top: 0;
     z-index: 10;
+  }
+
+  @media (max-width: 1024px) {
+    .powerline-segment {
+      height: 2rem;
+    }
   }
 }
 

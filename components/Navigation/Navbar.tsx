@@ -45,10 +45,13 @@ export function Navbar() {
 
   const toggleMenu = useCallback(() => setIsOpen((v) => !v), []);
 
-  const { oddLinks, evenLinks } = useMemo(() => ({
-    oddLinks: navLinks.filter((_, index) => index % 2 !== 0),
-    evenLinks: navLinks.filter((_, index) => index % 2 === 0),
-  }), []);
+  const { oddLinks, evenLinks } = useMemo(
+    () => ({
+      oddLinks: navLinks.filter((_, index) => index % 2 !== 0),
+      evenLinks: navLinks.filter((_, index) => index % 2 === 0),
+    }),
+    [],
+  );
 
   return (
     <header
@@ -83,7 +86,7 @@ export function Navbar() {
                         className={`transition-all ${
                           pathname === link.href
                             ? "font-bold text-base"
-                            : "text-text-secondary"
+                            : "text-text-secondary group duration-200 ease-linear hover:bg-accent hover:text-bg-base"
                         }`}
                       >
                         {link.label}
@@ -103,7 +106,7 @@ export function Navbar() {
                         className={`transition-all ${
                           pathname === link.href
                             ? "font-bold text-base"
-                            : "text-text-secondary"
+                            : "text-text-secondary group duration-200 ease-linear hover:bg-accent hover:text-bg-base"
                         }`}
                       >
                         {link.label}
@@ -146,7 +149,7 @@ export function Navbar() {
 
         {/* Mobile Menu Overlay */}
         {isOpen && (
-          <div 
+          <div
             className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 md:hidden"
             role="dialog"
             aria-modal="true"
