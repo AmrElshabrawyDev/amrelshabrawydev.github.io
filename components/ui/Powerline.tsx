@@ -12,7 +12,10 @@ interface PowerlineGroupProps {
   className?: string;
 }
 
-export function PowerlineGroup({ children, className = "" }: PowerlineGroupProps) {
+export function PowerlineGroup({
+  children,
+  className = "",
+}: PowerlineGroupProps) {
   return (
     <div className={`powerline-container flex-wrap gap-y-2 ${className}`}>
       {children}
@@ -20,68 +23,90 @@ export function PowerlineGroup({ children, className = "" }: PowerlineGroupProps
   );
 }
 
-type PowerlineColor = 
-  | "primary" 
-  | "secondary" 
-  | "accent" 
-  | "warning" 
-  | "success" 
-  | "info" 
+type PowerlineColor =
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "warning"
+  | "success"
+  | "info"
   | "surface";
 
 interface PowerlineSegmentProps {
   children: React.ReactNode;
   color?: PowerlineColor;
   showArrow?: boolean;
+  direction?: "left" | "right";
   className?: string;
   icon?: React.ReactNode;
   onClick?: () => void;
 }
 
-const colorMap: Record<PowerlineColor, string> = {
-  primary: "bg-primary text-bg-base",
-  secondary: "bg-secondary text-bg-base",
-  accent: "bg-accent text-bg-base",
-  warning: "bg-warning text-bg-base",
-  success: "bg-success text-bg-base",
-  info: "bg-info text-bg-base",
-  surface: "bg-bg-elevated text-text-primary",
-};
-
-const arrowColorMap: Record<PowerlineColor, string> = {
-  primary: "bg-primary",
-  secondary: "bg-secondary",
-  accent: "bg-accent",
-  warning: "bg-warning",
-  success: "bg-success",
-  info: "bg-info",
-  surface: "bg-bg-elevated",
+const segmentStyles: Record<
+  PowerlineColor,
+  { segment: string; arrow: string }
+> = {
+  primary: {
+    segment: "bg-primary text-bg-base",
+    arrow: "bg-primary border-1 border-primary",
+  },
+  secondary: {
+    segment: "bg-secondary text-bg-base",
+    arrow: "bg-secondary border-1 border-secondary",
+  },
+  accent: {
+    segment: "bg-accent text-bg-base",
+    arrow: "bg-accent border-1 border-accent",
+  },
+  warning: {
+    segment: "bg-warning text-bg-base",
+    arrow: "bg-warning border-1 border-warning",
+  },
+  success: {
+    segment: "bg-success text-bg-base",
+    arrow: "bg-success border-1 border-success",
+  },
+  info: {
+    segment: "bg-info text-bg-base",
+    arrow: "bg-info border-1 border-info",
+  },
+  surface: {
+    segment: "bg-bg-elevated text-text-primary",
+    arrow: "bg-bg-elevated border-1 border-bg-elevated",
+  },
 };
 
 export function PowerlineSegment({
   children,
   color = "primary",
   showArrow = true,
+  direction = "left",
   className = "",
   icon,
   onClick,
 }: PowerlineSegmentProps) {
+  const styles = segmentStyles[color];
+  const isRight = direction === "right";
+  const isLeft = direction === "left";
+
   return (
     <div
       onClick={onClick}
       className={`powerline-segment group relative z-0 transition-transform duration-200 ease-out ${
         onClick ? "cursor-pointer hover:translate-x-1" : ""
-      } ${colorMap[color]} ${className}`}
+      } ${styles.segment} ${className}`}
     >
+      {showArrow && isRight && (
+        <div className={`powerline-arrow-right ${styles.arrow}`} />
+      )}
+
       <div className="flex items-center gap-2">
         {icon && <span className="opacity-80">{icon}</span>}
         <span>{children}</span>
       </div>
-      
-      {showArrow && (
-        <div 
-          className={`powerline-arrow ${arrowColorMap[color]}`} 
-        />
+
+      {showArrow && isLeft && (
+        <div className={`powerline-arrow-left z-10 ${styles.arrow}`} />
       )}
     </div>
   );
