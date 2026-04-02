@@ -36,7 +36,7 @@ interface PowerlineSegmentProps {
   children: React.ReactNode;
   color?: PowerlineColor;
   showArrow?: boolean;
-  direction?: "left" | "right";
+  direction?: "left" | "right" | "both";
   className?: string;
   icon?: React.ReactNode;
   onClick?: () => void;
@@ -88,26 +88,31 @@ export function PowerlineSegment({
   const styles = segmentStyles[color];
   const isRight = direction === "right";
   const isLeft = direction === "left";
+  const isBoth = direction === "both";
 
   return (
     <div
       onClick={onClick}
-      className={`powerline-segment relative ${isLeft ? "pl-5 pr-1" : ""} ${isRight ? "pl-1 pr-5" : ""} ${styles.segment} ${className}`}
+      className={`powerline-segment relative ${isLeft && "pl-5 pr-2"} ${isRight && "pl-2 pr-5"} ${isBoth && "px-5"} ${styles.segment} ${className}`}
     >
-      {showArrow && isRight && (
+      {showArrow && (isRight || isBoth) && (
         <div
-          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent ${styles.arrow}`}
+          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent group-active:bg-primary group-active:text-bg-base group-active:border-primary ${styles.arrow}`}
         />
       )}
 
-      <div className="flex items-center gap-2">
-        {icon && <span className="opacity-80">{icon}</span>}
+      <div className="flex items-center gap-1">
+        {icon && (
+          <span className={`opacity-80 ${isRight ? "order-1" : "order-0"}`}>
+            {icon}
+          </span>
+        )}
         <span>{children}</span>
       </div>
 
-      {showArrow && isLeft && (
+      {showArrow && (isLeft || isBoth) && (
         <div
-          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent ${styles.arrow}`}
+          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent group-active:bg-primary group-active:text-bg-base group-active:border-primary ${styles.arrow}`}
         />
       )}
     </div>

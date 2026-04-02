@@ -167,7 +167,7 @@ export const viewport: Viewport = {
 // 🏗️ Root Layout Component
 // ====================================
 
-import { Navbar } from "@/components/Navigation/Navbar";
+import { Navbar } from "@/components/Layout/Navbar";
 import { Footer } from "@/components/Layout/Footer";
 
 // Console Easter Egg

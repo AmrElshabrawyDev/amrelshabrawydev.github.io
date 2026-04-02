@@ -24,9 +24,9 @@ export function ServicesSection() {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {serviceData.map((service, idx) => (
-            <div 
-              key={service.title} 
-              className="terminal-card group animate-fade-in-up opacity-0"
+            <div
+              key={service.title}
+              className="terminal-card animate-fade-in-up opacity-0"
               style={{ animationDelay: `${(idx + 1) * 100}ms` }}
             >
               <div className="terminal-header flex items-center justify-between">
@@ -63,10 +63,17 @@ export function ServicesSection() {
 
               <div className="p-4 bg-bg-base/40 border-t border-border-subtle flex justify-end">
                 <PowerlineGroup>
-                  <PowerlineSegment color="info" className="h-6 text-[10px] px-3">
+                  <PowerlineSegment
+                    color="info"
+                    className="h-6 text-[10px] px-3"
+                  >
                     OPTIMIZED
                   </PowerlineSegment>
-                  <PowerlineSegment color="surface" className="h-6 text-[10px] px-3" showArrow={false}>
+                  <PowerlineSegment
+                    color="surface"
+                    className="h-6 text-[10px] px-3"
+                    showArrow={false}
+                  >
                     v3.1.0
                   </PowerlineSegment>
                 </PowerlineGroup>

@@ -3,16 +3,51 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Download, User, Terminal } from "lucide-react";
+import {
+  Menu,
+  X,
+  Download,
+  Terminal,
+  User,
+  Cpu,
+  Mail,
+  FolderGit2,
+} from "lucide-react";
 import { personalInfo } from "@/data";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { LogoIcon } from "../ui/LogoIcon";
 
 const navLinks = [
-  { href: "/", label: "HOME", color: "secondary" as const },
-  { href: "/about", label: "ABOUT", color: "surface" as const },
-  { href: "/services", label: "SERVICES", color: "surface" as const },
-  { href: "/contact", label: "CONTACT", color: "surface" as const },
-  { href: "/work", label: "WORK", color: "surface" as const },
+  {
+    href: "/",
+    label: "HOME",
+    icon: <Terminal className="w-4 h-4" />,
+    color: "surface" as const,
+  },
+  {
+    href: "/about",
+    label: "ABOUT",
+    icon: <User className="w-4 h-4" />,
+    color: "surface" as const,
+  },
+  {
+    href: "/services",
+    label: "SERVICES",
+    icon: <Cpu className="w-4 h-4" />,
+    color: "surface" as const,
+  },
+  {
+    href: "/contact",
+    label: "CONTACT",
+    icon: <Mail className="w-4 h-4" />,
+    color: "surface" as const,
+  },
+  {
+    href: "/work",
+    label: "WORK",
+    icon: <FolderGit2 className="w-4 h-4" />,
+    color: "surface" as const,
+  },
 ];
 
 export function Navbar() {
@@ -29,12 +64,12 @@ export function Navbar() {
   }
 
   // Lock body scroll
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  // useEffect(() => {
+  //   document.body.style.overflow = isOpen ? "hidden" : "";
+  //   return () => {
+  //     document.body.style.overflow = "";
+  //   };
+  // }, [isOpen]);
 
   // Scroll handler
   useEffect(() => {
@@ -55,38 +90,28 @@ export function Navbar() {
 
   return (
     <header
-      className={`w-full fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
-        scrolled
-          ? "bg-bg-base/80 backdrop-blur-md border-b border-border-subtle"
-          : "bg-transparent"
+      className={`w-full fixed top-0 left-0 right-0 z-50 bg-bg-base border-b border-transparent transition-colors duration-200 ${
+        scrolled && !isOpen
+          ? "bg-bg-base/80 backdrop-blur-md border-border-subtle!"
+          : "bg-bg-base border-transparent"
       }`}
     >
-      <a href="#main-content" className="skip-to-main">
-        SKIP TO CONTENT
-      </a>
       <nav className="container-custom py-4">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           {/* Powerline Nav Bar (Desktop) */}
           <div className="hidden md:flex w-full">
-            <PowerlineGroup className="w-full justify-between">
+            <PowerlineGroup className="w-full justify-between drop-shadow-[0_0_4px] drop-shadow-neon-primary">
               <div className="flex flex-1">
-                <Link href="/">
-                  <PowerlineSegment
-                    color="primary"
-                    icon={<User className="w-4 h-4" />}
-                  >
-                    {personalInfo.name.split(" ")[0].toUpperCase()}
-                  </PowerlineSegment>
-                </Link>
                 <div className="flex">
                   {evenLinks.map((link) => (
                     <Link key={link.href} href={link.href}>
                       <PowerlineSegment
-                        color={pathname === link.href ? "secondary" : "surface"}
+                        color={pathname === link.href ? "primary" : link.color}
+                        icon={link.icon}
                         className={`transition-all ${
                           pathname === link.href
                             ? "font-bold text-base"
-                            : "text-text-secondary group duration-200 ease-linear hover:bg-accent hover:text-bg-base"
+                            : "group duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
                         }`}
                       >
                         {link.label}
@@ -96,17 +121,24 @@ export function Navbar() {
                 </div>
               </div>
 
+              <div className="hidden md:flex items-center justify-center flex-1">
+                <Link href="/">
+                  <LogoIcon className="w-14 h-14 transition-all duration-200 ease-linear hover:scale-3d hover:scale-110 active:scale-90" />
+                </Link>
+              </div>
+
               <div className="flex justify-end flex-1">
                 <div className="flex">
                   {oddLinks.map((link) => (
                     <Link key={link.href} href={link.href}>
                       <PowerlineSegment
                         direction="right"
-                        color={pathname === link.href ? "secondary" : "surface"}
+                        color={pathname === link.href ? "primary" : link.color}
+                        icon={link.icon}
                         className={`transition-all ${
                           pathname === link.href
                             ? "font-bold text-base"
-                            : "text-text-secondary group duration-200 ease-linear hover:bg-accent hover:text-bg-base"
+                            : "group duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
                         }`}
                       >
                         {link.label}
@@ -117,8 +149,9 @@ export function Navbar() {
                 <a href={personalInfo.resume} download>
                   <PowerlineSegment
                     direction="right"
-                    color="warning"
+                    color="surface"
                     icon={<Download className="w-4 h-4" />}
+                    className={`transition-all group duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base`}
                   >
                     CV.EXE
                   </PowerlineSegment>
@@ -129,11 +162,10 @@ export function Navbar() {
 
           {/* Logo (Mobile) */}
           <Link href="/" className="md:hidden flex items-center gap-2">
-            <div className="bg-primary p-1">
-              <Terminal className="w-5 h-5 text-bg-base" />
-            </div>
+            <LogoIcon className="w-8 h-8" />
+
             <span className="font-bold tracking-tighter text-text-primary">
-              {personalInfo.name.toUpperCase()}
+              {personalInfo.name.split(" ")[1].toUpperCase()}
             </span>
           </Link>
 

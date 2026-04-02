@@ -16,11 +16,13 @@ export function AboutSection() {
   return (
     <section className="py-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
-        
         {/* Section Header */}
         <div className="mb-16 flex justify-center lg:justify-start animate-fade-in-left opacity-0">
           <PowerlineGroup>
-            <PowerlineSegment color="primary" icon={<Terminal className="w-5 h-5" />}>
+            <PowerlineSegment
+              color="primary"
+              icon={<Terminal className="w-5 h-5" />}
+            >
               ABOUT_IDENTITY.MD
             </PowerlineSegment>
             <PowerlineSegment color="surface" showArrow={false}>
@@ -37,10 +39,13 @@ export function AboutSection() {
               <div className="flex gap-2">
                 <div className="w-2.5 h-2.5 bg-primary" />
                 <div className="w-2.5 h-2.5 bg-secondary" />
+                <div className="w-2.5 h-2.5 bg-accent" />
               </div>
-              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">bio_processor.sh</span>
+              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">
+                bio_processor.sh
+              </span>
             </div>
-            
+
             <div className="p-8 lg:p-10 space-y-8">
               <h3 className="text-3xl md:text-4xl font-black font-heading text-primary uppercase">
                 {">"} IDENTITY_SECURED
@@ -52,9 +57,16 @@ export function AboutSection() {
               {/* Stats Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8">
                 {statsData.map((stat) => (
-                  <div key={stat.label} className="border border-border-subtle p-4 bg-bg-elevated hover:border-primary transition-colors">
-                    <div className="text-2xl font-black font-heading text-primary">{stat.value}</div>
-                    <div className="text-[10px] text-text-tertiary uppercase tracking-widest mt-1">{stat.label}</div>
+                  <div
+                    key={stat.label}
+                    className="border border-border-subtle p-4 bg-bg-elevated hover:border-primary transition-colors"
+                  >
+                    <div className="text-2xl font-black font-heading text-primary">
+                      {stat.value}
+                    </div>
+                    <div className="text-[10px] text-text-tertiary uppercase tracking-widest mt-1">
+                      {stat.label}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -64,7 +76,9 @@ export function AboutSection() {
           {/* Profile Visual Card */}
           <div className="terminal-card overflow-hidden relative min-h-[400px] animate-fade-in-up [animation-delay:200ms] opacity-0">
             <div className="terminal-header flex items-center justify-between absolute top-0 left-0 right-0 z-20">
-              <span className="text-[10px] text-text-primary px-2 font-mono uppercase bg-primary/20">VISUAL_INDEX_01</span>
+              <span className="text-[10px] text-text-primary px-2 font-mono uppercase bg-primary/20">
+                VISUAL_INDEX_01
+              </span>
             </div>
             <Image
               src="/profile-about.png"
@@ -78,8 +92,8 @@ export function AboutSection() {
 
           {/* Skill Cards */}
           {aboutData.skillCategories.map((category, idx) => (
-            <div 
-              key={category.title} 
+            <div
+              key={category.title}
               className="terminal-card group flex flex-col animate-fade-in-up opacity-0"
               style={{ animationDelay: `${(idx + 3) * 100}ms` }}
             >
@@ -95,7 +109,10 @@ export function AboutSection() {
               <div className="p-6 flex-1">
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill) => (
-                    <div key={skill} className="bg-bg-base border border-border-subtle px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-text-secondary hover:text-primary hover:border-primary transition-colors cursor-default">
+                    <div
+                      key={skill}
+                      className="bg-bg-base border border-border-subtle px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-text-secondary hover:text-primary hover:border-primary transition-colors cursor-default"
+                    >
                       {skill}
                     </div>
                   ))}
@@ -104,10 +121,17 @@ export function AboutSection() {
 
               <div className="p-4 bg-bg-base/40 border-t border-border-subtle mt-auto">
                 <PowerlineGroup>
-                  <PowerlineSegment color={proficiencyColors[category.proficiency]} className="h-6 text-[10px] px-3">
+                  <PowerlineSegment
+                    color={proficiencyColors[category.proficiency]}
+                    className="h-6 text-[10px] px-3"
+                  >
                     {category.proficiency.toUpperCase()}
                   </PowerlineSegment>
-                  <PowerlineSegment color="surface" className="h-6 text-[10px] px-3" showArrow={false}>
+                  <PowerlineSegment
+                    color="surface"
+                    className="h-6 text-[10px] px-3"
+                    showArrow={false}
+                  >
                     STRENGTH_OK
                   </PowerlineSegment>
                 </PowerlineGroup>

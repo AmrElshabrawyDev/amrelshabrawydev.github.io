@@ -56,9 +56,9 @@ export const heroData: HeroData = {
   name: "Amr Elshabrawy",
   roles: [
     "Front-End Developer",
-    "React & Next.js Expert",
-    "UI/UX Developer",
+    "React Next.js Developer",
     "Performance Optimizer",
+    "UI/UX Developer",
     "SEO Enthusiast",
   ],
   description:

@@ -2,13 +2,13 @@
 
 @theme {
   /* ====================================
-         🎨 Color System - Catppuccin Neon Powerline
-     ==================================== */
+    🎨 Color System - Catppuccin Neon Powerline
+  ==================================== */
 
   /* Background Layers - "The Terminal" */
   --color-bg-base: #11111b;
-  --color-bg-elevated: #181825;
-  --color-bg-overlay: rgba(24, 24, 37, 0.8);
+  --color-bg-elevated: #1b1b29;
+  --color-bg-overlay: #181825cc;
 
   /* Powerline Segment Colors */
   --color-primary: #89b4fa; /* Identity / User - Blue */
@@ -28,9 +28,17 @@
   --color-border-default: #45475a;
   --color-border-strong: #585b70;
 
+  /* Neon Colors */
+  --color-neon-primary: #89b4fa;
+  --color-neon-secondary: #94e2d5;
+  --color-neon-accent: #f38ba8;
+  --color-neon-warning: #fab387;
+  --color-neon-success: #a6e3a1;
+  --color-neon-info: #cba6f7;
+
   /* ====================================
-     🔤 Typography
-     ==================================== */
+    🔤 Typography
+  ==================================== */
 
   /* Font Families - Mono First */
   --font-heading: var(--font-mono);
@@ -52,8 +60,8 @@
   --font-size-7xl: 4.5rem;
 
   /* ====================================
-     ✨ Animations
-     ==================================== */
+    ✨ Animations
+  ==================================== */
   --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
   --animate-fade-in-left: fade-in-left 0.5s ease-out forwards;
   --animate-fade-in: fade-in 0.5s ease-out forwards;
@@ -91,8 +99,8 @@
 }
 
 /* ====================================
-   🌐 Global Styles
-   ==================================== */
+  🌐 Global Styles
+==================================== */
 
 @layer base {
   * {
@@ -117,29 +125,9 @@
     position: relative;
   }
 
-  /* Accessible Skip Link */
-  .skip-to-main {
-    position: absolute;
-    top: -100px;
-    left: 2rem;
-    z-index: 100;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--color-primary);
-    color: var(--color-bg-base);
-    font-weight: 700;
-    text-transform: uppercase;
-    transition: top 0.3s ease;
-  }
-
-  .skip-to-main:focus {
-    top: 1rem;
-    outline: 2px solid var(--color-secondary);
-    outline-offset: 4px;
-  }
-
   /* ====================================
-     📝 Typography Reset
-     ==================================== */
+    📝 Typography Reset
+  ==================================== */
 
   h1,
   h2,
@@ -180,7 +168,6 @@
 
   a:hover {
     color: var(--color-secondary);
-    background-color: rgba(148, 226, 213, 0.1);
   }
 
   button {
@@ -189,13 +176,13 @@
 }
 
 /* ====================================
-   🎨 Powerline Components
-   ==================================== */
+  🎨 Powerline Components
+==================================== */
 
 @layer utilities {
   .powerline-container {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     height: fit-content;
     overflow: visible;
   }
@@ -241,17 +228,16 @@
 }
 
 /* ====================================
-   🎨 Terminal UI Utilities
-   ==================================== */
+  🎨 Terminal UI Utilities
+==================================== */
 
 .terminal-card {
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-border-subtle);
-  transition: border-color 0.2s ease;
-}
-
-.terminal-card:hover {
-  border-color: var(--color-primary);
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    border-color: var(--color-primary);
+  }
 }
 
 .terminal-header {
@@ -261,8 +247,8 @@
 }
 
 /* ====================================
-   ♿ Accessibility & Micro-interactions
-   ==================================== */
+  ♿ Accessibility & Micro-interactions
+==================================== */
 
 .focus-visible:focus {
   outline: 2px solid var(--color-primary);
@@ -305,8 +291,8 @@
 }
 
 /* ====================================
-   📝 Markdown Styles (Neon Terminal)
-   ==================================== */
+  📝 Markdown Styles (Neon Terminal)
+==================================== */
 
 .markdown-body {
   font-size: 0.875rem;
@@ -347,7 +333,6 @@
   color: var(--color-primary);
   text-decoration: underline;
   transition: color 0.2s ease;
-  background-color: transparent;
 }
 
 .markdown-body a:hover {
