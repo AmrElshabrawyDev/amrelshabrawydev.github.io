@@ -42,8 +42,6 @@ yarn-error.log*
 next-env.d.ts
 
 # agentic testing
-Master-Prompt.md
 docs/**.md
-.agent/rules/*.md
-.agent/skills/
+.agent
 .hintrc
