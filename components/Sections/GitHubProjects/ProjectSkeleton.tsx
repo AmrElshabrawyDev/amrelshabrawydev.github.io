@@ -1,34 +1,42 @@
 import React from "react";
+import { JetBrains_Mono } from "next/font/google";
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 export function ProjectSkeleton() {
   return (
-    <div className="terminal-card animate-pulse">
-      <div className="terminal-header flex items-center justify-between">
-        <div className="h-3 w-24 bg-secondary/10" />
+    <div className={`grid grid-cols-[16px_1fr] md:grid-cols-[20px_1fr] flex-1 gap-4 relative animate-pulse ${jetbrainsMono.className}`}>
+      {/* Spine Column Skeleton */}
+      <div className="flex flex-col items-center pt-1.5">
+        <div className="w-3 h-3 rounded-full bg-border-subtle" />
+        <div className="w-px h-full bg-border-subtle/30 mt-2" />
       </div>
-      
-      <div className="aspect-video bg-bg-base/50 border-b border-border-subtle" />
 
-      <div className="p-6 space-y-6">
-        <div className="h-6 bg-secondary/20 w-3/4" />
-        
-        <div className="space-y-3">
-          <div className="h-4 bg-secondary/10 w-full" />
-          <div className="h-4 bg-secondary/10 w-5/6" />
-        </div>
-
+      {/* Content Column Skeleton */}
+      <div className="pb-8 space-y-4">
+        {/* Meta Row */}
         <div className="flex gap-2">
-          <div className="h-8 w-16 bg-secondary/5" />
-          <div className="h-8 w-16 bg-secondary/5" />
-          <div className="h-8 w-16 bg-secondary/5" />
+          <div className="h-3 w-20 bg-border-subtle/50 rounded-sm" />
+          <div className="h-3 w-16 bg-border-subtle/50 rounded-sm" />
         </div>
 
-        <div className="pt-4 border-t border-border-subtle flex justify-between">
-          <div className="h-4 w-20 bg-secondary/10" />
-          <div className="flex gap-2">
-            <div className="h-6 w-6 bg-secondary/10" />
-            <div className="h-6 w-6 bg-secondary/10" />
-          </div>
+        {/* Title */}
+        <div className="h-8 bg-secondary/10 w-3/4 rounded-sm" />
+        
+        {/* Tech Stack */}
+        <div className="flex gap-1">
+          <div className="h-5 w-16 bg-border-subtle/30 rounded-xs" />
+          <div className="h-5 w-20 bg-border-subtle/30 rounded-xs" />
+          <div className="h-5 w-14 bg-border-subtle/30 rounded-xs" />
+        </div>
+
+        {/* Description Preview (Simulated) */}
+        <div className="space-y-2 pt-2">
+           <div className="h-3 bg-border-subtle/20 w-full rounded-sm" />
+           <div className="h-3 bg-border-subtle/20 w-5/6 rounded-sm" />
         </div>
       </div>
     </div>

@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
-import { ExternalLink, Github, FileText } from "lucide-react";
+import { ExternalLink, Github, FileText, ChevronDown } from "lucide-react";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import type { Project } from "@/types/github";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { generateSlug } from "@/lib/utils";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: "700" });
 const jetbrainsMono = JetBrains_Mono({
@@ -21,8 +23,10 @@ interface ProjectCardProps {
   index?: number;
 }
 
-export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
-  const [isOpen, setIsOpen] = useState(false); // Start collapsed for better grid experience
+export function ProjectCard({ project, isLast = false, index = 0 }: ProjectCardProps) {
+  const [isOpen, setIsOpen] = useState(false); 
+  const contentRef = useRef<HTMLDivElement>(null);
+  const { contextSafe } = useGSAP({ scope: contentRef });
 
   const slug = generateSlug(project.title);
 
@@ -40,25 +44,45 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
         ? "bg-warning text-bg-base"
         : "bg-info text-bg-base";
 
+  const toggleOpen = contextSafe(() => {
+    const isOpening = !isOpen;
+    setIsOpen(isOpening);
+
+    if (contentRef.current) {
+        gsap.to(contentRef.current, {
+            height: isOpening ? "auto" : 0,
+            opacity: isOpening ? 1 : 0,
+            duration: 0.5,
+            ease: "power3.inOut",
+            onStart: () => {
+                if (isOpening) contentRef.current!.style.display = "block";
+            },
+            onComplete: () => {
+                if (!isOpening) contentRef.current!.style.display = "none";
+            }
+        });
+    }
+  });
+
   return (
     <div
-      className={`grid grid-cols-[24px_1fr] flex-1 gap-4 relative group w-full ${jetbrainsMono.className}`}
+      className={`grid grid-cols-[16px_1fr] md:grid-cols-[20px_1fr] flex-1 gap-3 md:gap-5 relative group w-full ${jetbrainsMono.className}`}
     >
-      {/* Spine Column (Refined) */}
-      <div className="flex flex-col items-center relative z-10 pt-1.5">
+      {/* Spine Column (Slimmer) */}
+      <div className="flex flex-col items-center relative z-10 pt-2">
         <div
-          className={`w-3 h-3 rounded-full border-2 border-bg-base ring-1 ring-border-subtle transition-transform duration-300 ${statusColor.split(" ")[0]} group-hover:scale-125 group-hover:ring-primary`}
+          className={`w-2.5 h-2.5 rounded-full border-2 border-bg-base ring-1 ring-border-subtle transition-transform duration-300 ${statusColor.split(" ")[0]} group-hover:scale-125 group-hover:ring-primary/50`}
         />
         {!isLast && (
-          <div className="w-px h-full bg-border-subtle mt-2 opacity-30 group-hover:opacity-60 transition-opacity" />
+          <div className="w-px h-full bg-border-white/10 mt-2 group-hover:bg-primary/20 transition-colors" />
         )}
       </div>
 
       {/* Content Column */}
-      <div className="pb-8 text-left">
+      <div className="pb-10 text-left">
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full text-left group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-lg"
+          onClick={toggleOpen}
+          className="w-full text-left group/btn focus:outline-none focus-visible:ring-1 focus-visible:ring-primary/30 rounded-xs"
         >
           {/* Meta Row */}
           <div className="flex flex-wrap items-center gap-2.5 text-[10px] tracking-widest text-text-tertiary mb-2 uppercase opacity-80 group-hover/btn:opacity-100 transition-opacity">
@@ -76,19 +100,22 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
             </div>
           </div>
 
-          {/* Project Title (Refined size for GRID) */}
-          <h2
-            className={`${spaceGrotesk.className} text-xl md:text-2xl tracking-tighter text-text-primary group-hover/btn:text-secondary transition-colors duration-300 mb-3`}
-          >
-            {project.title}
-          </h2>
+          {/* Project Title & Status Indicators */}
+          <div className="flex items-start justify-between gap-4 mb-2">
+            <h2
+                className={`${spaceGrotesk.className} text-xl md:text-2xl tracking-tighter text-text-primary group-hover/btn:text-secondary transition-colors duration-300`}
+            >
+                {project.title}
+            </h2>
+            <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform duration-500 ${isOpen ? "rotate-180 text-secondary" : ""}`} />
+          </div>
 
-          {/* Tech Stack Powerline (More compact) */}
+          {/* Tech Stack Powerline (Refined) */}
           <div className="mb-4 pointer-events-none flex flex-wrap gap-y-1">
-            <PowerlineGroup className="gap-0 scale-75 origin-left">
-              {project.technologies.slice(0, 4).map((tech, i) => {
+            <PowerlineGroup className="gap-0 scale-75 origin-left opacity-80 group-hover/btn:opacity-100 transition-opacity">
+              {project.technologies.slice(0, 3).map((tech, i) => {
                 const isFinal =
-                  i === project.technologies.slice(0, 4).length - 1;
+                  i === project.technologies.slice(0, 3).length - 1;
                 const colors: (
                   | "surface"
                   | "primary"
@@ -102,7 +129,7 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
                     color={colors[i % colors.length]}
                     showArrow={true}
                     direction={isFinal ? "right" : "both"}
-                    className="h-6! text-[10px]! px-3!"
+                    className="h-5! text-[9px]! px-3!"
                   >
                     {tech.toUpperCase()}
                   </PowerlineSegment>
@@ -112,26 +139,23 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
           </div>
         </button>
 
-        {/* Expandable Diff Block */}
+        {/* Expandable Content Block (GSAP Controlled) */}
         <div
-          className={`overflow-hidden transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) ${isOpen ? "max-h-[1000px] opacity-100 mt-2" : "max-h-0 opacity-0 mt-0 pointer-events-none"}`}
+          ref={contentRef}
+          className="overflow-hidden opacity-0"
+          style={{ height: 0, display: "none" }}
         >
-          <div className="bg-bg-elevated/50 backdrop-blur-xs border border-border-subtle flex flex-col gap-4 p-4 sm:p-5 text-sm rounded-sm">
-            {/* OG Image / Visual Context (Mobile First) */}
+          <div className="mt-4 bg-bg-elevated/40 backdrop-blur-xs border border-border-subtle/50 flex flex-col gap-4 p-4 sm:p-5 text-sm rounded-xs">
+            {/* OG Image / Visual Context */}
             {project.image && (
-              <div className="w-full relative border border-border-subtle overflow-hidden bg-black/20 aspect-video md:aspect-auto md:h-32 mb-2">
-                <div className="absolute top-0 right-0 z-20 px-2 py-0.5 text-[8px] bg-border-strong/50 text-white font-bold opacity-80 backdrop-blur-md rounded-bl-sm pointer-events-none uppercase tracking-tighter">
-                  cached_buffer
-                </div>
                 <ImageWithFallback
                   src={project.image}
                   alt={project.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 opacity-40 hover:opacity-100"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
+                  containerClassName="w-full border border-border-subtle/30 bg-black/20 mb-2 rounded-xs"
                 />
-                <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors z-10 pointer-events-none" />
-              </div>
             )}
 
             {/* Diff Content */}

@@ -4,13 +4,23 @@ import React from "react";
 import { serviceData } from "@/data";
 import { Cpu } from "lucide-react";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
+import { useRef } from "react";
 
 export function ServicesSection() {
+  const container = useRef<HTMLDivElement>(null);
+
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.15,
+    y: 20,
+    scale: 0.99
+  });
+
   return (
-    <section className="py-24 bg-bg-base relative overflow-hidden">
+    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="mb-16 flex justify-center lg:justify-start animate-fade-in-left opacity-0">
+        <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
           <PowerlineGroup>
             <PowerlineSegment color="info" icon={<Cpu className="w-5 h-5" />}>
               CAPABILITIES_INDEX.LOG
@@ -26,8 +36,7 @@ export function ServicesSection() {
           {serviceData.map((service, idx) => (
             <div
               key={service.title}
-              className="terminal-card animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${(idx + 1) * 100}ms` }}
+              className="terminal-card gsap-reveal opacity-0"
             >
               <div className="terminal-header flex items-center justify-between">
                 <div className="flex items-center gap-2">

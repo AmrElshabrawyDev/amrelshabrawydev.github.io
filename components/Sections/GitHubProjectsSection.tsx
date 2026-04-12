@@ -5,8 +5,9 @@ import { Github, Code } from "lucide-react";
 import type { Project } from "@/types/github";
 import { ProjectCard } from "./GitHubProjects/ProjectCard";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
-import gsap from "gsap";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 if (typeof window !== "undefined") {
@@ -22,29 +23,18 @@ export function GitHubProjectsSection({
 }: GitHubProjectsSectionProps) {
   const container = useRef<HTMLDivElement>(null);
 
+  // Refined Section Reveal
+  useSectionReveal(container, ".gsap-project-wrapper", {
+    stagger: { amount: 0.6 },
+    y: 30,
+    scale: 0.98,
+    duration: 0.8
+  });
+
+  // Header specific reveal (slightly faster and different direction)
   useGSAP(() => {
-    if (projects.length === 0) return;
-
-    const cards = container.current?.querySelectorAll(".gsap-project-wrapper");
-    if (!cards) return;
-
-    gsap.fromTo(cards, 
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.15,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top 85%",
-        }
-      }
-    );
-
     gsap.fromTo(".gsap-header-reveal", 
-      { x: -30, opacity: 0 },
+      { x: -20, opacity: 0 },
       {
         x: 0,
         opacity: 1,
@@ -56,7 +46,7 @@ export function GitHubProjectsSection({
         }
       }
     );
-  }, { scope: container, dependencies: [projects] });
+  }, { scope: container });
 
   if (projects.length === 0) {
     return (
@@ -103,12 +93,12 @@ export function GitHubProjectsSection({
           </div>
         </div>
 
-        {/* Git Log Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
+        {/* Git Log Grid (Masonry-style Columns) */}
+        <div className="columns-1 lg:columns-2 gap-12 w-full">
           {projects.map((project, idx) => (
             <div 
               key={project.id} 
-              className="gsap-project-wrapper opacity-0"
+              className="gsap-project-wrapper opacity-0 break-inside-avoid mb-12"
             >
               <ProjectCard project={project} isLast={idx === projects.length - 1} index={idx} />
             </div>

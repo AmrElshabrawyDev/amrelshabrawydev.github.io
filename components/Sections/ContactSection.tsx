@@ -6,6 +6,8 @@ import emailjs from "@emailjs/browser";
 import Confetti from "react-confetti";
 import { personalInfo, socialLinks, contactData } from "@/data";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
+import { useRef } from "react";
 
 interface FormData {
   name: string;
@@ -16,6 +18,14 @@ interface FormData {
 type FormStatus = "idle" | "loading" | "success" | "error";
 
 export function ContactSection() {
+  const container = useRef<HTMLDivElement>(null);
+
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.1,
+    y: 20,
+    scale: 0.99
+  });
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -69,11 +79,11 @@ export function ContactSection() {
   };
 
   return (
-    <section className="py-24 bg-bg-base relative overflow-hidden">
+    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
         
         {/* Section Header */}
-        <div className="mb-16 flex justify-center lg:justify-start animate-fade-in-left opacity-0">
+        <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
           <PowerlineGroup>
             <PowerlineSegment color="secondary" icon={<MessageSquare className="w-5 h-5" />}>
               COMMUNICATION_CHANNEL.SH
@@ -87,7 +97,7 @@ export function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           
           {/* Contact Form Block */}
-          <div className="terminal-card animate-fade-in-up [animation-delay:100ms] opacity-0">
+          <div className="terminal-card gsap-reveal opacity-0">
             <div className="terminal-header flex items-center justify-between">
               <div className="flex gap-2">
                 <div className="w-2.5 h-2.5 bg-primary" />
@@ -202,7 +212,7 @@ export function ContactSection() {
 
           {/* Social Links Block */}
           <div className="flex flex-col gap-10">
-            <div className="animate-fade-in-up [animation-delay:200ms] opacity-0">
+            <div className="gsap-reveal opacity-0">
               <h3 className="text-2xl font-black font-heading uppercase text-text-primary mb-8 border-b border-border-subtle pb-4">
                 {">"} CONNECTION_NODES
               </h3>
@@ -214,8 +224,7 @@ export function ContactSection() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group animate-fade-in-left opacity-0"
-                    style={{ animationDelay: `${(idx + 5) * 100}ms` }}
+                    className="group gsap-reveal opacity-0"
                   >
                     <PowerlineGroup>
                       <PowerlineSegment color="surface" className="w-12 flex justify-center group-hover:bg-bg-elevated transition-colors">
@@ -234,7 +243,7 @@ export function ContactSection() {
             </div>
 
             {/* Availability Status */}
-            <div className="animate-fade-in-up [animation-delay:300ms] opacity-0">
+            <div className="gsap-reveal opacity-0">
               <PowerlineGroup>
                 <PowerlineSegment color="success" className="h-16 px-8 animate-pulse-slow">
                   <div className="flex items-center gap-3">

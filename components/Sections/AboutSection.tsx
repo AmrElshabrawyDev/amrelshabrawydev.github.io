@@ -5,6 +5,8 @@ import Image from "next/image";
 import { aboutData, statsData } from "@/data";
 import { Terminal } from "lucide-react";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
+import { useRef } from "react";
 
 const proficiencyColors = {
   expert: "primary",
@@ -13,11 +15,19 @@ const proficiencyColors = {
 } as const;
 
 export function AboutSection() {
+  const container = useRef<HTMLDivElement>(null);
+
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.1,
+    y: 20,
+    scale: 0.99
+  });
+
   return (
-    <section className="py-24 bg-bg-base relative overflow-hidden">
+    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
         {/* Section Header */}
-        <div className="mb-16 flex justify-center lg:justify-start animate-fade-in-left opacity-0">
+        <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
           <PowerlineGroup>
             <PowerlineSegment
               color="primary"
@@ -34,7 +44,7 @@ export function AboutSection() {
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Main Bio Card */}
-          <div className="md:col-span-2 lg:col-span-2 terminal-card group animate-fade-in-up [animation-delay:100ms] opacity-0">
+          <div className="md:col-span-2 lg:col-span-2 terminal-card group gsap-reveal opacity-0">
             <div className="terminal-header flex items-center justify-between">
               <div className="flex gap-2">
                 <div className="w-2.5 h-2.5 bg-primary" />
@@ -74,7 +84,7 @@ export function AboutSection() {
           </div>
 
           {/* Profile Visual Card */}
-          <div className="terminal-card overflow-hidden relative min-h-[400px] animate-fade-in-up [animation-delay:200ms] opacity-0">
+          <div className="terminal-card overflow-hidden relative min-h-[400px] gsap-reveal opacity-0">
             <div className="terminal-header flex items-center justify-between absolute top-0 left-0 right-0 z-20">
               <span className="text-[10px] text-text-primary px-2 font-mono uppercase bg-primary/20">
                 VISUAL_INDEX_01
@@ -94,8 +104,7 @@ export function AboutSection() {
           {aboutData.skillCategories.map((category, idx) => (
             <div
               key={category.title}
-              className="terminal-card group flex flex-col animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${(idx + 3) * 100}ms` }}
+              className="terminal-card group flex flex-col gsap-reveal opacity-0"
             >
               <div className="terminal-header flex items-center justify-between">
                 <div className="flex items-center gap-2">

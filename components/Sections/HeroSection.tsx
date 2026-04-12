@@ -14,34 +14,38 @@ import {
 } from "lucide-react";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 import { heroData, personalInfo } from "@/data";
-import gsap from "gsap";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export function HeroSection() {
   const container = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.8 } });
+  // Standardized Section Reveal
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.1,
+    y: 30,
+    scale: 0.98,
+    duration: 0.8
+  });
 
-    tl.fromTo(".gsap-reveal-left", 
-      { x: -30, opacity: 0 }, 
-      { x: 0, opacity: 1, stagger: 0.2 }
-    )
-    .fromTo(".gsap-reveal-up", 
-      { y: 30, opacity: 0 }, 
-      { y: 0, opacity: 1, stagger: 0.15 }, 
-      "-=0.6"
-    )
-    .fromTo(".gsap-reveal-fade", 
-      { opacity: 0, scale: 0.95 }, 
-      { opacity: 1, scale: 1, duration: 1.2 }, 
-      "-=0.8"
+  // Specialized entrance for the profile visual
+  useGSAP(() => {
+    gsap.fromTo(".gsap-reveal-fade", 
+      { opacity: 0, scale: 0.95 },
+      { 
+        opacity: 1, 
+        scale: 1, 
+        duration: 1.2,
+        ease: "power2.out",
+        delay: 0.4
+      }
     );
   }, { scope: container });
 
   return (
     <section ref={container} className="container-custom min-h-[calc(100vh-8rem)] relative overflow-hidden bg-bg-base py-20 flex flex-col justify-center">
-      <div className="mb-10 w-full flex justify-start gsap-reveal-left opacity-0">
+      <div className="mb-10 w-full flex justify-start gsap-reveal opacity-0">
         <PowerlineGroup>
           <PowerlineSegment color="primary" icon={<User className="w-4 h-4" />}>
             {personalInfo.name.toUpperCase()}
@@ -59,14 +63,14 @@ export function HeroSection() {
         {/* Left Column: Terminal Content */}
         <div className="w-full flex flex-col items-center lg:items-start text-center lg:text-left">
           {/* Large Hero Text */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-heading mb-8 tracking-tighter leading-none text-text-primary gsap-reveal-up opacity-0">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-heading mb-8 tracking-tighter leading-none text-text-primary gsap-reveal opacity-0">
             ENGINEERING <br />
             <span className="text-secondary">DIGITAL</span> <br />
             EXPERIENCES
           </h1>
 
           {/* Powerline Roles Row */}
-          <div className="mb-10 w-full flex justify-start gsap-reveal-left opacity-0">
+          <div className="mb-10 w-full flex justify-start gsap-reveal opacity-0">
             <PowerlineGroup>
               <PowerlineSegment
                 color="info"
@@ -86,7 +90,7 @@ export function HeroSection() {
           </div>
 
           {/* Description Block */}
-          <div className="text-text-secondary text-base text-left md:text-lg max-w-xl mb-12 leading-relaxed font-mono border border-border-subtle/50 p-6 bg-bg-elevated/20 relative overflow-hidden gsap-reveal-up opacity-0">
+          <div className="text-text-secondary text-base text-left md:text-lg max-w-xl mb-12 leading-relaxed font-mono border border-border-subtle/50 p-6 bg-bg-elevated/20 relative overflow-hidden gsap-reveal opacity-0">
             <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
             <div className="flex items-center gap-2 mb-4 text-text-tertiary text-[10px] uppercase tracking-widest">
               <Terminal className="w-3 h-3" />
@@ -98,7 +102,7 @@ export function HeroSection() {
           </div>
 
           {/* CTAs as Segments */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 gsap-reveal-up opacity-0">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 gsap-reveal opacity-0">
             <Link href="/work" className="group">
               <PowerlineGroup>
                 <PowerlineSegment
