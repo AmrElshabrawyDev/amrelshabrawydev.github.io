@@ -269,6 +269,17 @@ export interface ProjectData {
   features: string[];
 }
 
+/**
+ * Manual overrides for GitHub projects (e.g., custom images)
+ */
+export const projectOverrides: Record<string, { image?: string; title?: string }> = {
+  // Example: "repo-name": { image: "/custom-preview.png" }
+  "amrelshabrawydev": {
+    image: "/og-image.png",
+    title: "Official Portfolio v2"
+  }
+};
+
 /*
 ==========================================
 =========> { testimonial data } <=========

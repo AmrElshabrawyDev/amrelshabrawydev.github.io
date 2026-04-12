@@ -1,6 +1,6 @@
-// lib/github.ts
 import { cache } from "react";
 import type { Project } from "@/types/github";
+import { projectOverrides } from "@/data";
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "AmrElshabrawyDev";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -109,9 +109,11 @@ export const getAllProjects = cache(async (): Promise<Project[]> => {
           `https://api.github.com/repos/${repo.full_name}/languages`,
         ).catch(() => ({}));
 
+        const override = projectOverrides[repo.name.toLowerCase()];
+
         return {
           id: repo.id,
-          title: formatRepoName(repo.name),
+          title: override?.title || formatRepoName(repo.name),
           description: repo.description || "No description available.",
           technologies: [repo.language, ...repo.topics.slice(0, 3)].filter(
             Boolean,
@@ -126,7 +128,7 @@ export const getAllProjects = cache(async (): Promise<Project[]> => {
           createdAt: repo.created_at,
           readme: null, // Don't fetch full readme in list
           size: formatSize(repo.size),
-          image: `https://opengraph.githubassets.com/1/${repo.full_name}`,
+          image: override?.image || `https://opengraph.githubassets.com/1/${repo.full_name}`,
           fullName: repo.full_name,
           defaultBranch: repo.default_branch,
         };

@@ -11,12 +11,12 @@
   --color-bg-overlay: #181825cc;
 
   /* Powerline Segment Colors */
-  --color-primary: #89b4fa; /* Identity / User - Blue */
-  --color-secondary: #94e2d5; /* Role / Title - Cyan */
-  --color-accent: #f38ba8; /* Git / Critical - Red */
-  --color-warning: #fab387; /* Status / Warning - Peach */
-  --color-success: #a6e3a1; /* Tech / Success - Green */
-  --color-info: #cba6f7; /* Info / Purple */
+  --color-primary: #89b4fa; /* Blue */
+  --color-secondary: #94e2d5; /* Cyan */
+  --color-accent: #f38ba8; /* Red */
+  --color-warning: #fab387; /* Peach */
+  --color-success: #a6e3a1; /* Green */
+  --color-info: #cba6f7; /* Purple */
 
   /* Neutral & Functional */
   --color-text-primary: #cdd6f4;
@@ -24,40 +24,22 @@
   --color-text-tertiary: #6c7086;
 
   /* Border Colors */
-  --color-border-subtle: #313244;
-  --color-border-default: #45475a;
-  --color-border-strong: #585b70;
-
-  /* Neon Colors */
-  --color-neon-primary: #89b4fa;
-  --color-neon-secondary: #94e2d5;
-  --color-neon-accent: #f38ba8;
-  --color-neon-warning: #fab387;
-  --color-neon-success: #a6e3a1;
-  --color-neon-info: #cba6f7;
+  --color-border-subtle: rgba(49, 50, 68, 0.4);
+  --color-border-default: rgba(69, 71, 90, 0.6);
+  --color-border-strong: rgba(88, 91, 112, 0.8);
 
   /* ====================================
     🔤 Typography
   ==================================== */
 
-  /* Font Families - Mono First */
+  /* Font Families */
   --font-heading: var(--font-mono);
   --font-body: var(--font-mono);
   --font-mono: var(--font-mono);
-  --font-accent: var(--font-share-tech-mono);
 
-  /* Font Sizes */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  --font-size-6xl: 3.75rem;
-  --font-size-7xl: 4.5rem;
+  /* Standard Spacing Scale */
+  --spacing-container: 2rem;
+  --spacing-section: 6rem;
 
   /* ====================================
     ✨ Animations
@@ -65,6 +47,16 @@
   --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
   --animate-fade-in-left: fade-in-left 0.5s ease-out forwards;
   --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-scanline: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
 }
 
 @keyframes fade-in-up {
@@ -365,12 +357,11 @@
 }
 
 .markdown-body img {
-  display: block;
+  display: inline-block;
   max-width: 100%;
   height: auto;
   border-radius: 4px;
-  margin: 1.5rem 0;
-  border: 1px solid var(--color-border-subtle);
+  margin: 0.5rem 0;
 }
 
 .markdown-body ul,

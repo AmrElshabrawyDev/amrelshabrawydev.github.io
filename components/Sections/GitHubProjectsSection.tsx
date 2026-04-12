@@ -1,10 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { Github, Code } from "lucide-react";
 import type { Project } from "@/types/github";
 import { ProjectCard } from "./GitHubProjects/ProjectCard";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface GitHubProjectsSectionProps {
   projects: Project[];
@@ -13,21 +20,59 @@ interface GitHubProjectsSectionProps {
 export function GitHubProjectsSection({
   projects,
 }: GitHubProjectsSectionProps) {
+  const container = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (projects.length === 0) return;
+
+    const cards = container.current?.querySelectorAll(".gsap-project-wrapper");
+    if (!cards) return;
+
+    gsap.fromTo(cards, 
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.15,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 85%",
+        }
+      }
+    );
+
+    gsap.fromTo(".gsap-header-reveal", 
+      { x: -30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 90%",
+        }
+      }
+    );
+  }, { scope: container, dependencies: [projects] });
+
   if (projects.length === 0) {
     return (
-      <section className="py-24 bg-bg-base relative overflow-hidden">
+      <section className="py-24 bg-bg-base relative overflow-hidden font-mono">
         <div className="container-custom text-center relative z-10">
-          <div className="terminal-card p-12 max-w-2xl mx-auto">
-            <div className="terminal-header flex items-center justify-between mb-8">
+          <div className="terminal-card p-12 max-w-2xl mx-auto border border-border-subtle/30 bg-bg-elevated/10">
+            <div className="terminal-header flex items-center justify-between mb-8 bg-bg-elevated/50 backdrop-blur-md">
               <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 bg-accent" />
-                <div className="w-2.5 h-2.5 bg-warning" />
+                <div className="w-2.5 h-2.5 rounded-full bg-accent/40" />
+                <div className="w-2.5 h-2.5 rounded-full bg-warning/40" />
               </div>
               <span className="text-[10px] text-text-tertiary font-mono uppercase tracking-widest">error_log_0x404</span>
             </div>
-            <Github className="w-20 h-20 mx-auto mb-8 text-secondary animate-pulse" />
+            <Github className="w-20 h-20 mx-auto mb-8 text-secondary/50" />
             <h2 className="text-4xl font-black mb-4 font-heading text-secondary uppercase tracking-tighter">No Projects Found</h2>
-            <p className="text-text-secondary text-lg font-mono">
+            <p className="text-text-secondary text-lg">
               {">"} SYSTEM ERROR: ACCESS DENIED OR REPO EMPTY.
             </p>
           </div>
@@ -37,11 +82,11 @@ export function GitHubProjectsSection({
   }
 
   return (
-    <section className="py-24 bg-bg-base relative overflow-hidden">
+    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
         
         {/* Section Header */}
-        <div className="mb-16 flex flex-col items-center lg:items-start gap-8 animate-fade-in-left opacity-0">
+        <div className="mb-16 flex flex-col items-center lg:items-start gap-8 gsap-header-reveal opacity-0">
           <PowerlineGroup>
             <PowerlineSegment color="secondary" icon={<Code className="w-5 h-5" />}>
               PROJECT_REPOSITORY.LOG
@@ -58,21 +103,20 @@ export function GitHubProjectsSection({
           </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Git Log Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
           {projects.map((project, idx) => (
             <div 
               key={project.id} 
-              className="animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${(idx + 1) * 100}ms` }}
+              className="gsap-project-wrapper opacity-0"
             >
-              <ProjectCard project={project} />
+              <ProjectCard project={project} isLast={idx === projects.length - 1} index={idx} />
             </div>
           ))}
         </div>
 
         {/* View All CTA */}
-        <div className="mt-16 flex justify-center animate-fade-in-up [animation-delay:400ms] opacity-0">
+        <div className="mt-20 flex justify-center opacity-0 gsap-project-wrapper">
           <a
             href={`https://github.com/AmrElshabrawyDev`}
             target="_blank"
@@ -80,10 +124,10 @@ export function GitHubProjectsSection({
             className="group"
           >
             <PowerlineGroup>
-              <PowerlineSegment color="secondary" className="h-14 px-8 text-lg" icon={<Github className="w-6 h-6" />}>
+              <PowerlineSegment color="secondary" className="h-14! px-8! text-lg transition-transform group-hover:scale-105" icon={<Github className="w-6 h-6" />}>
                 VIEW_ALL_REPOS
               </PowerlineSegment>
-              <PowerlineSegment color="surface" showArrow={false} className="h-14 px-6 text-xs text-text-tertiary">
+              <PowerlineSegment color="surface" showArrow={false} className="h-14! px-6! text-[10px] text-text-tertiary uppercase tracking-widest">
                 SOURCE_CODE.sh
               </PowerlineSegment>
             </PowerlineGroup>
