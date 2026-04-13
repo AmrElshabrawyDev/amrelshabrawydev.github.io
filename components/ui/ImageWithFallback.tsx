@@ -67,8 +67,9 @@ export function ImageWithFallback({
         alt={alt}
         className={`${className} transition-opacity duration-500`}
         onError={handleError}
-        onLoadingComplete={(img) => {
-            img.classList.remove('opacity-0');
+        onLoad={(event) => {
+          const img = event.currentTarget;
+          img.classList.remove("opacity-0");
         }}
       />
     </div>

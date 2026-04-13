@@ -118,10 +118,7 @@ export function GitHubProjectsSection({
         {/* Git Log Grid (Masonry-style Absolute Layout) */}
         <div ref={gridContainer} className="relative w-full">
           {projects.map((project, idx) => (
-            <div
-              key={project.id}
-              className="gsap-project-wrapper"
-            >
+            <div key={project.id} className="gsap-project-wrapper">
               <div className="gsap-reveal-inner opacity-0">
                 <ProjectCard
                   project={project}
@@ -133,7 +130,7 @@ export function GitHubProjectsSection({
         </div>
 
         {/* View All CTA */}
-        <div className="mt-20 flex justify-center opacity-0 gsap-project-wrapper">
+        <div className="mt-20 flex justify-center gsap-project-wrapper">
           <a
             href={`https://github.com/AmrElshabrawyDev`}
             target="_blank"

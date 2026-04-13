@@ -20,11 +20,14 @@ export function AboutSection() {
   useSectionReveal(container, ".gsap-reveal", {
     stagger: 0.1,
     y: 20,
-    scale: 0.99
+    scale: 0.99,
   });
 
   return (
-    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
+    <section
+      ref={container}
+      className="py-24 bg-bg-base relative overflow-hidden"
+    >
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
@@ -57,7 +60,7 @@ export function AboutSection() {
             </div>
 
             <div className="p-8 lg:p-10 space-y-8">
-              <h3 className="text-3xl md:text-4xl font-black font-heading text-primary uppercase">
+              <h3 className="text-2xl md:text-4xl font-black font-heading text-primary uppercase">
                 {">"} IDENTITY_SECURED
               </h3>
               <p className="text-text-secondary leading-relaxed text-lg font-mono border-l-4 border-primary pl-6 py-4 bg-primary/5">

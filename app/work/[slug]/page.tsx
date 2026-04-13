@@ -112,9 +112,7 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* Back Button */}
         <Link href="/work" className="absolute top-8 left-8 z-10">
-          <button
-            className="flex items-center gap-2 px-4 py-2 border border-border-default backdrop-blur-sm bg-bg-base/50 text-text-primary hover:bg-bg-elevated transition-colors text-sm font-medium"
-          >
+          <button className="flex items-center gap-2 px-4 py-2 border border-border-default backdrop-blur-sm bg-bg-base/50 text-text-primary hover:bg-bg-elevated transition-colors text-sm font-medium">
             <ArrowLeft className="w-4 h-4" />
             Back to Projects
           </button>
@@ -123,7 +121,7 @@ export default async function ProjectPage({ params }: Props) {
 
       {/* Project Content */}
       <div className="container-custom -mt-20 relative z-10 pb-20">
-        <article className="glass-card p-8 md:p-12">
+        <article className="glass-card md:p-12">
           {/* Header */}
           <header className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
             <div>

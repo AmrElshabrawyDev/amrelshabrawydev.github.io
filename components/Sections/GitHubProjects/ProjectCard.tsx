@@ -23,7 +23,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope: contentRef });
 
@@ -104,19 +104,19 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
           {/* Project Title & Status Indicators */}
           <div className="flex items-start justify-between gap-4 mb-2">
             <h2
-                className={`${spaceGrotesk.className} text-xl md:text-2xl tracking-tighter text-text-primary group-hover/btn:text-secondary transition-colors duration-300`}
+              className={`${spaceGrotesk.className} text-xl md:text-2xl tracking-tighter text-text-primary group-hover/btn:text-secondary transition-colors duration-300`}
             >
-                {project.title}
+              {project.title}
             </h2>
-            <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform duration-500 ${isOpen ? "rotate-180 text-secondary" : ""}`} />
+            <ChevronDown
+              className={`w-4 h-4 text-text-tertiary transition-transform duration-500 ${isOpen ? "rotate-180 text-secondary" : ""}`}
+            />
           </div>
 
           {/* Tech Stack Powerline (Refined) */}
           <div className="mb-4 pointer-events-none flex flex-wrap gap-y-1">
             <PowerlineGroup className="gap-0 scale-75 origin-left opacity-80 group-hover/btn:opacity-100 transition-opacity">
               {project.technologies.slice(0, 3).map((tech, i) => {
-                const isFinal =
-                  i === project.technologies.slice(0, 3).length - 1;
                 const colors: (
                   | "surface"
                   | "primary"
@@ -129,8 +129,8 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
                     key={tech}
                     color={colors[i % colors.length]}
                     showArrow={true}
-                    direction={isFinal ? "right" : "both"}
-                    className="h-5! text-[9px]! px-3!"
+                    direction="both"
+                    className="h-6! text-[11px]! px-2! mx-4"
                   >
                     {tech.toUpperCase()}
                   </PowerlineSegment>
@@ -149,14 +149,14 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
           <div className="mt-4 bg-bg-elevated/40 backdrop-blur-xs border border-border-subtle/50 flex flex-col gap-4 p-4 sm:p-5 text-sm rounded-xs">
             {/* OG Image / Visual Context */}
             {project.image && (
-                <ImageWithFallback
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
-                  containerClassName="w-full border border-border-subtle/30 bg-black/20 mb-2 rounded-xs"
-                />
+              <ImageWithFallback
+                src={project.image}
+                alt={project.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
+                containerClassName="w-full border border-border-subtle/30 bg-black/20 mb-2 rounded-xs"
+              />
             )}
 
             {/* Diff Content */}

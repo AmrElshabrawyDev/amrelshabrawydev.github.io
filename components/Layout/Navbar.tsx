@@ -64,12 +64,16 @@ export function Navbar() {
   }
 
   // Lock body scroll
-  // useEffect(() => {
-  //   document.body.style.overflow = isOpen ? "hidden" : "";
-  //   return () => {
-  //     document.body.style.overflow = "";
-  //   };
-  // }, [isOpen]);
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    }
+    return () => {
+      if (typeof document !== "undefined") {
+        document.body.style.overflow = "";
+      }
+    };
+  }, [isOpen]);
 
   // Scroll handler
   useEffect(() => {

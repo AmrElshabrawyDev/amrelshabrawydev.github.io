@@ -45,10 +45,12 @@ export function useMasonryGSAP(
 
         const colHeights = Array(colCount).fill(0);
 
-        items.forEach((item) => {
-          const shortestColIndex = colHeights.indexOf(Math.min(...colHeights));
-          const x = shortestColIndex * (colWidth + gap);
-          const y = colHeights[shortestColIndex];
+        items.forEach((item, index) => {
+          // Stable index-based column assignment
+          const colIndex = index % colCount;
+          
+          const x = colIndex * (colWidth + gap);
+          const y = colHeights[colIndex];
 
           item.style.width = `${colWidth}px`;
           item.style.position = "absolute";
@@ -56,6 +58,7 @@ export function useMasonryGSAP(
           if (isInitial) {
             gsap.set(item, { x, y });
           } else {
+            // Only animate Y if X hasn't changed (or animate both with overwrite)
             gsap.to(item, {
               x,
               y,
@@ -65,13 +68,14 @@ export function useMasonryGSAP(
             });
           }
 
-          colHeights[shortestColIndex] += item.offsetHeight + gap;
+          colHeights[colIndex] += item.offsetHeight + gap;
         });
 
         gsap.to(el, {
           height: Math.max(...colHeights),
           duration: 0.4,
           ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
