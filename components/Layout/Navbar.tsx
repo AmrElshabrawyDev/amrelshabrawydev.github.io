@@ -103,114 +103,123 @@ export function Navbar() {
             <PowerlineGroup className="w-full justify-between drop-shadow-[0_0_4px] drop-shadow-neon-primary">
               <div className="flex flex-1">
                 <div className="flex">
-                    {evenLinks.map((link) => {
-                      const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
-                      return (
-                        <Link key={link.href} href={link.href}>
-                          <PowerlineSegment
-                            color={isActive ? "primary" : link.color}
-                            icon={link.icon}
-                            className={`transition-all ${
-                              isActive
-                                ? "font-bold text-base"
-                                : "group duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
-                            }`}
-                          >
-                            {link.label}
-                          </PowerlineSegment>
-                        </Link>
-                      );
-                    })}
-                  </div>
+                  {evenLinks.map((link) => {
+                    const isActive =
+                      link.href === "/"
+                        ? pathname === "/"
+                        : pathname.startsWith(link.href);
+                    return (
+                      <Link key={link.href} href={link.href}>
+                        <PowerlineSegment
+                          color={isActive ? "primary" : link.color}
+                          icon={link.icon}
+                          className={`transition-all ${
+                            isActive
+                              ? "font-bold text-base"
+                              : "group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
+                          }`}
+                        >
+                          {link.label}
+                        </PowerlineSegment>
+                      </Link>
+                    );
+                  })}
                 </div>
+              </div>
 
-                <div className="hidden md:flex items-center justify-center flex-1">
-                  <Link href="/">
-                    <LogoIcon className="w-14 h-14 transition-all duration-200 ease-linear hover:scale-3d hover:scale-110 active:scale-90" />
-                  </Link>
+              <div className="hidden md:flex items-center justify-center flex-1">
+                <Link href="/">
+                  <LogoIcon className="w-14 h-14 transition-all duration-200 ease-linear hover:scale-3d hover:scale-110 active:scale-90" />
+                </Link>
+              </div>
+
+              <div className="flex justify-end flex-1">
+                <div className="flex">
+                  {oddLinks.map((link) => {
+                    const isActive =
+                      link.href === "/"
+                        ? pathname === "/"
+                        : pathname.startsWith(link.href);
+                    return (
+                      <Link key={link.href} href={link.href}>
+                        <PowerlineSegment
+                          direction="right"
+                          color={isActive ? "primary" : link.color}
+                          icon={link.icon}
+                          className={`transition-all ${
+                            isActive
+                              ? "font-bold text-base"
+                              : "group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
+                          }`}
+                        >
+                          {link.label}
+                        </PowerlineSegment>
+                      </Link>
+                    );
+                  })}
                 </div>
-
-                <div className="flex justify-end flex-1">
-                  <div className="flex">
-                    {oddLinks.map((link) => {
-                      const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
-                      return (
-                        <Link key={link.href} href={link.href}>
-                          <PowerlineSegment
-                            direction="right"
-                            color={isActive ? "primary" : link.color}
-                            icon={link.icon}
-                            className={`transition-all ${
-                              isActive
-                                ? "font-bold text-base"
-                                : "group duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
-                            }`}
-                          >
-                            {link.label}
-                          </PowerlineSegment>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                  <a href={personalInfo.resume} download>
-                    <PowerlineSegment
-                      direction="right"
-                      color="surface"
-                      icon={<Download className="w-4 h-4" />}
-                      className={`transition-all group duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base`}
-                    >
-                      CV.EXE
-                    </PowerlineSegment>
-                  </a>
-                </div>
-              </PowerlineGroup>
-            </div>
-
-            {/* Logo (Mobile) */}
-            <Link href="/" className="md:hidden flex items-center gap-2">
-              <LogoIcon className="w-8 h-8" />
-
-              <span className="font-bold tracking-tighter text-text-primary">
-                {personalInfo.name.split(" ")[1].toUpperCase()}
-              </span>
-            </Link>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 text-text-primary hover:text-primary transition-colors z-50"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+                <a href={personalInfo.resume} download>
+                  <PowerlineSegment
+                    direction="right"
+                    color="surface"
+                    icon={<Download className="w-4 h-4" />}
+                    className={`transition-all group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base`}
+                  >
+                    CV.EXE
+                  </PowerlineSegment>
+                </a>
+              </div>
+            </PowerlineGroup>
           </div>
 
-          {/* Mobile Menu Overlay */}
-          {isOpen && (
-            <div
-              className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 md:hidden"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Mobile navigation"
-            >
-              <nav className="flex flex-col gap-4">
-                {navLinks.map((link) => {
-                  const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`text-2xl font-bold tracking-widest p-4 border-l-4 transition-colors ${
-                        isActive
-                          ? "border-secondary bg-secondary/10 text-secondary"
-                          : "border-border-subtle text-text-secondary hover:text-primary"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
+          {/* Logo (Mobile) */}
+          <Link href="/" className="md:hidden flex items-center gap-2">
+            <LogoIcon className="w-8 h-8" />
+
+            <span className="font-bold tracking-tighter text-text-primary">
+              {personalInfo.name.split(" ")[1].toUpperCase()}
+            </span>
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 text-text-primary hover:text-primary transition-colors z-50"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 md:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+          >
+            <nav className="flex flex-col gap-4">
+              {navLinks.map((link) => {
+                const isActive =
+                  link.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`text-2xl font-bold tracking-widest p-4 border-l-4 transition-colors ${
+                      isActive
+                        ? "border-secondary bg-secondary/10 text-secondary"
+                        : "border-border-subtle text-text-secondary hover:text-primary"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <a
                 href={personalInfo.resume}
                 download

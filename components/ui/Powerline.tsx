@@ -97,7 +97,7 @@ export function PowerlineSegment({
     >
       {showArrow && (isRight || isBoth) && (
         <div
-          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent group-active:bg-primary group-active:text-bg-base group-active:border-primary ${styles.arrow}`}
+          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover/color:bg-accent group-hover/color:border-accent group-active/color:bg-primary group-active/color:text-bg-base group-active/color:border-primary ${styles.arrow}`}
         />
       )}
 
@@ -112,7 +112,7 @@ export function PowerlineSegment({
 
       {showArrow && (isLeft || isBoth) && (
         <div
-          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover:bg-accent group-hover:border-accent group-active:bg-primary group-active:text-bg-base group-active:border-primary ${styles.arrow}`}
+          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover/color:bg-accent group-hover/color:border-accent group-active/color:bg-primary group-active/color:text-bg-base group-active/color:border-primary ${styles.arrow}`}
         />
       )}
     </div>
