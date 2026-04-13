@@ -20,10 +20,9 @@ const jetbrainsMono = JetBrains_Mono({
 interface ProjectCardProps {
   project: Project;
   isLast?: boolean;
-  index?: number;
 }
 
-export function ProjectCard({ project, isLast = false, index = 0 }: ProjectCardProps) {
+export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
   const [isOpen, setIsOpen] = useState(false); 
   const contentRef = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope: contentRef });
@@ -44,25 +43,27 @@ export function ProjectCard({ project, isLast = false, index = 0 }: ProjectCardP
         ? "bg-warning text-bg-base"
         : "bg-info text-bg-base";
 
-  const toggleOpen = contextSafe(() => {
-    const isOpening = !isOpen;
-    setIsOpen(isOpening);
+  const toggleOpen = () => {
+    contextSafe(() => {
+      const isOpening = !isOpen;
+      setIsOpen(isOpening);
 
-    if (contentRef.current) {
+      if (contentRef.current) {
         gsap.to(contentRef.current, {
-            height: isOpening ? "auto" : 0,
-            opacity: isOpening ? 1 : 0,
-            duration: 0.5,
-            ease: "power3.inOut",
-            onStart: () => {
-                if (isOpening) contentRef.current!.style.display = "block";
-            },
-            onComplete: () => {
-                if (!isOpening) contentRef.current!.style.display = "none";
-            }
+          height: isOpening ? "auto" : 0,
+          opacity: isOpening ? 1 : 0,
+          duration: 0.5,
+          ease: "power3.inOut",
+          onStart: () => {
+            if (isOpening) contentRef.current!.style.display = "block";
+          },
+          onComplete: () => {
+            if (!isOpening) contentRef.current!.style.display = "none";
+          },
         });
-    }
-  });
+      }
+    })();
+  };
 
   return (
     <div

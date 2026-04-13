@@ -101,7 +101,7 @@ export function AboutSection() {
           </div>
 
           {/* Skill Cards */}
-          {aboutData.skillCategories.map((category, idx) => (
+          {aboutData.skillCategories.map((category) => (
             <div
               key={category.title}
               className="terminal-card group flex flex-col gsap-reveal opacity-0"

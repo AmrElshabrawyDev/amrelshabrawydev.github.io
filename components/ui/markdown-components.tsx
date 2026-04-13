@@ -3,6 +3,8 @@
 import React from "react";
 import type { Components } from "react-markdown";
 
+import Image from "next/image";
+
 /**
  * Custom components for ReactMarkdown to handle specific rendering needs.
  * Typography and spacing are handled globally via the .markdown-body class in globals.css
@@ -47,7 +49,18 @@ export const markdownComponents: Components = {
   ),
 
   // Responsive images with rounded corners
-  img: ({ ...props }) => (
-    <img className="rounded-lg max-w-full h-auto" alt="" {...props} />
-  ),
+  img: ({ src, alt }) => {
+    if (typeof src !== "string" || !src) return null;
+    return (
+      <div className="relative w-full aspect-video my-8 rounded-lg overflow-hidden bg-bg-elevated border border-border-subtle/30">
+        <Image
+          src={src}
+          alt={alt || "Markdown Image"}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 80vw"
+        />
+      </div>
+    );
+  },
 };

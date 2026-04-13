@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, FormEvent } from "react";
-import { Send, CheckCircle, Loader2, Terminal, Globe, MessageSquare } from "lucide-react";
+import {
+  Send,
+  CheckCircle,
+  Loader2,
+  Terminal,
+  Globe,
+  MessageSquare,
+} from "lucide-react";
 import emailjs from "@emailjs/browser";
 import Confetti from "react-confetti";
 import { personalInfo, socialLinks, contactData } from "@/data";
@@ -23,7 +30,7 @@ export function ContactSection() {
   useSectionReveal(container, ".gsap-reveal", {
     stagger: 0.1,
     y: 20,
-    scale: 0.99
+    scale: 0.99,
   });
 
   const [formData, setFormData] = useState<FormData>({
@@ -79,13 +86,18 @@ export function ContactSection() {
   };
 
   return (
-    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
+    <section
+      ref={container}
+      className="py-24 bg-bg-base relative overflow-hidden"
+    >
       <div className="container-custom relative z-10">
-        
         {/* Section Header */}
         <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
           <PowerlineGroup>
-            <PowerlineSegment color="secondary" icon={<MessageSquare className="w-5 h-5" />}>
+            <PowerlineSegment
+              color="secondary"
+              icon={<MessageSquare className="w-5 h-5" />}
+            >
               COMMUNICATION_CHANNEL.SH
             </PowerlineSegment>
             <PowerlineSegment color="surface" showArrow={false}>
@@ -95,7 +107,6 @@ export function ContactSection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
           {/* Contact Form Block */}
           <div className="terminal-card gsap-reveal opacity-0">
             <div className="terminal-header flex items-center justify-between">
@@ -104,14 +115,20 @@ export function ContactSection() {
                 <div className="w-2.5 h-2.5 bg-secondary" />
                 <div className="w-2.5 h-2.5 bg-accent" />
               </div>
-              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">secure_transmission_form</span>
+              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">
+                secure_transmission_form
+              </span>
             </div>
 
             <div className="p-8 lg:p-10">
               {status === "success" ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center space-y-6 animate-fade-in">
                   {showConfetti && (
-                    <Confetti recycle={false} numberOfPieces={200} colors={["#3b82f6", "#8b5cf6", "#10b981"]} />
+                    <Confetti
+                      recycle={false}
+                      numberOfPieces={200}
+                      colors={["#3b82f6", "#8b5cf6", "#10b981"]}
+                    />
                   )}
                   <div className="p-4 bg-success/10 border border-success">
                     <CheckCircle className="w-12 h-12 text-success" />
@@ -123,7 +140,10 @@ export function ContactSection() {
                     {contactData.successMessage.description.toUpperCase()}
                   </p>
                   <button
-                    onClick={() => { setStatus("idle"); setShowConfetti(false); }}
+                    onClick={() => {
+                      setStatus("idle");
+                      setShowConfetti(false);
+                    }}
                     className="px-8 h-12 bg-bg-elevated border border-border-subtle hover:border-primary transition-colors text-xs font-mono font-bold uppercase tracking-widest"
                   >
                     RETURN_TO_INPUT
@@ -216,24 +236,31 @@ export function ContactSection() {
               <h3 className="text-2xl font-black font-heading uppercase text-text-primary mb-8 border-b border-border-subtle pb-4">
                 {">"} CONNECTION_NODES
               </h3>
-              
-              <div className="grid gap-4">
-                {socialLinks.map((link, idx) => (
+
+              <div className="grid gap-4 hover:shadow-[-2px_0px_2px_2px_#94e2d5]">
+                {socialLinks.map((link) => (
                   <a
                     key={link.platform}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group gsap-reveal opacity-0"
+                    className="gsap-reveal opacity-0"
                   >
-                    <PowerlineGroup>
-                      <PowerlineSegment color="surface" className="w-12 flex justify-center group-hover:bg-bg-elevated transition-colors">
+                    <PowerlineGroup className="hover:bg-primary hover:text-bg-base hover:translate-x-5 transition-all duration-300">
+                      <PowerlineSegment
+                        color="surface"
+                        className="w-12 flex justify-center"
+                      >
                         {link.icon}
                       </PowerlineSegment>
-                      <PowerlineSegment color="secondary" className="px-6 group-hover:bg-primary group-hover:text-bg-base transition-colors">
+                      <PowerlineSegment color="secondary" className="px-6">
                         {link.platform.toUpperCase()}
                       </PowerlineSegment>
-                      <PowerlineSegment color="surface" showArrow={false} className="flex-1 text-[10px] text-text-tertiary overflow-hidden whitespace-nowrap">
+                      <PowerlineSegment
+                        color="surface"
+                        showArrow={false}
+                        className="flex-1 text-[10px] text-text-tertiary overflow-hidden whitespace-nowrap"
+                      >
                         {link.username.toUpperCase()}
                       </PowerlineSegment>
                     </PowerlineGroup>
@@ -245,19 +272,25 @@ export function ContactSection() {
             {/* Availability Status */}
             <div className="gsap-reveal opacity-0">
               <PowerlineGroup>
-                <PowerlineSegment color="success" className="h-16 px-8 animate-pulse-slow">
+                <PowerlineSegment
+                  color="success"
+                  className="h-16 px-8 animate-pulse-slow"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-bg-base animate-ping" />
                     LIVE_STATUS: {personalInfo.availability.toUpperCase()}
                   </div>
                 </PowerlineSegment>
-                <PowerlineSegment color="surface" showArrow={false} className="h-16 flex items-center px-6">
+                <PowerlineSegment
+                  color="surface"
+                  showArrow={false}
+                  className="h-16 flex items-center px-6"
+                >
                   <Globe className="w-5 h-5" />
                 </PowerlineSegment>
               </PowerlineGroup>
             </div>
           </div>
-
         </div>
       </div>
     </section>

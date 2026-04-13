@@ -13,11 +13,14 @@ export function ServicesSection() {
   useSectionReveal(container, ".gsap-reveal", {
     stagger: 0.15,
     y: 20,
-    scale: 0.99
+    scale: 0.99,
   });
 
   return (
-    <section ref={container} className="py-24 bg-bg-base relative overflow-hidden">
+    <section
+      ref={container}
+      className="py-24 bg-bg-base relative overflow-hidden"
+    >
       <div className="container-custom">
         {/* Section Header */}
         <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
@@ -33,7 +36,7 @@ export function ServicesSection() {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {serviceData.map((service, idx) => (
+          {serviceData.map((service) => (
             <div
               key={service.title}
               className="terminal-card gsap-reveal opacity-0"

@@ -8,7 +8,7 @@ if (typeof window !== "undefined") {
 }
 
 interface RevealOptions {
-  stagger?: number;
+  stagger?: number | gsap.StaggerVars;
   y?: number;
   scale?: number;
   duration?: number;
