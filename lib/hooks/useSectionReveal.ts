@@ -24,7 +24,7 @@ interface RevealOptions {
 export function useSectionReveal(
   containerRef: RefObject<HTMLElement | null>,
   targetSelector: string = ".gsap-reveal",
-  options: RevealOptions = {}
+  options: RevealOptions = {},
 ) {
   const {
     stagger = 0.1,
@@ -33,36 +33,39 @@ export function useSectionReveal(
     duration = 0.6,
     start = "top 85%",
     delay = 0,
-    triggerElement
+    triggerElement,
   } = options;
 
-  useGSAP(() => {
-    if (!containerRef.current) return;
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
 
-    const targets = containerRef.current.querySelectorAll(targetSelector);
-    if (targets.length === 0) return;
+      const targets = containerRef.current.querySelectorAll(targetSelector);
+      if (targets.length === 0) return;
 
-    gsap.fromTo(
-      targets,
-      { 
-        opacity: 0, 
-        y, 
-        scale 
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration,
-        stagger,
-        delay,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: triggerElement || containerRef.current,
-          start,
-          toggleActions: "play none none none",
+      gsap.fromTo(
+        targets,
+        {
+          opacity: 0,
+          y,
+          scale,
         },
-      }
-    );
-  }, { scope: containerRef });
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration,
+          stagger,
+          delay,
+          ease: "elastic",
+          scrollTrigger: {
+            trigger: triggerElement || containerRef.current,
+            start,
+            toggleActions: "play none none none",
+          },
+        },
+      );
+    },
+    { scope: containerRef },
+  );
 }
