@@ -38,9 +38,7 @@ export function AboutSection() {
             >
               ABOUT_IDENTITY.MD
             </PowerlineSegment>
-            <PowerlineSegment color="surface" showArrow={false}>
-              READ_ONLY
-            </PowerlineSegment>
+            <PowerlineSegment color="surface">READ_ONLY</PowerlineSegment>
           </PowerlineGroup>
         </div>
 

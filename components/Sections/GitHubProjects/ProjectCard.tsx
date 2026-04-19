@@ -115,7 +115,7 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
 
           {/* Tech Stack Powerline (Refined) */}
           <div className="mb-4 pointer-events-none flex flex-wrap gap-y-1">
-            <PowerlineGroup className="gap-0 scale-75 origin-left opacity-80 group-hover/btn:opacity-100 transition-opacity">
+            <PowerlineGroup className="gap-0 scale-85 origin-left opacity-80 group-hover/btn:opacity-100 transition-opacity">
               {project.technologies.slice(0, 3).map((tech, i) => {
                 const colors: (
                   | "surface"

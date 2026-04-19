@@ -100,7 +100,7 @@ export function ContactSection() {
             >
               COMMUNICATION_CHANNEL.SH
             </PowerlineSegment>
-            <PowerlineSegment color="surface" showArrow={false}>
+            <PowerlineSegment color="surface">
               STATUS: LISTENING
             </PowerlineSegment>
           </PowerlineGroup>
@@ -108,7 +108,7 @@ export function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Form Block */}
-          <div className="terminal-card gsap-reveal opacity-0">
+          <div className="terminal-card hover:border-secondary! gsap-reveal opacity-0">
             <div className="terminal-header flex items-center justify-between">
               <div className="flex gap-2">
                 <div className="w-2.5 h-2.5 bg-primary" />
@@ -208,23 +208,31 @@ export function ContactSection() {
                     </div>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={status === "loading"}
-                    className="w-full h-14 bg-primary text-bg-base font-black font-heading uppercase tracking-tighter hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 group"
-                  >
-                    {status === "loading" ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        UPLOADING_DATA...
-                      </>
-                    ) : (
-                      <>
-                        INITIATE_TRANSFER.SH
-                        <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
+                  <PowerlineGroup className="justify-center">
+                    <PowerlineSegment
+                      color="secondary"
+                      direction="both"
+                      className={`p-0! hover:scale-105 hover:brightness-110 transition-all duration-500 ${status === "loading" && "cursor-not-allowed opacity-50"}`}
+                    >
+                      <button
+                        type="submit"
+                        disabled={status === "loading"}
+                        className="px-4 py-1 transition-all flex items-center gap-3 group disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {status === "loading" ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            UPLOADING_DATA...
+                          </>
+                        ) : (
+                          <>
+                            INITIATE_TRANSFER.SH
+                            <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+                          </>
+                        )}
+                      </button>
+                    </PowerlineSegment>
+                  </PowerlineGroup>
                 </form>
               )}
             </div>
@@ -237,7 +245,7 @@ export function ContactSection() {
                 {">"} CONNECTION_NODES
               </h3>
 
-              <div className="grid gap-4 hover:shadow-[-2px_0px_2px_2px_#94e2d5]">
+              <div className="grid gap-4">
                 {socialLinks.map((link) => (
                   <a
                     key={link.platform}
@@ -246,7 +254,7 @@ export function ContactSection() {
                     rel="noopener noreferrer"
                     className="gsap-reveal opacity-0"
                   >
-                    <PowerlineGroup className="hover:bg-primary hover:text-bg-base hover:translate-x-5 transition-all duration-300">
+                    <PowerlineGroup className="hover:translate-x-4 transition-all duration-500">
                       <PowerlineSegment
                         color="surface"
                         className="w-12 flex justify-center"
@@ -273,7 +281,7 @@ export function ContactSection() {
             <div className="gsap-reveal opacity-0">
               <PowerlineGroup>
                 <PowerlineSegment
-                  color="success"
+                  color="secondary"
                   className="h-16 px-8 animate-pulse-slow"
                 >
                   <div className="flex items-center gap-3">
@@ -283,10 +291,12 @@ export function ContactSection() {
                 </PowerlineSegment>
                 <PowerlineSegment
                   color="surface"
-                  showArrow={false}
-                  className="h-16 flex items-center px-6"
+                  className="h-16 flex items-center px-8"
                 >
-                  <Globe className="w-5 h-5" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-bg-base animate-ping" />
+                    OPEN_WORLDWIDE <Globe className="w-5 h-5" />
+                  </div>
                 </PowerlineSegment>
               </PowerlineGroup>
             </div>

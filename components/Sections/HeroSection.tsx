@@ -26,25 +26,32 @@ export function HeroSection() {
     stagger: 0.1,
     y: 30,
     scale: 0.98,
-    duration: 0.8
+    duration: 0.8,
   });
 
   // Specialized entrance for the profile visual
-  useGSAP(() => {
-    gsap.fromTo(".gsap-reveal-fade", 
-      { opacity: 0, scale: 0.95 },
-      { 
-        opacity: 1, 
-        scale: 1, 
-        duration: 1.2,
-        ease: "power2.out",
-        delay: 0.4
-      }
-    );
-  }, { scope: container });
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        ".gsap-reveal-fade",
+        { opacity: 0, scale: 0.95 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: "power2.out",
+          delay: 0.4,
+        },
+      );
+    },
+    { scope: container },
+  );
 
   return (
-    <section ref={container} className="container-custom min-h-[calc(100vh-8rem)] relative overflow-hidden bg-bg-base py-20 flex flex-col justify-center">
+    <section
+      ref={container}
+      className="container-custom min-h-[calc(100vh-8rem)] relative overflow-hidden bg-bg-base py-20 flex flex-col justify-center"
+    >
       <div className="mb-10 w-full flex justify-start gsap-reveal opacity-0">
         <PowerlineGroup>
           <PowerlineSegment color="primary" icon={<User className="w-4 h-4" />}>
@@ -96,9 +103,7 @@ export function HeroSection() {
               <Terminal className="w-3 h-3" />
               <span>system_info.md</span>
             </div>
-            <p className="opacity-90 leading-relaxed">
-              {heroData.description}
-            </p>
+            <p className="opacity-90 leading-relaxed">{heroData.description}</p>
           </div>
 
           {/* CTAs as Segments */}
@@ -107,7 +112,7 @@ export function HeroSection() {
               <PowerlineGroup>
                 <PowerlineSegment
                   color="primary"
-                  className="h-14! px-8! text-lg transition-transform group-hover:scale-105"
+                  className="px-8! text-lg transition-transform group-hover:scale-105 duration-500"
                   icon={<ArrowRight className="w-5 h-5" />}
                   direction="both"
                 >
@@ -119,8 +124,8 @@ export function HeroSection() {
             <Link href="/contact" className="group">
               <PowerlineGroup>
                 <PowerlineSegment
-                  color="surface"
-                  className="h-14! px-8! text-lg transition-transform group-hover:scale-105 group-hover:bg-bg-elevated"
+                  color="info"
+                  className="px-8! text-lg transition-transform group-hover:scale-105 duration-500"
                   icon={<Mail className="w-5 h-5" />}
                   direction="both"
                 >
@@ -173,7 +178,7 @@ export function HeroSection() {
                 <PowerlineSegment color="secondary" className="h-8 text-[10px]">
                   OS: NEON_TERMINAL
                 </PowerlineSegment>
-                <PowerlineSegment color="surface" className="h-8 text-[10px]" showArrow={false}>
+                <PowerlineSegment color="surface" className="h-8 text-[10px]">
                   READY
                 </PowerlineSegment>
               </PowerlineGroup>

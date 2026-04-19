@@ -103,7 +103,7 @@ export function GitHubProjectsSection({
             >
               PROJECT_REPOSITORY.LOG
             </PowerlineSegment>
-            <PowerlineSegment color="surface" showArrow={false}>
+            <PowerlineSegment color="surface">
               SOURCE: GITHUB_AUTH_SUCCESS
             </PowerlineSegment>
           </PowerlineGroup>
@@ -137,18 +137,17 @@ export function GitHubProjectsSection({
             rel="noopener noreferrer"
             className="group"
           >
-            <PowerlineGroup>
+            <PowerlineGroup className="transition-transform group-hover:scale-x-105 group-hover:translate-x-6 duration-500 ease-in-out">
               <PowerlineSegment
                 color="secondary"
-                className="h-14! px-8! text-lg transition-transform group-hover:scale-105"
+                className=" px-8! text-lg"
                 icon={<Github className="w-6 h-6" />}
               >
                 VIEW_ALL_REPOS
               </PowerlineSegment>
               <PowerlineSegment
-                color="surface"
-                showArrow={false}
-                className="h-14! px-6! text-[10px] text-text-tertiary uppercase tracking-widest"
+                color="info"
+                className=" px-6! text-[10px] uppercase tracking-widest"
               >
                 SOURCE_CODE.sh
               </PowerlineSegment>

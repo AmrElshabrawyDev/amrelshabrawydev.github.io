@@ -125,23 +125,19 @@ export function Footer() {
                 Deploy Status
               </span>
               <PowerlineGroup className="lg:justify-end">
-                <PowerlineSegment color="surface" direction="left">
+                <PowerlineSegment color="primary">
                   <span className="flex items-center gap-1.5 text-[10px]">
                     <GitBranch className="w-3 h-3" />
                     prod
                   </span>
                 </PowerlineSegment>
-                <PowerlineSegment
-                  color="success"
-                  direction="right"
-                  showArrow={false}
-                >
+                <PowerlineSegment color="success">
                   <span className="text-[10px]">ONLINE</span>
                 </PowerlineSegment>
               </PowerlineGroup>
             </div>
-            <div className="flex flex-col items-start lg:items-end gap-1.5 grayscale opacity-50">
-              <div className="text-[9px] text-text-tertiary flex items-center gap-2">
+            <div className="flex flex-col items-start lg:items-end gap-1.5">
+              <div className="text-[10px] text-text-tertiary flex items-center gap-2">
                 <Clock className="w-3 h-3" />
                 <span>
                   SYNC_COMPLETE:{" "}
@@ -151,7 +147,7 @@ export function Footer() {
                   })}
                 </span>
               </div>
-              <div className="text-[9px] text-text-tertiary flex items-center gap-2">
+              <div className="text-[10px] text-text-tertiary flex items-center gap-2">
                 <Terminal className="w-3 h-3" />
                 <span>LOCAL_TIME: UTC+2</span>
               </div>
@@ -162,10 +158,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border-subtle/20 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex flex-col gap-1 items-center md:items-start text-center md:text-left">
-            <p className="text-[10px] text-text-tertiary tracking-widest uppercase">
+            <p className="text-xs text-text-secondary tracking-widest uppercase">
               © {currentYear} AMR_ELSHABRAWY // NEON_PORTFOLIO_V2
             </p>
-            <p className="text-[8px] text-text-tertiary/50 uppercase tracking-tighter">
+            <p className="text-[10px] text-text-tertiary uppercase tracking-tighter">
               Crafted with Next.js 16 + GSAP + Tailwind 4
             </p>
           </div>

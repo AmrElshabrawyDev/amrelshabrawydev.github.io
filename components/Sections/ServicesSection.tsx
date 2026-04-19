@@ -28,7 +28,7 @@ export function ServicesSection() {
             <PowerlineSegment color="info" icon={<Cpu className="w-5 h-5" />}>
               CAPABILITIES_INDEX.LOG
             </PowerlineSegment>
-            <PowerlineSegment color="surface" showArrow={false}>
+            <PowerlineSegment color="surface">
               SERVICES_VERB_LEVEL_P0
             </PowerlineSegment>
           </PowerlineGroup>
