@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d out --nojekyll"
+    "deploy": "gh-pages -d out --nojekyll --repo git@github.com:AmrElshabrawyDev/amrelshabrawydev.github.io.git"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
