@@ -211,7 +211,11 @@ The design is inspired by modern developer tools and terminals.
 
 ## 🔍 SEO & Performance
 
-- **100/100 Lighthouse Targets**: Optimized for Core Web Vitals.
+- **[PageSpeed Insights Analysis](https://pagespeed.web.dev/analysis/https-amrelshabrawydev-github-io/378368sqd4?hl=en&form_factor=desktop)**: Independently audited for near-perfect Core Web Vitals.
+  - ⚡ **Performance:** Highly optimized asset delivery, including WebP image conversions (reducing LCP overhead by 99%).
+  - ♿ **Accessibility:** Semantic HTML and WCAG compliance (90+ score).
+  - 🛠️ **Best Practices:** Modern web standards and error-free console (96+ score).
+  - 🔎 **SEO:** Fully optimized metadata, sitemap, and robots.txt (100/100 score).
 - **Next/Image**: Automatic optimization with fallback handling.
 - **JSON-LD**: Proper structured data for personal brand and services.
 
