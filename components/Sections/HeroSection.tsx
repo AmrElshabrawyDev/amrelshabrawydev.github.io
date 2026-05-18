@@ -143,9 +143,9 @@ export function HeroSection() {
             {/* Window Controls */}
             <div className="terminal-header flex items-center justify-between bg-bg-elevated/50 backdrop-blur-md">
               <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-primary/40" />
-                <div className="w-2.5 h-2.5 rounded-full bg-secondary/40" />
-                <div className="w-2.5 h-2.5 rounded-full bg-accent/40" />
+                <div className="w-2.5 h-2.5 bg-primary/40" />
+                <div className="w-2.5 h-2.5 bg-secondary/40" />
+                <div className="w-2.5 h-2.5 bg-accent/40" />
               </div>
               <div className="text-[10px] text-text-tertiary font-mono tracking-widest">
                 PROFILE_VIEWER.SH

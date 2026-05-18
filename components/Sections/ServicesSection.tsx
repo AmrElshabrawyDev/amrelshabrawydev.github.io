@@ -84,7 +84,6 @@ export function ServicesSection() {
                   <PowerlineSegment
                     color="surface"
                     className="h-6 text-[10px] px-3"
-                    showArrow={false}
                   >
                     v3.1.0
                   </PowerlineSegment>

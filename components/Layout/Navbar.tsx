@@ -167,9 +167,9 @@ export function Navbar() {
                     direction="right"
                     color="surface"
                     icon={<Download className="w-4 h-4" />}
-                    className={`transition-all group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base`}
+                    className={`normal-case! transition-all group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base`}
                   >
-                    CV.EXE
+                    CV.pdf
                   </PowerlineSegment>
                 </a>
               </div>

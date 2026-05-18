@@ -92,7 +92,7 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
             </span>
             <span className="w-1 h-1 rounded-full bg-border-strong" />
             <span>{updatedDate}</span>
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2 group-hover/btn:scale-120 transition-transform">
               <span
                 className={`px-1.5 py-0.5 rounded-xs text-[9px] font-bold ${statusColor}`}
               >
