@@ -146,7 +146,7 @@ export const personSchema = {
   "@type": "Person",
   name: "Amr Elshabrawy",
   url: "https://amrelshabrawydev.github.io",
-  image: "https://amrelshabrawydev.github.io/profile.png",
+  image: "https://amrelshabrawydev.github.io/profile.webp",
   jobTitle: "Front-End Developer",
   description:
     "Professional Front-End Developer specializing in React, Next.js, and TypeScript with 5+ years of experience.",

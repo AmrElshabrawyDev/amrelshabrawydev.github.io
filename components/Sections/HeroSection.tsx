@@ -159,7 +159,7 @@ export function HeroSection() {
                 <div className="absolute inset-0 bg-linear-to-b from-transparent via-white/5 to-transparent h-2 w-full animate-scanline z-10 pointer-events-none opacity-10" />
 
                 <Image
-                  src="/profile.png"
+                  src="/profile.webp"
                   alt={personalInfo.name}
                   fill
                   priority
