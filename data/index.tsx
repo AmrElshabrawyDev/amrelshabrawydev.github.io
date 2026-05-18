@@ -56,9 +56,9 @@ export const heroData: HeroData = {
   name: "Amr Elshabrawy",
   roles: [
     "Front-End Developer",
-    "React & Next.js Expert",
-    "UI/UX Developer",
+    "React Next.js Developer",
     "Performance Optimizer",
+    "UI/UX Developer",
     "SEO Enthusiast",
   ],
   description:
@@ -268,6 +268,17 @@ export interface ProjectData {
   };
   features: string[];
 }
+
+/**
+ * Manual overrides for GitHub projects (e.g., custom images)
+ */
+export const projectOverrides: Record<string, { image?: string; title?: string }> = {
+  // Example: "repo-name": { image: "/custom-preview.png" }
+  "amrelshabrawydev": {
+    image: "/og-image.png",
+    title: "Official Portfolio v2"
+  }
+};
 
 /*
 ==========================================

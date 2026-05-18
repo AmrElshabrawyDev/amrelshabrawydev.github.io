@@ -2,203 +2,97 @@
 
 @theme {
   /* ====================================
-         🎨 Color System - Professional Blue + Purple
-     ==================================== */
+    🎨 Color System - Catppuccin Neon Powerline
+  ==================================== */
 
-  /* Background Layers */
-  --color-bg-base: #0a0e27;
-  --color-bg-elevated: #111827;
-  --color-bg-overlay: #1f2937;
+  /* Background Layers - "The Terminal" */
+  --color-bg-base: #11111b;
+  --color-bg-elevated: #1b1b29;
+  --color-bg-overlay: #181825cc;
 
-  /* Brand Colors - Primary (Blue) */
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
+  /* Powerline Segment Colors */
+  --color-primary: #89b4fa; /* Blue */
+  --color-secondary: #94e2d5; /* Cyan */
+  --color-accent: #f38ba8; /* Red */
+  --color-warning: #fab387; /* Peach */
+  --color-success: #a6e3a1; /* Green */
+  --color-info: #cba6f7; /* Purple */
 
-  /* Brand Colors - Accent (Purple) */
-  --color-accent-400: #a78bfa;
-  --color-accent-500: #8b5cf6;
-  --color-accent-600: #7c3aed;
-
-  /* Semantic Colors */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #06b6d4;
-
-  /* Text Colors */
-  --color-text-primary: #e0e7ff;
-  --color-text-secondary: #94a3b8;
-  --color-text-tertiary: #64748b;
-  --color-text-disabled: #475569;
+  /* Neutral & Functional */
+  --color-text-primary: #cdd6f4;
+  --color-text-secondary: #a6adc8;
+  --color-text-tertiary: #6c7086;
 
   /* Border Colors */
-  --color-border-subtle: rgba(59, 130, 246, 0.1);
-  --color-border-default: rgba(59, 130, 246, 0.2);
-  --color-border-strong: rgba(59, 130, 246, 0.4);
+  --color-border-subtle: rgba(49, 50, 68, 0.4);
+  --color-border-default: rgba(69, 71, 90, 0.6);
+  --color-border-strong: rgba(88, 91, 112, 0.8);
 
   /* ====================================
-     🔤 Typography
-     ==================================== */
+    🔤 Typography
+  ==================================== */
 
-  /* Font Families (use with next/font) */
-  --font-heading: var(--font-archivo);
-  --font-body: var(--font-space-grotesk);
-  --font-mono: var(--font-jetbrains-mono);
+  /* Font Families */
+  --font-heading: var(--font-mono);
+  --font-body: var(--font-mono);
+  --font-mono: var(--font-mono);
 
-  /* Font Sizes */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  --font-size-6xl: 3.75rem;
-  --font-size-7xl: 4.5rem;
+  /* Standard Spacing Scale */
+  --spacing-container: 2rem;
+  --spacing-section: 6rem;
 
   /* ====================================
-     📏 Spacing (4px grid)
-     ==================================== */
+    ✨ Animations
+  ==================================== */
+  --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
+  --animate-fade-in-left: fade-in-left 0.5s ease-out forwards;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-scanline: scanline 8s linear infinite;
+}
 
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-24: 6rem;
-
-  /* ====================================
-     ✨ Animations
-     ==================================== */
-
-  --animate-fade-in: fade-in 0.4s ease-out forwards;
-  --animate-slide-up: slide-up 0.5s ease-out forwards;
-  --animate-scale: scale 0.3s ease;
-  --animate-glow: glow 3s ease-in-out infinite alternate;
-  --animate-float: float 8s ease-in-out infinite;
-  --animate-gradient: gradient-shift 8s ease infinite;
-
-  /* ====================================
-     🎬 Keyframes
-     ==================================== */
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
   }
-
-  @keyframes slide-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  100% {
+    transform: translateY(1000%);
   }
+}
 
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  @keyframes glow {
-    0% {
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
-    }
-    100% {
-      box-shadow:
-        0 0 30px rgba(59, 130, 246, 0.3),
-        0 0 50px rgba(139, 92, 246, 0.2);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  @keyframes gradient-shift {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
-  /* ====================================
-     🌈 Gradients
-     ==================================== */
-
-  --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  --gradient-mesh:
-    radial-gradient(at 27% 37%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
-    radial-gradient(at 97% 21%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(at 52% 99%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-
-  /* ====================================
-     🎨 shadcn/ui Theme Variables
-     ==================================== */
-
-  /* Base colors for shadcn components */
-  --background: #0a0e27;
-  --foreground: #e0e7ff;
-
-  /* Card */
-  --card: rgba(31, 41, 55, 0.6);
-  --card-foreground: #e0e7ff;
-
-  /* Popover */
-  --popover: rgba(31, 41, 55, 0.8);
-  --popover-foreground: #e0e7ff;
-
-  /* Primary */
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-
-  /* Secondary */
-  --secondary: #1f2937;
-  --secondary-foreground: #e0e7ff;
-
-  /* Muted */
-  --muted: #1f2937;
-  --muted-foreground: #94a3b8;
-
-  /* Accent */
-  --accent: #8b5cf6;
-  --accent-foreground: #ffffff;
-
-  /* Destructive */
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-
-  /* Border */
-  --border: rgba(59, 130, 246, 0.2);
-  --input: rgba(59, 130, 246, 0.2);
-
-  /* Ring (focus states) */
-  --ring: #3b82f6;
-
-  /* Radius */
-  --radius: 0.5rem;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ====================================
-   🌐 Global Styles
-   ==================================== */
+  🌐 Global Styles
+==================================== */
 
 @layer base {
   * {
@@ -209,22 +103,23 @@
 
   html {
     scroll-behavior: smooth;
+    background-color: var(--color-bg-base);
   }
 
   body {
     background-color: var(--color-bg-base);
-    background-image: var(--gradient-mesh);
     color: var(--color-text-primary);
-    font-family: var(--font-body), sans-serif;
+    font-family: var(--font-body), monospace;
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
   }
 
   /* ====================================
-   📝 Typography Utilities
-   ==================================== */
+    📝 Typography Reset
+  ==================================== */
 
   h1,
   h2,
@@ -232,134 +127,126 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-heading), sans-serif;
-    font-weight: 700;
-    line-height: 1.2;
+    font-family: var(--font-heading), monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.1;
     color: var(--color-text-primary);
   }
 
   h1 {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 800;
   }
-
   h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
   }
-
   h3 {
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
   }
 
   p {
     color: var(--color-text-secondary);
-    font-size: clamp(1rem, 2vw, 1.125rem);
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  }
+
+  a {
+    color: var(--color-primary);
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-secondary);
+  }
+
+  button {
+    cursor: pointer;
   }
 }
-/* ====================================
-   🎨 Glass Components (Custom)
-   ==================================== */
 
-.glass-card {
-  background: rgba(31, 41, 55, 0.6);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+/* ====================================
+  🎨 Powerline Components
+==================================== */
+
+@layer utilities {
+  .powerline-container {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    overflow: visible;
+  }
+
+  .powerline-segment {
+    position: relative;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .powerline-arrow-left {
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    width: 14px;
+    height: 100%;
+    position: absolute;
+    right: -14px;
+    top: 0;
+    z-index: 10;
+  }
+
+  .powerline-arrow-right {
+    clip-path: polygon(100% 100%, 0% 50%, 100% 0%);
+    width: 14px;
+    height: 100%;
+    position: absolute;
+    left: -14px;
+    top: 0;
+    z-index: 10;
+  }
+
+  @media (max-width: 1024px) {
+    .powerline-segment {
+      height: 2rem;
+    }
+  }
+}
+
+/* ====================================
+  🎨 Terminal UI Utilities
+==================================== */
+
+.terminal-card {
+  background: var(--color-bg-elevated);
   border: 1px solid var(--color-border-subtle);
-  border-radius: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    border-color: var(--color-primary);
+  }
 }
 
-.glass-card:hover {
-  border-color: var(--color-border-default);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-}
-
-.glass-card-strong {
-  background: rgba(31, 41, 55, 0.8);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid var(--color-border-default);
-  border-radius: 1rem;
+.terminal-header {
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.5rem 1rem;
 }
 
 /* ====================================
-   💫 Glow Effects
-   ==================================== */
-
-.glow-subtle {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
-}
-
-.glow-medium {
-  box-shadow:
-    0 0 20px rgba(59, 130, 246, 0.3),
-    0 0 40px rgba(139, 92, 246, 0.15);
-}
-
-.glow-strong {
-  box-shadow:
-    0 0 30px rgba(59, 130, 246, 0.4),
-    0 0 60px rgba(139, 92, 246, 0.3);
-}
-
-.glow-hover {
-  transition: box-shadow 0.3s ease;
-}
-
-.glow-hover:hover {
-  box-shadow:
-    0 0 30px rgba(59, 130, 246, 0.5),
-    0 0 60px rgba(139, 92, 246, 0.3);
-}
-
-/* ====================================
-   🎨 Gradient Text
-   ==================================== */
-
-.gradient-text {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ====================================
-   🌟 Background Pattern
-   ==================================== */
-
-.bg-grid-pattern {
-  background-image:
-    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-}
-
-.bg-dots-pattern {
-  background-image: radial-gradient(
-    circle at center,
-    rgba(59, 130, 246, 0.1) 1px,
-    transparent 1px
-  );
-  background-size: 30px 30px;
-}
-
-.bg-hero-glow {
-  background:
-    radial-gradient(at 27% 37%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(at 97% 21%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
-}
-
-/* ====================================
-   ♿ Accessibility
-   ==================================== */
+  ♿ Accessibility & Micro-interactions
+==================================== */
 
 .focus-visible:focus {
-  outline: 2px solid var(--color-primary-500);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -371,178 +258,128 @@
   }
 }
 
-/* ====================================
-   📱 Mobile Optimizations
-   ==================================== */
-
-@media (max-width: 768px) {
-  body {
-    font-size: 16px;
-  }
-
-  .glass-card {
-    border-radius: 0.75rem;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-}
-
-/* ====================================
-   🖱️ Selection Styling
-   ==================================== */
-
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: var(--color-text-primary);
+  background: var(--color-secondary);
+  color: #11111b;
 }
-
-::-moz-selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: var(--color-text-primary);
-}
-
-/* ====================================
-   📜 Scrollbar Styling (Webkit)
-   ==================================== */
 
 ::-webkit-scrollbar {
   width: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-elevated);
+  background: var(--color-bg-base);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary-500);
-  border-radius: 5px;
+  background: var(--color-border-default);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary-400);
+  background: var(--color-primary);
 }
-
-/* ====================================
-   🎨 Utility Classes
-   ==================================== */
 
 .container-custom {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding-inline: 1.5rem;
-}
-
-.section-spacing {
-  padding: 6rem 0;
-}
-
-@media (max-width: 768px) {
-  .section-spacing {
-    padding: 3rem 0;
-  }
+  padding-inline: 2rem;
 }
 
 /* ====================================
-   📝 Markdown Styles (GitHub-like)
-   ==================================== */
+  📝 Markdown Styles (Neon Terminal)
+==================================== */
 
 .markdown-body {
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.6;
   word-wrap: break-word;
   color: var(--color-text-secondary);
 }
 
 .markdown-body p {
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1.25rem;
 }
 
 .markdown-body h1 {
-  font-size: 1.875rem !important; /* text-3xl */
-  font-weight: 700 !important;
-  margin-top: 2rem !important;
-  margin-bottom: 1rem !important;
-  color: var(--color-text-primary) !important;
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
 }
 
 .markdown-body h2 {
-  font-size: 1.5rem !important; /* text-2xl */
-  font-weight: 700 !important;
-  margin-top: 1.5rem !important;
-  margin-bottom: 0.75rem !important;
-  color: var(--color-text-primary) !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-secondary);
 }
 
 .markdown-body h3 {
-  font-size: 1.25rem !important; /* text-xl */
-  font-weight: 600 !important;
-  margin-top: 1.25rem !important;
-  margin-bottom: 0.5rem !important;
-  color: var(--color-text-primary) !important;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-info);
 }
 
 .markdown-body a {
-  color: var(--color-primary-400) !important;
-  text-decoration: underline !important;
-  transition: color 0.2s ease !important;
+  color: var(--color-primary);
+  text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
 .markdown-body a:hover {
-  color: var(--color-primary-300) !important;
+  color: var(--color-secondary);
 }
 
 .markdown-body pre {
-  background-color: var(--color-bg-base) !important;
-  border-radius: 8px !important;
-  padding: 1rem !important;
-  overflow: auto !important;
-  margin-bottom: 1.25rem !important;
-  border: 1px solid var(--color-border-subtle) !important;
+  background-color: var(--color-bg-base);
+  border-radius: 4px;
+  padding: 1.25rem;
+  overflow: auto;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-border-subtle);
 }
 
 .markdown-body code {
-  background-color: rgba(59, 130, 246, 0.1) !important;
-  color: var(--color-primary-400) !important;
-  border-radius: 4px !important;
-  padding: 0.2em 0.4em !important;
-  font-size: 0.9em !important;
+  background-color: rgba(137, 180, 250, 0.1);
+  color: var(--color-primary);
+  border-radius: 4px;
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+  font-family: var(--font-mono);
 }
 
 .markdown-body pre code {
-  background-color: transparent !important;
-  padding: 0 !important;
-  color: inherit !important;
-  font-size: 0.875rem !important;
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: 0.875rem;
 }
 
 .markdown-body img {
   display: inline-block;
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  margin: 1rem 0;
+  border-radius: 4px;
+  margin: 0.5rem 0;
 }
 
 .markdown-body ul,
 .markdown-body ol {
-  margin-bottom: 1.25rem !important;
-  padding-left: 1.5rem !important;
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
 }
 
 .markdown-body li {
-  margin-bottom: 0.25rem !important;
+  margin-bottom: 0.35rem;
 }
 
 .markdown-body blockquote {
-  border-left: 4px solid var(--color-primary-500) !important;
-  padding-left: 1rem !important;
-  color: var(--color-text-tertiary) !important;
-  font-style: italic !important;
-  margin: 1.5rem 0 !important;
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1.25rem;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  margin: 1.5rem 0;
+  background: rgba(137, 180, 250, 0.05);
+  padding-block: 0.5rem;
 }

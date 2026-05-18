@@ -1,16 +1,20 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { motion } from "framer-motion";
-import { Send, CheckCircle, Loader2 } from "lucide-react";
+import React, { useState, FormEvent } from "react";
+import {
+  Send,
+  CheckCircle,
+  Loader2,
+  Terminal,
+  Globe,
+  MessageSquare,
+} from "lucide-react";
 import emailjs from "@emailjs/browser";
 import Confetti from "react-confetti";
 import { personalInfo, socialLinks, contactData } from "@/data";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { fadeInUp, staggerContainer } from "@/components/Layout/PageTransition";
+import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
+import { useRef } from "react";
 
 interface FormData {
   name: string;
@@ -21,6 +25,14 @@ interface FormData {
 type FormStatus = "idle" | "loading" | "success" | "error";
 
 export function ContactSection() {
+  const container = useRef<HTMLDivElement>(null);
+
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.1,
+    y: 20,
+    scale: 0.99,
+  });
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -30,10 +42,9 @@ export function ContactSection() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
 
-// EmailJS configuration
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,6 +52,10 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
     setErrorMessage("");
 
     try {
+      if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+        throw new Error("Missing EmailJS configuration");
+      }
+
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
@@ -58,7 +73,7 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
       setShowConfetti(true);
     } catch (error) {
       setStatus("error");
-      setErrorMessage("Failed to send message. Please try again.");
+      setErrorMessage("FAILED to send transmission. Check console for logs.");
       console.error("EmailJS error:", error);
     }
   };
@@ -71,202 +86,222 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
   };
 
   return (
-    <section className="section-spacing">
-      <div className="container-custom">
+    <section
+      ref={container}
+      className="py-24 bg-bg-base relative overflow-hidden"
+    >
+      <div className="container-custom relative z-10">
         {/* Section Header */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
-            {contactData.header.title.first}{" "}
-            <span className="gradient-text">
-              {contactData.header.title.highlight}
-            </span>
-          </h1>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            {contactData.header.description}
-          </p>
-          <p className="text-text-secondary mb-6 max-w-2xl mx-auto">
-            {contactData.header.subDescription}
-          </p>
-        </motion.div>
+        <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
+          <PowerlineGroup>
+            <PowerlineSegment
+              color="secondary"
+              icon={<MessageSquare className="w-5 h-5" />}
+            >
+              COMMUNICATION_CHANNEL.SH
+            </PowerlineSegment>
+            <PowerlineSegment color="surface">
+              STATUS: LISTENING
+            </PowerlineSegment>
+          </PowerlineGroup>
+        </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-        >
-          {/* Contact Form */}
-          <motion.div variants={fadeInUp}>
-            <GlassCard variant="strong" className="p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          {/* Contact Form Block */}
+          <div className="terminal-card hover:border-secondary! gsap-reveal opacity-0">
+            <div className="terminal-header flex items-center justify-between">
+              <div className="flex gap-2">
+                <div className="w-2.5 h-2.5 bg-primary" />
+                <div className="w-2.5 h-2.5 bg-secondary" />
+                <div className="w-2.5 h-2.5 bg-accent" />
+              </div>
+              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">
+                secure_transmission_form
+              </span>
+            </div>
+
+            <div className="p-8 lg:p-10">
               {status === "success" ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="relative flex flex-col items-center justify-center py-12 text-center"
-                >
-                  {showConfetti && <Confetti recycle={false} numberOfPieces={200} gravity={0.08} initialVelocityY={30}/>}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                    className="mb-6"
-                  >
-                    <CheckCircle className="w-16 h-16 text-success" />
-                  </motion.div>
-                  <h3 className="text-2xl font-heading font-bold mb-2">
-                    {contactData.successMessage.title}
+                <div className="flex flex-col items-center justify-center py-12 text-center space-y-6 animate-fade-in">
+                  {showConfetti && (
+                    <Confetti
+                      recycle={false}
+                      numberOfPieces={200}
+                      colors={["#3b82f6", "#8b5cf6", "#10b981"]}
+                    />
+                  )}
+                  <div className="p-4 bg-success/10 border border-success">
+                    <CheckCircle className="w-12 h-12 text-success" />
+                  </div>
+                  <h3 className="text-3xl font-black font-heading text-success uppercase">
+                    TRANSFER_COMPLETE
                   </h3>
-                  <p className="text-text-secondary mb-6">
-                    {contactData.successMessage.description}
+                  <p className="text-text-secondary font-mono">
+                    {contactData.successMessage.description.toUpperCase()}
                   </p>
-                  <Button
+                  <button
                     onClick={() => {
                       setStatus("idle");
                       setShowConfetti(false);
                     }}
-                    variant="outline"
+                    className="px-8 h-12 bg-bg-elevated border border-border-subtle hover:border-primary transition-colors text-xs font-mono font-bold uppercase tracking-widest"
                   >
-                    {contactData.successMessage.buttonText}
-                  </Button>
-                </motion.div>
+                    RETURN_TO_INPUT
+                  </button>
+                </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-text-secondary mb-2"
-                    >
-                      {contactData.form.labels.name}
-                    </label>
-                    <Input
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-primary uppercase tracking-widest">
+                      <Terminal className="w-3 h-3" />
+                      <span>SRC_NAME</span>
+                    </div>
+                    <input
                       id="name"
                       name="name"
                       type="text"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder={contactData.form.placeholders.name}
-                      className="bg-bg-base/50"
+                      placeholder="ENTER_NAME..."
+                      className="w-full bg-bg-base/50 border border-border-subtle px-4 py-3 font-mono text-sm text-text-primary focus:outline-none focus:border-primary transition-colors placeholder:text-text-tertiary/30"
                     />
                   </div>
 
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-text-secondary mb-2"
-                    >
-                      {contactData.form.labels.email}
-                    </label>
-                    <Input
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-secondary uppercase tracking-widest">
+                      <Terminal className="w-3 h-3" />
+                      <span>SRC_EMAIL</span>
+                    </div>
+                    <input
                       id="email"
                       name="email"
                       type="email"
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder={contactData.form.placeholders.email}
-                      className="bg-bg-base/50"
+                      placeholder="ENTER_EMAIL..."
+                      className="w-full bg-bg-base/50 border border-border-subtle px-4 py-3 font-mono text-sm text-text-primary focus:outline-none focus:border-secondary transition-colors placeholder:text-text-tertiary/30"
                     />
                   </div>
 
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-text-secondary mb-2"
-                    >
-                      {contactData.form.labels.message}
-                    </label>
-                    <Textarea
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-accent uppercase tracking-widest">
+                      <Terminal className="w-3 h-3" />
+                      <span>PAYLOAD_MSG</span>
+                    </div>
+                    <textarea
                       id="message"
                       name="message"
                       required
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder={contactData.form.placeholders.message}
-                      className="bg-bg-base/50 resize-none"
+                      placeholder="ENTER_MESSAGE_DATA..."
+                      rows={5}
+                      className="w-full bg-bg-base/50 border border-border-subtle px-4 py-3 font-mono text-sm text-text-primary focus:outline-none focus:border-accent transition-colors resize-none placeholder:text-text-tertiary/30"
                     />
                   </div>
 
                   {status === "error" && (
-                    <p className="text-error text-sm">{errorMessage}</p>
+                    <div className="p-4 bg-error/10 border-l-4 border-error text-error text-[10px] font-mono font-bold uppercase tracking-widest">
+                      [!] ERROR: {errorMessage}
+                    </div>
                   )}
 
-                  <Button
-                    type="submit"
-                    disabled={status === "loading"}
-                    className="w-full gap-2 cursor-pointer"
-                    size="lg"
-                  >
-                    {status === "loading" ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        {contactData.form.buttonText.loading}
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        {contactData.form.buttonText.idle}
-                      </>
-                    )}
-                  </Button>
+                  <PowerlineGroup className="justify-center">
+                    <PowerlineSegment
+                      color="secondary"
+                      direction="both"
+                      className={`p-0! hover:scale-105 hover:brightness-110 transition-all duration-500 ${status === "loading" && "cursor-not-allowed opacity-50"}`}
+                    >
+                      <button
+                        type="submit"
+                        disabled={status === "loading"}
+                        className="px-4 py-1 transition-all flex items-center gap-3 group disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {status === "loading" ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            UPLOADING_DATA...
+                          </>
+                        ) : (
+                          <>
+                            INITIATE_TRANSFER.SH
+                            <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+                          </>
+                        )}
+                      </button>
+                    </PowerlineSegment>
+                  </PowerlineGroup>
                 </form>
               )}
-            </GlassCard>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Contact Info */}
-          <motion.div variants={fadeInUp} className="space-y-6">
-            {/* Contact Methods */}
-            <div className="space-y-4">
-              {socialLinks.map((link) => (
-                <GlassCard key={link.platform} variant="hover" className="p-4">
+          {/* Social Links Block */}
+          <div className="flex flex-col gap-10">
+            <div className="gsap-reveal opacity-0">
+              <h3 className="text-2xl font-black font-heading uppercase text-text-primary mb-8 border-b border-border-subtle pb-4">
+                {">"} CONNECTION_NODES
+              </h3>
+
+              <div className="grid gap-4">
+                {socialLinks.map((link) => (
                   <a
+                    key={link.platform}
                     href={link.url}
-                    target={link.platform !== "Resume" ? "_blank" : undefined}
-                    rel={
-                      link.platform !== "Resume"
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    className="flex items-center gap-4 group"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gsap-reveal opacity-0"
                   >
-                    <div className="p-3 rounded-lg bg-primary-500/10 text-primary-500 group-hover:bg-primary-500/20 transition-colors">
-                      {link.icon}
-                    </div>
-                    <div>
-                      <div className="font-medium text-text-primary group-hover:text-primary-400 transition-colors">
-                        {link.platform}
-                      </div>
-                      <div className="text-sm text-text-secondary">
-                        {link.username}
-                      </div>
-                    </div>
+                    <PowerlineGroup className="hover:translate-x-4 transition-all duration-500">
+                      <PowerlineSegment
+                        color="surface"
+                        className="w-12 flex justify-center"
+                      >
+                        {link.icon}
+                      </PowerlineSegment>
+                      <PowerlineSegment color="secondary" className="px-6">
+                        {link.platform.toUpperCase()}
+                      </PowerlineSegment>
+                      <PowerlineSegment
+                        color="surface"
+                        showArrow={false}
+                        className="flex-1 text-[10px] text-text-tertiary overflow-hidden whitespace-nowrap"
+                      >
+                        {link.username.toUpperCase()}
+                      </PowerlineSegment>
+                    </PowerlineGroup>
                   </a>
-                </GlassCard>
-              ))}
+                ))}
+              </div>
             </div>
 
-            {/* Availability Badge */}
-            <GlassCard variant="default" className="p-4 mt-8">
-              <div className="flex items-center gap-3">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-success" />
-                </span>
-                <span className="text-text-secondary">
-                  {personalInfo.availability}
-                </span>
-              </div>
-            </GlassCard>
-          </motion.div>
-        </motion.div>
+            {/* Availability Status */}
+            <div className="gsap-reveal opacity-0">
+              <PowerlineGroup>
+                <PowerlineSegment
+                  color="secondary"
+                  className="h-16 px-8 animate-pulse-slow"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-bg-base animate-ping" />
+                    LIVE_STATUS: {personalInfo.availability.toUpperCase()}
+                  </div>
+                </PowerlineSegment>
+                <PowerlineSegment
+                  color="surface"
+                  className="h-16 flex items-center px-8"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-bg-base animate-ping" />
+                    OPEN_WORLDWIDE <Globe className="w-5 h-5" />
+                  </div>
+                </PowerlineSegment>
+              </PowerlineGroup>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
