@@ -168,7 +168,9 @@ export async function getProjectReadme(
 
     return { full: fullReadme, preview };
   } catch (error) {
-    console.error(`Failed to fetch README for ${fullName}:`, error);
+    if (process.env.NODE_ENV === "development") {
+      console.warn(`[github] README not found for ${fullName}:`, error);
+    }
     return null;
   }
 }

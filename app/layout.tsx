@@ -31,6 +31,9 @@ const mono = JetBrains_Mono({
 // ====================================
 
 export const metadata: Metadata = {
+  // Base URL for resolving absolute image paths (OG, Twitter)
+  metadataBase: new URL("https://amrelshabrawydev.github.io"),
+
   // Basic Info
   title: {
     default:
