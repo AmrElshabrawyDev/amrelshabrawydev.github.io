@@ -147,7 +147,7 @@ export const metadata: Metadata = {
 
   // Verification (add after domain setup)
   verification: {
-    google: "KgRDbESCG4O2UXsHZBtAvTpkDVi7dr-nMXfYZbWGdS4",
+    google: "I5Cew1m8TtMxUJ1yeG6zryHm7jSffFZZhUKmvsTJzEo",
   },
 
   // Alternate Languages
@@ -172,6 +172,7 @@ export const viewport: Viewport = {
 
 import { Navbar } from "@/components/Layout/Navbar";
 import { Footer } from "@/components/Layout/Footer";
+import Script from "next/script";
 
 // Console Easter Egg
 const easterEgg = `
@@ -205,6 +206,23 @@ export default function RootLayout({
       className={`${orbitron.variable} ${shareTechMono.variable} ${mono.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col">
+        {/* Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-9K8JSGDRYF"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9K8JSGDRYF');
+            `,
+          }}
+        />
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
