@@ -147,7 +147,7 @@ export const metadata: Metadata = {
 
   // Verification (add after domain setup)
   verification: {
-    google: "I5Cew1m8TtMxUJ1yeG6zryHm7jSffFZZhUKmvsTJzEo",
+    google: "KgRDbESCG4O2UXsHZBtAvTpkDVi7dr-nMXfYZbWGdS4",
   },
 
   // Alternate Languages
