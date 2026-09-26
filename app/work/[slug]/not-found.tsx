@@ -3,11 +3,11 @@ import { FileQuestion, ArrowLeft } from "lucide-react";
 
 export default function ProjectNotFound() {
   return (
-    <main className="min-h-screen bg-bg-base flex items-center justify-center">
+    <div className="min-h-[70vh] bg-bg-base flex items-center justify-center">
       <div className="container-custom text-center">
-        <div className="glass-card p-12 max-w-xl mx-auto">
+        <div className="terminal-card p-12 max-w-xl mx-auto">
           <FileQuestion className="w-20 h-20 mx-auto mb-6 text-text-tertiary" />
-          <h1 className="text-4xl font-bold mb-4 gradient-text">
+          <h1 className="heading-natural text-4xl font-bold mb-4 text-primary">
             Project Not Found
           </h1>
           <p className="text-text-secondary text-lg mb-8">
@@ -23,6 +23,6 @@ export default function ProjectNotFound() {
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

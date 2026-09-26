@@ -61,7 +61,7 @@ export function HeroSection() {
             color="secondary"
             icon={<Code className="w-4 h-4" />}
           >
-            {personalInfo.role.toUpperCase()}
+            {personalInfo.availability.toUpperCase()}
           </PowerlineSegment>
         </PowerlineGroup>
       </div>
@@ -70,10 +70,15 @@ export function HeroSection() {
         {/* Left Column: Terminal Content */}
         <div className="w-full flex flex-col items-center lg:items-start text-center lg:text-left">
           {/* Large Hero Text */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-heading mb-8 tracking-tighter leading-none text-text-primary gsap-reveal opacity-0">
-            ENGINEERING <br />
-            <span className="text-secondary">DIGITAL</span> <br />
-            EXPERIENCES
+          <h1 className="font-black font-heading mb-8 tracking-tighter leading-none text-text-primary gsap-reveal opacity-0">
+            <span className="block text-base md:text-xl tracking-[0.2em] text-primary mb-5">
+              Freelance React &amp; Next.js Developer
+            </span>
+            <span className="block text-5xl md:text-7xl lg:text-8xl">
+              WEBSITES <br />
+              THAT <span className="text-secondary">WIN</span> <br />
+              CLIENTS
+            </span>
           </h1>
 
           {/* Powerline Roles Row */}
@@ -90,9 +95,9 @@ export function HeroSection() {
                 icon={<Zap className="w-4 h-4" />}
                 className="tracking-normal!"
               >
-                {heroData.roles[1].toUpperCase()}
+                REMOTE · WORLDWIDE
               </PowerlineSegment>
-              <PowerlineSegment color="warning">v2.0.0</PowerlineSegment>
+              <PowerlineSegment color="warning">AR / EN</PowerlineSegment>
             </PowerlineGroup>
           </div>
 
@@ -160,7 +165,7 @@ export function HeroSection() {
 
                 <Image
                   src="/profile.webp"
-                  alt={personalInfo.name}
+                  alt={`${personalInfo.name} — freelance React and Next.js developer`}
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100"

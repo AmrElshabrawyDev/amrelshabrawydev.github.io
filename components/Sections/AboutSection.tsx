@@ -38,9 +38,13 @@ export function AboutSection() {
             >
               ABOUT_IDENTITY.MD
             </PowerlineSegment>
-            <PowerlineSegment color="surface">READ_ONLY</PowerlineSegment>
+            <PowerlineSegment color="surface">CAIRO, EGYPT</PowerlineSegment>
           </PowerlineGroup>
         </div>
+
+        <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-12 max-w-4xl gsap-reveal opacity-0">
+          Freelance front-end developer who builds websites that work for your business
+        </h1>
 
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -58,10 +62,10 @@ export function AboutSection() {
             </div>
 
             <div className="p-8 lg:p-10 space-y-8">
-              <h3 className="text-2xl md:text-4xl font-black font-heading text-primary uppercase">
-                {">"} IDENTITY_SECURED
-              </h3>
-              <p className="text-text-secondary leading-relaxed text-lg font-mono border-l-4 border-primary pl-6 py-4 bg-primary/5">
+              <h2 className="text-2xl md:text-4xl font-black font-heading text-primary uppercase">
+                {">"} Hi, I&apos;m Amr
+              </h2>
+              <p className="text-text-secondary leading-relaxed text-lg font-[family-name:var(--font-inter)] border-l-4 border-primary pl-6 py-4 bg-primary/5">
                 {aboutData.bio}
               </p>
 
@@ -93,7 +97,7 @@ export function AboutSection() {
             </div>
             <Image
               src="/profile-about.png"
-              alt="Profile"
+              alt="Amr Elshabrawy, freelance front-end developer in Cairo"
               fill
               className="object-cover grayscale hover:grayscale-0 transition-all duration-700 contrast-125"
               sizes="(max-width: 1024px) 100vw, 30vw"
@@ -110,9 +114,9 @@ export function AboutSection() {
               <div className="terminal-header flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="text-primary">{category.icon}</div>
-                  <span className="text-[10px] text-text-primary font-mono font-bold uppercase tracking-widest">
-                    {category.title.toUpperCase()}
-                  </span>
+                  <h3 className="text-[10px]! text-text-primary font-mono font-bold uppercase tracking-widest">
+                    {category.title}
+                  </h3>
                 </div>
               </div>
 

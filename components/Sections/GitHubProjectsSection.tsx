@@ -101,17 +101,21 @@ export function GitHubProjectsSection({
               color="secondary"
               icon={<Code className="w-5 h-5" />}
             >
-              PROJECT_REPOSITORY.LOG
+              OPEN_SOURCE.LOG
             </PowerlineSegment>
             <PowerlineSegment color="surface">
-              SOURCE: GITHUB_AUTH_SUCCESS
+              {projects.length} REPOS
             </PowerlineSegment>
           </PowerlineGroup>
 
-          <div className="text-text-secondary text-sm md:text-base font-mono leading-relaxed bg-secondary/5 border-l-4 border-secondary p-4 max-w-2xl">
-            {">"} ACCESSING_REPOSITORY_DATA... <br />
-            {">"} FILTERING_TOP_EXPERIENCES... <br />
-            {">"} SUCCESS: {projects.length} PROJECTS_LOADED.
+          <div className="max-w-2xl">
+            <h2 className="heading-natural text-3xl md:text-4xl font-bold mb-4">
+              Open source &amp; experiments
+            </h2>
+            <p className="font-[family-name:var(--font-inter)]">
+              Smaller builds and experiments from my GitHub — where I try new
+              tools before using them on client work.
+            </p>
           </div>
         </div>
 

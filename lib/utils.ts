@@ -13,5 +13,9 @@ export function formatDate(dateString: string): string {
  * Generate a URL-friendly slug from a project title
  */
 export function generateSlug(title: string): string {
-  return title.toLowerCase().replace(/\s+/g, "-");
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }

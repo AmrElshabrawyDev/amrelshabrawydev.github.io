@@ -28,9 +28,9 @@ export function Footer() {
               </div>
             </div>
             <p className="text-xs text-text-secondary leading-relaxed opacity-80">
-              {">"} Professional Front-End Architect. <br />
-              {">"} Building performant, accessible web systems with precision
-              and care.
+              {">"} Freelance React &amp; Next.js developer. <br />
+              {">"} Fast, SEO-ready websites, online stores and web apps — in
+              Arabic &amp; English.
             </p>
           </div>
 
@@ -61,6 +61,28 @@ export function Footer() {
                       {">"}
                     </span>
                     ABOUT
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/services"
+                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
+                  >
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
+                      {">"}
+                    </span>
+                    SERVICES
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/blog"
+                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
+                  >
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
+                      {">"}
+                    </span>
+                    BLOG
                   </Link>
                 </li>
                 <li>
@@ -122,34 +144,28 @@ export function Footer() {
           <div className="flex flex-col items-start lg:items-end gap-6">
             <div className="space-y-2 text-left lg:text-right">
               <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-[0.2em]">
-                Deploy Status
+                Availability
               </span>
               <PowerlineGroup className="lg:justify-end">
                 <PowerlineSegment color="primary">
                   <span className="flex items-center gap-1.5 text-[10px]">
                     <GitBranch className="w-3 h-3" />
-                    prod
+                    status
                   </span>
                 </PowerlineSegment>
                 <PowerlineSegment color="success">
-                  <span className="text-[10px]">ONLINE</span>
+                  <span className="text-[10px]">OPEN FOR PROJECTS</span>
                 </PowerlineSegment>
               </PowerlineGroup>
             </div>
             <div className="flex flex-col items-start lg:items-end gap-1.5">
               <div className="text-[10px] text-text-tertiary flex items-center gap-2">
                 <Clock className="w-3 h-3" />
-                <span>
-                  SYNC_COMPLETE:{" "}
-                  {new Date().toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
+                <span>REPLY_TIME: &lt; 24H</span>
               </div>
               <div className="text-[10px] text-text-tertiary flex items-center gap-2">
                 <Terminal className="w-3 h-3" />
-                <span>LOCAL_TIME: UTC+2</span>
+                <span>CAIRO · UTC+2 · REMOTE WORLDWIDE</span>
               </div>
             </div>
           </div>
@@ -174,6 +190,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={social.platform}
+                aria-label={social.platform}
                 className="w-9 h-9 flex items-center justify-center text-text-tertiary hover:text-primary hover:bg-primary/5 transition-all border border-border-subtle/30 hover:border-primary/50 rounded-xs"
               >
                 {social.icon}

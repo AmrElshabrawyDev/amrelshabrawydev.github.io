@@ -12,11 +12,13 @@ import {
   Cpu,
   Mail,
   FolderGit2,
+  BookOpen,
 } from "lucide-react";
 import { personalInfo } from "@/data";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 import { LogoIcon } from "../ui/LogoIcon";
 
+// Order matters: even indexes render left of the logo, odd indexes right.
 const navLinks = [
   {
     href: "/",
@@ -37,15 +39,21 @@ const navLinks = [
     color: "surface" as const,
   },
   {
-    href: "/contact",
-    label: "CONTACT",
-    icon: <Mail className="w-4 h-4" />,
-    color: "surface" as const,
-  },
-  {
     href: "/work",
     label: "WORK",
     icon: <FolderGit2 className="w-4 h-4" />,
+    color: "surface" as const,
+  },
+  {
+    href: "/blog",
+    label: "BLOG",
+    icon: <BookOpen className="w-4 h-4" />,
+    color: "surface" as const,
+  },
+  {
+    href: "/contact",
+    label: "CONTACT",
+    icon: <Mail className="w-4 h-4" />,
     color: "surface" as const,
   },
 ];
@@ -103,7 +111,7 @@ export function Navbar() {
       <nav className="container-custom py-4">
         <div className="flex items-center justify-between">
           {/* Powerline Nav Bar (Desktop) */}
-          <div className="hidden md:flex w-full">
+          <div className="hidden lg:flex w-full">
             <PowerlineGroup className="w-full justify-between drop-shadow-[0_0_4px] drop-shadow-neon-primary">
               <div className="flex flex-1">
                 <div className="flex">
@@ -131,7 +139,7 @@ export function Navbar() {
                 </div>
               </div>
 
-              <div className="hidden md:flex items-center justify-center flex-1">
+              <div className="hidden lg:flex items-center justify-center flex-1">
                 <Link href="/">
                   <LogoIcon className="w-14 h-14 transition-all duration-200 ease-linear hover:scale-3d hover:scale-110 active:scale-90" />
                 </Link>
@@ -177,7 +185,7 @@ export function Navbar() {
           </div>
 
           {/* Logo (Mobile) */}
-          <Link href="/" className="md:hidden flex items-center gap-2">
+          <Link href="/" className="lg:hidden flex items-center gap-2">
             <LogoIcon className="w-8 h-8" />
 
             <span className="font-bold tracking-tighter text-text-primary">
@@ -188,8 +196,9 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden p-2 text-text-primary hover:text-primary transition-colors z-50"
+            className="lg:hidden p-2 text-text-primary hover:text-primary transition-colors z-50"
             aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -198,7 +207,7 @@ export function Navbar() {
         {/* Mobile Menu Overlay */}
         {isOpen && (
           <div
-            className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 md:hidden"
+            className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"

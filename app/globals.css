@@ -383,3 +383,205 @@
   background: rgba(137, 180, 250, 0.05);
   padding-block: 0.5rem;
 }
+
+/* ====================================
+  🧭 Client-facing UI helpers
+==================================== */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding-inline: 1.5rem;
+  background: var(--color-primary);
+  color: var(--color-bg-base);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  color: var(--color-bg-base);
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding-inline: 1.5rem;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+/* Section headings that should read naturally (not shouted) */
+.heading-natural {
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* ====================================
+  📖 Long-form reading (blog & case studies)
+==================================== */
+
+.prose-article {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+.prose-article[dir="rtl"],
+[dir="rtl"] .prose-article,
+.font-arabic {
+  font-family: var(--font-cairo), system-ui, sans-serif;
+}
+
+.prose-article h2,
+.prose-article h3 {
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.prose-article h2 {
+  font-size: 1.75rem;
+  margin: 2.75rem 0 1rem;
+}
+
+.prose-article h3 {
+  font-size: 1.3rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.prose-article p {
+  font-size: inherit;
+  margin-bottom: 1.25rem;
+}
+
+.prose-article a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-article strong {
+  color: var(--color-text-primary);
+}
+
+.prose-article ul,
+.prose-article ol {
+  margin: 0 0 1.5rem;
+  padding-inline-start: 1.5rem;
+}
+
+.prose-article ul {
+  list-style: disc;
+}
+
+.prose-article ol {
+  list-style: decimal;
+}
+
+/* GFM task lists ("- [ ] item") render their own checkbox */
+.prose-article li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-inline-start: -1.5rem;
+}
+
+.prose-article input[type="checkbox"] {
+  margin-inline-end: 0.5rem;
+  accent-color: var(--color-success);
+}
+
+.prose-article li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-article ul li::marker {
+  color: var(--color-secondary);
+}
+
+.prose-article blockquote {
+  border-inline-start: 4px solid var(--color-primary);
+  background: rgba(137, 180, 250, 0.06);
+  padding: 1rem 1.25rem;
+  margin: 1.75rem 0;
+  color: var(--color-text-primary);
+}
+
+.prose-article blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0 2rem;
+  font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose-article th,
+.prose-article td {
+  border: 1px solid var(--color-border-default);
+  padding: 0.6rem 0.9rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+.prose-article th {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+.prose-article code {
+  font-family: var(--font-mono), monospace;
+  background-color: rgba(137, 180, 250, 0.1);
+  color: var(--color-primary);
+  padding: 0.15em 0.4em;
+  font-size: 0.9em;
+}
+
+.prose-article pre {
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border-subtle);
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.prose-article pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--color-text-primary);
+}
