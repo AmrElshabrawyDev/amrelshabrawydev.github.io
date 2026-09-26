@@ -276,7 +276,7 @@ export function ContactSection() {
                       >
                         {link.icon}
                       </PowerlineSegment>
-                      <PowerlineSegment color="secondary" className="px-6">
+                      <PowerlineSegment color="secondary" className="w-36 justify-start! px-6">
                         {link.platform.toUpperCase()}
                       </PowerlineSegment>
                       <PowerlineSegment

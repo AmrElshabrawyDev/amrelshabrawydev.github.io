@@ -143,7 +143,7 @@ export function AboutSection() {
                   </PowerlineSegment>
                   <PowerlineSegment
                     color="surface"
-                    className="h-6 text-[10px] px-3"
+                    className="h-6 text-[10px] pl-6 pr-3"
                     showArrow={false}
                   >
                     STRENGTH_OK

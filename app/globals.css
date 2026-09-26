@@ -171,7 +171,9 @@
   🎨 Powerline Components
 ==================================== */
 
-@layer utilities {
+/* Base styles live in the components layer so Tailwind utilities passed via
+   className (h-6, text-[10px], px-3…) always win over these defaults. */
+@layer components {
   .powerline-container {
     display: flex;
     align-items: center;
@@ -192,24 +194,41 @@
     white-space: nowrap;
   }
 
-  .powerline-arrow-left {
-    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-    width: 14px;
-    height: 100%;
+  /* Default padding leaves room for the 14px arrow of the previous segment */
+  .powerline-segment[data-direction="left"] {
+    padding-left: 1.25rem;
+    padding-right: 0.5rem;
+  }
+  .powerline-segment[data-direction="right"] {
+    padding-left: 0.5rem;
+    padding-right: 1.25rem;
+  }
+  .powerline-segment[data-direction="both"] {
+    padding-inline: 1.25rem;
+  }
+
+  /* Arrows overlap the segment by 1px so no hairline seam shows between them
+     at fractional pixel positions or with OS display scaling (125%, 150%). */
+  .powerline-arrow-left,
+  .powerline-arrow-right {
     position: absolute;
-    right: -14px;
     top: 0;
+    width: 15px;
+    height: 100%;
     z-index: 10;
+    pointer-events: none;
+  }
+
+  /* The first 1px is a solid strip hidden under the segment; the slope
+     starts exactly at the segment edge, so no seam and no corner step. */
+  .powerline-arrow-left {
+    clip-path: polygon(0 0, 1px 0, 100% 50%, 1px 100%, 0 100%);
+    right: -14px;
   }
 
   .powerline-arrow-right {
-    clip-path: polygon(100% 100%, 0% 50%, 100% 0%);
-    width: 14px;
-    height: 100%;
-    position: absolute;
+    clip-path: polygon(100% 0, calc(100% - 1px) 0, 0 50%, calc(100% - 1px) 100%, 100% 100%);
     left: -14px;
-    top: 0;
-    z-index: 10;
   }
 
   @media (max-width: 1024px) {
