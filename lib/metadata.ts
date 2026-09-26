@@ -37,7 +37,7 @@ export const servicesMetadata: Metadata = buildMetadata({
 export const workMetadata: Metadata = buildMetadata({
   title: "Case Studies — Next.js & Salla Projects",
   description:
-    "Client case studies: a WordPress to Next.js migration that kept 182 Arabic URLs, a digital products marketplace, a Salla perfume store and more.",
+    "Case studies with real screenshots and PageSpeed scores: a travel booking platform, a Kuwait moving website, a digital marketplace, a Salla store and more.",
   path: "/work",
   image: "/og-work.png",
 });

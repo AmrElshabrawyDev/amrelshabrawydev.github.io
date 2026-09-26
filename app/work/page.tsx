@@ -4,16 +4,16 @@ import { jsonLd } from "@/lib/seo";
 import { caseStudies } from "@/data/projects";
 import { PortfolioGrid } from "@/components/Sections/CaseStudies/PortfolioGrid";
 import { CtaBanner } from "@/components/ui/CtaBanner";
-import { getOpenSourceProjects, repoToCard } from "@/lib/github";
-
-export const dynamic = "force-static";
-export const revalidate = 3600;
 
 export const metadata: Metadata = workMetadata;
 
-export default async function WorkPage() {
-  const repos = await getOpenSourceProjects();
-  const items = [...caseStudies, ...repos.map(repoToCard)];
+export default function WorkPage() {
+  // Pass only what the cards need to the client component
+  const items = caseStudies.map(
+    ({ slug, title, type, industry, location, year, summary, stack, cover, coverAlt }) => ({
+      slug, title, type, industry, location, year, summary, stack, cover, coverAlt,
+    }),
+  );
 
   return (
     <>

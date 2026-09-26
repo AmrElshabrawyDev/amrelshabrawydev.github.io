@@ -342,39 +342,6 @@ export const faqData: FaqItem[] = [
 ];
 
 /*
-===================================
-=========> { work data } <=========
-===================================
-*/
-
-export interface ProjectData {
-  title: string;
-  description: string;
-  longDescription: string;
-  thumbnail: string;
-  tags: string[];
-  technologies: string[];
-  liveUrl?: string;
-  githubUrl: string;
-  performance: {
-    lighthouse: number;
-    loadTime: string;
-  };
-  features: string[];
-}
-
-/**
- * Manual overrides for GitHub projects (e.g., custom images)
- */
-export const projectOverrides: Record<string, { image?: string; title?: string }> = {
-  // Example: "repo-name": { image: "/custom-preview.png" }
-  "amrelshabrawydev": {
-    image: "/og-image.png",
-    title: "Official Portfolio v2"
-  }
-};
-
-/*
 ==========================================
 =========> { testimonial data } <=========
 ==========================================

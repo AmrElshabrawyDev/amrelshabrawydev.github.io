@@ -1,6 +1,4 @@
 import { MetadataRoute } from "next";
-import { getOpenSourceProjects } from "@/lib/github";
-import { generateSlug } from "@/lib/utils";
 import { caseStudies } from "@/data/projects";
 import { getAllPosts } from "@/lib/blog";
 import { SITE_URL as BASE_URL } from "@/lib/site";
@@ -10,7 +8,7 @@ export const dynamic = "force-static";
 // Last time static pages were meaningfully updated
 const STATIC_PAGE_DATE = new Date("2026-09-26");
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   // ── Static routes ──────────────────────────────────────────────────────────
   const staticRoutes: MetadataRoute.Sitemap = [
     { path: "", changeFrequency: "monthly", priority: 1.0 },
@@ -42,25 +40,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // ── Open-source repo pages (/work/[slug]) ──────────────────────────────────
-  let projectRoutes: MetadataRoute.Sitemap = [];
-
-  try {
-    const caseStudySlugs = new Set(caseStudies.map((study) => study.slug));
-    const projects = await getOpenSourceProjects();
-
-    projectRoutes = projects
-      .filter((project) => !caseStudySlugs.has(generateSlug(project.title)))
-      .map((project) => ({
-        url: `${BASE_URL}/work/${generateSlug(project.title)}`,
-        lastModified: new Date(project.updatedAt),
-        changeFrequency: "monthly" as const,
-        priority: 0.5,
-      }));
-  } catch {
-    // Fail gracefully — static routes are still returned
-    console.error("[sitemap] Failed to fetch projects for sitemap");
-  }
-
-  return [...staticRoutes, ...caseStudyRoutes, ...blogRoutes, ...projectRoutes];
+  return [...staticRoutes, ...caseStudyRoutes, ...blogRoutes];
 }

@@ -7,14 +7,14 @@ import { CaseStudyCard } from "./CaseStudyCard";
 const filters: { label: string; types: ProjectType[] | null }[] = [
   { label: "All", types: null },
   { label: "Client work", types: ["Client project"] },
-  { label: "Concepts & UI", types: ["Concept study", "UI build"] },
-  { label: "Open source", types: ["Open source"] },
+  { label: "Personal projects", types: ["Personal project"] },
+  { label: "Concepts", types: ["Concept study"] },
 ];
 
 export function PortfolioGrid({ items }: { items: PortfolioCardData[] }) {
   const [active, setActive] = useState(0);
 
-  // Hide filters that would show nothing (e.g. no repos fetched)
+  // Hide filters that would show nothing
   const available = filters.filter(
     (f) => !f.types || items.some((item) => f.types!.includes(item.type)),
   );

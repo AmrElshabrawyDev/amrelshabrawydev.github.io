@@ -40,14 +40,14 @@
 
 ## 🌟 Overview
 
-A fully static, blazing-fast developer portfolio that **automatically syncs with GitHub** to showcase projects. No CMS, no database — just push to GitHub and your portfolio updates itself on the next build.
+A fully static, blazing-fast developer portfolio with client case studies, a blog, and full SEO. No CMS, no database — projects and posts live in simple data and Markdown files.
 
 ### ✨ Key Features
 
 | Feature                   | Description                                                                   |
 | ------------------------- | ----------------------------------------------------------------------------- |
-| **Auto-Synced Projects**  | Fetches all repositories from GitHub API at build time — no manual data entry |
-| **Dynamic Project Pages** | Each repo gets its own detail page with full README rendering                 |
+| **Case Studies**          | Curated projects with real screenshots and PageSpeed scores (`data/projects.ts`) |
+| **Blog**                  | Markdown posts in English and Arabic (RTL) with RSS feed                      |
 | **Contact Form**          | Functional email form powered by EmailJS — no backend needed                  |
 | **Responsive Design**     | Pixel-perfect on every device, from 320px to 4K                               |
 | **Terminal Brutalism**    | Dark "Catppuccin" aesthetic with Powerline-inspired UI components             |
@@ -86,17 +86,15 @@ A fully static, blazing-fast developer portfolio that **automatically syncs with
 
 | Technology                                                | Why We Use It                                                                                                  |
 | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **[GitHub REST API v3](https://docs.github.com/en/rest)** | Fetches all public repositories, language stats, and README content at build time                              |
 | **[EmailJS](https://www.emailjs.com/)**                   | Sends contact form emails directly from the browser — no backend, no server functions needed for static export |
 
 ### Markdown Rendering
 
 | Technology                                                                                           | Why We Use It                                                                   |
 | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| **[react-markdown](https://github.com/remarkjs/react-markdown)**                                     | Renders GitHub README files as React components                                 |
+| **[react-markdown](https://github.com/remarkjs/react-markdown)**                                     | Renders blog posts as React components                                          |
 | **[remark-gfm](https://github.com/remarkjs/remark-gfm)**                                             | GitHub Flavored Markdown support (tables, strikethrough, task lists, autolinks) |
-| **[rehype-raw](https://github.com/rehypejs/rehype-raw)**                                             | Allows raw HTML in markdown (for badges, images, etc.)                          |
-| **[react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)** | Syntax highlighting for code blocks inside READMEs                              |
+| **[gray-matter](https://github.com/jonschlinkert/gray-matter)**                                      | Reads blog post frontmatter (title, date, language, tags)                       |
 
 ---
 
@@ -127,21 +125,24 @@ amrelshabrawydev/
 │   │   ├── ServicesSection.tsx   # Services offered
 │   │   ├── ContactSection.tsx    # EmailJS-powered contact form
 │   │   └── CaseStudies/
-│   │       ├── CaseStudyCard.tsx  # One card for case studies & GitHub repos
+│   │       ├── CaseStudyCard.tsx  # Project card (used on /work and the homepage)
 │   │       ├── CaseStudyView.tsx  # Case study detail page
 │   │       └── PortfolioGrid.tsx  # Filterable project grid (/work)
 │   └── ui/                       # Custom UI Components
 │       ├── Powerline.tsx         # Terminal Powerline segments
 │       ├── LogoIcon.tsx          # SVG Logo component
-│       └── markdown-components.tsx  # Custom markdown renderers
+│       ├── CtaBanner.tsx         # Reusable call-to-action
+│       └── WhatsAppButton.tsx    # Floating WhatsApp button
 │
 ├── lib/
-│   ├── github.ts                 # GitHub API service
+│   ├── blog.ts                   # Markdown blog loader
+│   ├── seo.ts                    # buildMetadata() + JSON-LD helpers
 │   ├── metadata.ts               # Centralized SEO metadata
 │   └── utils.ts                  # Date and slug utilities
 │
 ├── data/
-│   └── index.tsx                 # Single source of truth for personal data
+│   ├── index.tsx                 # Personal info, services, FAQ
+│   └── projects.ts               # Case studies (all projects on /work)
 │
 ├── public/                       # Static assets
 │   ├── logo.svg, profile.png     # Branding
@@ -161,7 +162,7 @@ amrelshabrawydev/
 ```mermaid
 graph LR
     A[pnpm build] --> B[Next.js Turbopack]
-    B --> C[Fetch GitHub API]
+    B --> C[Read data/ and content/]
     C --> D[Generate Static Pages]
     D --> E[out/ directory]
     E --> F[gh-pages deploys to GitHub Pages]
@@ -169,13 +170,13 @@ graph LR
 
 1. **`pnpm build`** triggers Next.js static export (`output: "export"`)
 2. **Turbopack** compiles TypeScript and bundles assets
-3. **Static Generation**: `generateStaticParams()` pre-fetches all projects to build dynamic detail pages
+3. **Static Generation**: `generateStaticParams()` builds a page for every case study and blog post
 4. **Output**: A fully static `out/` directory ready for deployment
 5. **`pnpm run deploy`**: Pushes the build to the `gh-pages` branch
 
 ### Runtime Behavior
 
-- **Unified portfolio grid**: case studies and GitHub repos share one card design, with filters.
+- **Portfolio grid**: every project uses the same card, with Client / Personal / Concept filters.
 - **Scroll Reveals**: Components use `useGSAP` + `ScrollTrigger` for smooth, performant entry animations.
 - **Contact Form**: Uses EmailJS SDK to send emails directly from the client.
 
@@ -183,10 +184,9 @@ graph LR
 
 ## 🔄 Data Fetching Strategy
 
-### 1. GitHub Projects (Hybrid)
+### 1. Projects (`data/projects.ts`)
 
-- **Static (Build-time)**: Project READMEs are fetched and converted to static HTML for SEO and speed.
-- **Dynamic (Client-side)**: The projects grid fetches latest metadata on the `/work` page to ensure up-to-date stats.
+All projects are curated by hand — no API calls at build time, so builds never fail because of GitHub rate limits.
 
 ### 2. Static Data (`data/index.tsx`)
 
@@ -224,12 +224,9 @@ The design is inspired by modern developer tools and terminals.
 
 ### Add a case study
 
-1. Add an entry to `caseStudies` in [`data/projects.ts`](data/projects.ts).
-2. Add a 1600×1000 cover image at `public/projects/<name>.webp`.
-   A real screenshot of the live site works best — replace any cover with a screenshot of the same name.
-3. Set `repo` to the GitHub repo name so the repo card isn't listed twice.
-
-Practice repos you don't want clients to see go in `hiddenRepos` in the same file.
+1. Add an entry to `caseStudies` in [`data/projects.ts`](data/projects.ts) and use `...media("<slug>")`.
+2. Add the images to `public/projects/<slug>/`: `cover.webp` (1600×1000), `desktop.webp`, `mobile.webp`, `psi-desktop.webp`, `psi-mobile.webp`.
+3. Add the PageSpeed scores in `performance: { desktop, mobile }`.
 
 ### Write a blog post
 
@@ -255,8 +252,7 @@ The post is added automatically to `/blog`, the homepage, `sitemap.xml` and `rss
 
 ```bash
 # Deploys directly to GitHub Pages
-# Set GITHUB_TOKEN first so the build can list your repos without rate limits
-GITHUB_TOKEN=<token> pnpm run deploy
+pnpm run deploy
 ```
 
 ---
