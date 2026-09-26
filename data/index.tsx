@@ -19,16 +19,16 @@ export interface PersonalInfo {
 
 export const personalInfo: PersonalInfo = {
   name: "Amr Elshabrawy",
-  role: "Front-End Developer",
-  tagline: "Building fast, accessible web experiences",
+  role: "Freelance React & Next.js Developer",
+  tagline: "Fast, SEO-ready websites and online stores that win clients",
   description:
-    "Front-End Developer from Egypt with 5+ years crafting high-performance web applications. I specialize in React.js, Next.js, and TypeScript—turning complex requirements into clean, maintainable code. Currently expanding into full-stack with Node.js and Python.",
+    "Freelance React & Next.js developer from Egypt with 5+ years building fast, SEO-ready websites, online stores and web apps for clients in Egypt, the Gulf and worldwide.",
   location: "Cairo, Egypt",
   email: "amrelshabrawy.dev@gmail.com",
-  github: "https://github.com/Amr-Elshabrawy-Dev",
-  linkedin: "https://linkedin.com/in/amr-elshabrawy",
+  github: "https://github.com/AmrElshabrawyDev",
+  linkedin: "https://www.linkedin.com/in/amr-elshabrawy-dev",
   resume: "/AmrElshabrawy-FrontendDeveloper_React_NEXTJS-Resume.pdf",
-  availability: "Open to opportunities",
+  availability: "Available for new projects",
 };
 
 /*
@@ -62,13 +62,13 @@ export const heroData: HeroData = {
     "SEO Enthusiast",
   ],
   description:
-    "I build high-performance, SEO-friendly web applications using React and Next.js. Passionate about crafting clean, maintainable code and creating delightful user experiences with attention to every detail — from smooth animations to accessible design.",
-  primaryCTA: "Explore My Work",
-  secondaryCTA: "Let's Connect",
+    "I help businesses get websites that load fast, rank on Google and turn visitors into customers — business sites, online stores (Next.js or Salla), dashboards, and WordPress-to-Next.js migrations that keep your rankings.",
+  primaryCTA: "See My Work",
+  secondaryCTA: "Start a Project",
   stats: {
     yearsOfExperience: "5+",
-    projectsCompleted: "25+",
-    happyClients: "20+",
+    projectsCompleted: "50+",
+    happyClients: "30+",
   },
 };
 
@@ -90,6 +90,7 @@ import {
   Linkedin,
   Mail,
   FileText,
+  MessageCircle,
 } from "lucide-react";
 
 export interface SkillCategory {
@@ -107,7 +108,7 @@ export interface AboutData {
 }
 
 export const aboutData: AboutData = {
-  bio: "I'm passionate about creating web experiences that users love. Every project is an opportunity to write better code, learn new patterns, and push the boundaries of what's possible in the browser.",
+  bio: "I'm Amr, a freelance front-end developer based in Cairo. I build websites and web apps with React and Next.js for businesses that care about speed, search rankings and a polished experience — from Arabic RTL stores on Salla to full-stack marketplaces. You work directly with me, from the first call to launch and beyond.",
   yearsOfExperience: 5,
   projectsCompleted: 50,
   skillCategories: [
@@ -158,92 +159,185 @@ export const aboutData: AboutData = {
 
 import {
   Code2 as CodeIcon,
-  Sparkles,
-  Layout,
+  ShoppingBag,
+  RefreshCw,
   Zap,
   Search,
-  Wrench,
+  LayoutDashboard,
+  Sparkles,
 } from "lucide-react";
 
 export interface ServiceData {
   icon: React.ReactNode;
   title: string;
+  /** Short client-facing promise */
   description: string;
+  /** Who this is for */
+  idealFor: string;
   deliverables: string[];
 }
 
 export const serviceData: ServiceData[] = [
   {
     icon: <CodeIcon className="w-8 h-8" />,
-    title: "Frontend Development",
+    title: "Business Websites with Next.js",
     description:
-      "Building modern, scalable web applications with React, Next.js, and TypeScript.",
+      "A fast, modern website that ranks on Google and makes it easy for visitors to call, WhatsApp or book you.",
+    idealFor: "Companies, clinics, agencies and local service businesses",
     deliverables: [
-      "Component-based architecture",
-      "State management (Context, Zustand)",
-      "API integration",
-      "Type-safe development",
+      "Custom design or pixel-perfect Figma to code",
+      "Arabic (RTL) and English support",
+      "On-page SEO, sitemap and structured data",
+      "Contact forms, WhatsApp and analytics set up",
     ],
   },
   {
-    icon: <Sparkles className="w-8 h-8" />,
-    title: "UI/UX Implementation",
+    icon: <ShoppingBag className="w-8 h-8" />,
+    title: "Online Stores (Next.js & Salla)",
     description:
-      "Transforming designs into interactive, accessible interfaces that users enjoy.",
+      "Stores that look premium and sell: custom Next.js e-commerce, or Salla theme customization for Saudi and Gulf merchants.",
+    idealFor: "Brands selling physical or digital products",
     deliverables: [
-      "Pixel-perfect Figma to code",
-      "Smooth micro-interactions",
-      "Accessibility (WCAG 2.1)",
-      "Cross-browser compatibility",
+      "Salla (Raed / Twilight) theme customization",
+      "Custom Next.js storefronts, cart and checkout",
+      "Payment gateway integration",
+      "Product catalog import and cleanup",
     ],
   },
   {
-    icon: <Layout className="w-8 h-8" />,
-    title: "Responsive Design",
+    icon: <RefreshCw className="w-8 h-8" />,
+    title: "WordPress to Next.js Migration",
     description:
-      "Crafting layouts that adapt beautifully across all devices and screen sizes.",
+      "Move a slow or broken WordPress site to Next.js without losing the Google rankings you already earned.",
+    idealFor: "Sites with traffic, articles and existing rankings",
     deliverables: [
-      "Mobile-first approach",
-      "Tailwind CSS best practices",
-      "Fluid typography & spacing",
-      "Touch-friendly interactions",
+      "Full URL inventory and 1:1 URL preservation",
+      "Content migration with metadata intact",
+      "Redirect map only where it's unavoidable",
+      "Post-launch Search Console monitoring",
+    ],
+  },
+  {
+    icon: <LayoutDashboard className="w-8 h-8" />,
+    title: "Web Apps & Dashboards",
+    description:
+      "Admin panels, customer dashboards and SaaS front-ends built with React, Next.js and TypeScript.",
+    idealFor: "Startups and teams that need a reliable front-end",
+    deliverables: [
+      "Authentication and user roles",
+      "API / Supabase / database integration",
+      "Data tables, charts and forms",
+      "Type-safe, documented code you own",
     ],
   },
   {
     icon: <Zap className="w-8 h-8" />,
-    title: "Performance Optimization",
+    title: "Speed & Core Web Vitals",
     description:
-      "Making your site blazing fast with modern optimization techniques.",
+      "Make an existing React / Next.js site load fast — better rankings, lower bounce rate, more conversions.",
+    idealFor: "Sites that feel slow or fail Core Web Vitals",
     deliverables: [
-      "Code splitting & lazy loading",
-      "Image optimization",
-      "Bundle size reduction",
-      "90+ Lighthouse scores",
+      "Lighthouse and Core Web Vitals audit",
+      "Image, font and bundle optimization",
+      "Code splitting and lazy loading",
+      "Before / after performance report",
     ],
   },
   {
     icon: <Search className="w-8 h-8" />,
-    title: "SEO & Analytics",
+    title: "Technical SEO for React Sites",
     description:
-      "Implementing best practices to boost search rankings and track user behavior.",
+      "Fix what stops Google from understanding your site: metadata, canonicals, structured data, sitemaps and indexing.",
+    idealFor: "React / Next.js sites that don't show up on Google",
     deliverables: [
-      "Meta tags & Open Graph",
-      "Structured data (Schema.org)",
-      "Core Web Vitals optimization",
-      "Analytics integration",
+      "Metadata and canonical URLs for every page",
+      "Schema.org structured data",
+      "Sitemap, robots and Search Console setup",
+      "Arabic and English SEO",
     ],
   },
+];
+
+/*
+=======================================
+=========> { process data } <==========
+=======================================
+*/
+
+export interface ProcessStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+export const processData: ProcessStep[] = [
   {
-    icon: <Wrench className="w-8 h-8" />,
-    title: "Code Refactoring",
+    step: "01",
+    title: "Free discovery call",
     description:
-      "Improving existing codebases for better maintainability and performance.",
-    deliverables: [
-      "Clean code principles",
-      "Component reusability",
-      "Performance profiling",
-      "Documentation",
-    ],
+      "We talk about your business, goals and budget. You get honest advice — even if that means a simpler solution.",
+  },
+  {
+    step: "02",
+    title: "Clear proposal",
+    description:
+      "A fixed scope, timeline and price in writing, so you know exactly what you get before we start.",
+  },
+  {
+    step: "03",
+    title: "Design & build",
+    description:
+      "You see progress on a live preview link every week and give feedback as we go — no surprises at the end.",
+  },
+  {
+    step: "04",
+    title: "Launch & support",
+    description:
+      "I launch, connect analytics and Search Console, hand over everything you own, and stay available for support.",
+  },
+];
+
+/*
+=======================================
+=========> { FAQ data } <===============
+=======================================
+*/
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export const faqData: FaqItem[] = [
+  {
+    question: "How much does a website cost?",
+    answer:
+      "It depends on the scope. A landing page or small business site costs far less than a custom store or web app. After a short call I send a fixed price in writing, so there are no surprises.",
+  },
+  {
+    question: "How long does a project take?",
+    answer:
+      "A landing page usually takes 1–2 weeks, a business website 2–4 weeks, and a store or web app 4–8 weeks, depending on content and feedback speed.",
+  },
+  {
+    question: "Do you build Arabic (RTL) websites?",
+    answer:
+      "Yes. I build Arabic-first and bilingual Arabic/English websites and stores, including Salla themes, with proper RTL layout and Arabic SEO.",
+  },
+  {
+    question: "Can you move my WordPress site to Next.js without losing my Google rankings?",
+    answer:
+      "Yes. I keep your existing URLs, titles and content, redirect only what must change, and monitor Search Console after launch. I did exactly this for a Kuwaiti company with 182 indexed Arabic pages.",
+  },
+  {
+    question: "Will my website be SEO-friendly?",
+    answer:
+      "Every site ships with clean metadata, canonical URLs, structured data, a sitemap, fast Core Web Vitals and Search Console set up — the technical foundations Google needs.",
+  },
+  {
+    question: "Do you offer support after launch?",
+    answer:
+      "Yes. Every project includes a support period after launch, and I offer ongoing maintenance for updates, new features and performance checks.",
   },
 ];
 
@@ -295,35 +389,12 @@ export interface TestimonialData {
   rating: number;
 }
 
-export const testimonialData: TestimonialData[] = [
-  {
-    image: "/t-avt-1.png",
-    name: "Sarah Johnson",
-    position: "UI/UX Designer",
-    company: "Creative Studio",
-    message:
-      "Amr's ability to translate complex designs into pixel-perfect, performant code is exceptional. He understands both design intent and technical constraints.",
-    rating: 5,
-  },
-  {
-    image: "/t-avt-2.png",
-    name: "Michael Roberts",
-    position: "Tech Lead",
-    company: "StartupXYZ",
-    message:
-      "Working with Amr was seamless. His code is clean, well-documented, and follows best practices. He delivered ahead of schedule with zero bugs.",
-    rating: 5,
-  },
-  {
-    image: "/t-avt-3.png",
-    name: "Nora Ahmed",
-    position: "Project Manager",
-    company: "Digital Agency",
-    message:
-      "Reliable, professional, and always delivers quality work. Amr communicates clearly and consistently exceeds expectations.",
-    rating: 5,
-  },
-];
+/**
+ * Add real client testimonials here (with their permission).
+ * The testimonials section only renders when this list is not empty.
+ * Tip: a short quote + name + company + link to their site builds the most trust.
+ */
+export const testimonialData: TestimonialData[] = [];
 
 /*
 ===============================================
@@ -416,6 +487,12 @@ export const socialLinks: SocialLink[] = [
     icon: <Linkedin className="w-5 h-5" />,
     url: "https://linkedin.com/in/amr-elshabrawy-dev",
     username: "amr-elshabrawy-dev",
+  },
+  {
+    platform: "WhatsApp",
+    icon: <MessageCircle className="w-5 h-5" />,
+    url: "https://wa.me/201202546653",
+    username: "+20 120 254 6653",
   },
   {
     platform: "Email",

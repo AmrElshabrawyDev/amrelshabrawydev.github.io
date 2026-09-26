@@ -103,11 +103,11 @@ export function ProjectCard({ project, isLast = false }: ProjectCardProps) {
 
           {/* Project Title & Status Indicators */}
           <div className="flex items-start justify-between gap-4 mb-2">
-            <h2
+            <h3
               className={`${spaceGrotesk.className} text-xl md:text-2xl tracking-tighter text-text-primary group-hover/btn:text-secondary transition-colors duration-300`}
             >
               {project.title}
-            </h2>
+            </h3>
             <ChevronDown
               className={`w-4 h-4 text-text-tertiary transition-transform duration-500 ${isOpen ? "rotate-180 text-secondary" : ""}`}
             />

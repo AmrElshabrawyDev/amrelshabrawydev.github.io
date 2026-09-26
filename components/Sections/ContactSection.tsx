@@ -15,6 +15,7 @@ import { personalInfo, socialLinks, contactData } from "@/data";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { useRef } from "react";
+import { trackLead } from "@/lib/analytics";
 
 interface FormData {
   name: string;
@@ -69,11 +70,14 @@ export function ContactSection() {
       );
 
       setStatus("success");
+      trackLead("contact_form");
       setFormData({ name: "", email: "", message: "" });
       setShowConfetti(true);
     } catch (error) {
       setStatus("error");
-      setErrorMessage("FAILED to send transmission. Check console for logs.");
+      setErrorMessage(
+        `Sorry, the message couldn't be sent. Please email me at ${personalInfo.email} or message me on WhatsApp.`,
+      );
       console.error("EmailJS error:", error);
     }
   };
@@ -101,9 +105,20 @@ export function ContactSection() {
               COMMUNICATION_CHANNEL.SH
             </PowerlineSegment>
             <PowerlineSegment color="surface">
-              STATUS: LISTENING
+              REPLY IN &lt; 24H
             </PowerlineSegment>
           </PowerlineGroup>
+        </div>
+
+        <div className="mb-16 max-w-3xl gsap-reveal opacity-0">
+          <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6">
+            Let&apos;s talk about your project
+          </h1>
+          <p className="font-[family-name:var(--font-inter)] text-lg">
+            Tell me what you want to build, your timeline and (roughly) your
+            budget. I&apos;ll reply within 24 hours with honest advice and a
+            fixed quote. Prefer chatting? Message me on WhatsApp.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -241,9 +256,9 @@ export function ContactSection() {
           {/* Social Links Block */}
           <div className="flex flex-col gap-10">
             <div className="gsap-reveal opacity-0">
-              <h3 className="text-2xl font-black font-heading uppercase text-text-primary mb-8 border-b border-border-subtle pb-4">
-                {">"} CONNECTION_NODES
-              </h3>
+              <h2 className="text-2xl! font-black font-heading uppercase text-text-primary mb-8 border-b border-border-subtle pb-4">
+                {">"} Other ways to reach me
+              </h2>
 
               <div className="grid gap-4">
                 {socialLinks.map((link) => (

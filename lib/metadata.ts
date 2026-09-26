@@ -1,292 +1,171 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SOCIAL, absoluteUrl } from "@/lib/site";
+import { caseStudies } from "@/data/projects";
+import type { FaqItem } from "@/data";
 
 // ====================================
 // 📄 Page-Specific Metadata
+// Titles target what clients search for; each page has its own canonical.
 // ====================================
 
-// Home Page
-export const homeMetadata: Metadata = {
-  title: "Professional Front-End Developer",
+export const homeMetadata: Metadata = buildMetadata({
+  title: "Freelance React & Next.js Developer | Amr Elshabrawy",
+  absoluteTitle: true,
   description:
-    "Welcome to my portfolio. I'm Amr Elshabrawy, a Front-End Developer from Egypt specializing in React, Next.js, and TypeScript. Building modern web applications with 5+ years of experience.",
-  openGraph: {
-    title: "Amr Elshabrawy | Professional Front-End Developer",
-    description:
-      "Front-End Developer specializing in React, Next.js, and TypeScript. 5+ years of experience building fast, accessible web applications.",
-    url: "https://amrelshabrawydev.github.io",
-    images: [
-      {
-        url: "https://amrelshabrawydev.github.io/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Amr Elshabrawy Portfolio Homepage",
-      },
-    ],
-  },
-};
+    "Freelance React & Next.js developer in Egypt: fast, SEO-ready websites, online stores (Next.js & Salla) and web apps in Arabic & English. Free consultation.",
+  path: "/",
+  imageAlt: "Amr Elshabrawy — Freelance React & Next.js Developer",
+});
 
-// About Page
-export const aboutMetadata: Metadata = {
-  title: "About Me - Skills & Experience",
+export const aboutMetadata: Metadata = buildMetadata({
+  title: "About — Front-End Developer in Cairo, Egypt",
   description:
-    "Learn more about Amr Elshabrawy, a Front-End Developer with expertise in React, Next.js, TypeScript, and modern web technologies. 5+ years of experience, 50+ projects completed.",
-  openGraph: {
-    title: "About Amr Elshabrawy | Skills & Experience",
-    description:
-      "Front-End Developer with 5+ years of experience. Expert in React, Next.js, TypeScript, Tailwind CSS, and web performance optimization.",
-    url: "https://amrelshabrawydev.github.io/about",
-    images: [
-      {
-        url: "https://amrelshabrawydev.github.io/og-about.png",
-        width: 1200,
-        height: 630,
-        alt: "About Amr Elshabrawy - Skills and Experience",
-      },
-    ],
-  },
-};
+    "Amr Elshabrawy, freelance front-end developer in Cairo with 5+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond.",
+  path: "/about",
+  image: "/og-about.png",
+});
 
-// Services Page
-export const servicesMetadata: Metadata = {
-  title: "Services - Web Development & UI/UX Implementation",
+export const servicesMetadata: Metadata = buildMetadata({
+  title: "Next.js Website & Online Store Services",
   description:
-    "Professional front-end development services: React/Next.js development, UI/UX implementation, responsive design, performance optimization, SEO, and code refactoring. Get high-quality web solutions.",
-  keywords: [
-    "Front-End Development Services",
-    "React Development",
-    "Next.js Development",
-    "UI/UX Implementation",
-    "Web Performance Optimization",
-    "SEO Services",
-    "Responsive Web Design",
-    "Code Refactoring",
-    "Freelance Web Developer",
-  ],
-  openGraph: {
-    title: "Services | Front-End Development & Web Solutions",
-    description:
-      "Offering professional web development services: React/Next.js apps, UI/UX implementation, performance optimization, and more.",
-    url: "https://amrelshabrawydev.github.io/services",
-    images: [
-      {
-        url: "https://amrelshabrawydev.github.io/og-services.png",
-        width: 1200,
-        height: 630,
-        alt: "Front-End Development Services",
-      },
-    ],
-  },
-};
+    "Next.js business websites, Next.js & Salla stores, WordPress migration, dashboards, speed and technical SEO. Fixed quotes, Arabic & English.",
+  path: "/services",
+  image: "/og-services.png",
+});
 
-// Portfolio/Work Page
-export const workMetadata: Metadata = {
-  title: "Portfolio - Web Development Projects & Case Studies",
+export const workMetadata: Metadata = buildMetadata({
+  title: "Case Studies — Next.js & Salla Projects",
   description:
-    "Explore my portfolio of web development projects: React applications, Next.js websites, and interactive UI/UX implementations. View live demos, GitHub repositories, and performance metrics.",
-  keywords: [
-    "Web Development Portfolio",
-    "React Projects",
-    "Next.js Portfolio",
-    "Frontend Projects",
-    "Web Design Portfolio",
-    "UI/UX Portfolio",
-    "JavaScript Projects",
-  ],
-  openGraph: {
-    title: "Portfolio | Web Development Projects by Amr Elshabrawy",
-    description:
-      "Browse through my portfolio of professional web development projects featuring React, Next.js, and modern frontend technologies.",
-    url: "https://amrelshabrawydev.github.io/work",
-    images: [
-      {
-        url: "https://amrelshabrawydev.github.io/og-work.png",
-        width: 1200,
-        height: 630,
-        alt: "Web Development Portfolio Projects",
-      },
-    ],
-  },
-};
+    "Client case studies: a WordPress to Next.js migration that kept 182 Arabic URLs, a digital products marketplace, a Salla perfume store and more.",
+  path: "/work",
+  image: "/og-work.png",
+});
 
-// Contact Page
-export const contactMetadata: Metadata = {
-  title: "Contact Me - Let's Work Together",
+export const contactMetadata: Metadata = buildMetadata({
+  title: "Hire a Next.js Developer — Get a Free Quote",
   description:
-    "Get in touch with Amr Elshabrawy for web development projects, freelance opportunities, or collaboration. Available for React, Next.js, and frontend development work.",
-  keywords: [
-    "Contact Web Developer",
-    "Hire Front-End Developer",
-    "Freelance React Developer",
-    "Web Development Contact",
-    "Frontend Developer Egypt",
-  ],
-  openGraph: {
-    title: "Contact Amr Elshabrawy | Front-End Developer",
-    description:
-      "Let's discuss your next web development project. Available for freelance work and collaboration.",
-    url: "https://amrelshabrawydev.github.io/contact",
-    images: [
-      {
-        url: "https://amrelshabrawydev.github.io/og-contact.png",
-        width: 1200,
-        height: 630,
-        alt: "Contact Amr Elshabrawy",
-      },
-    ],
-  },
-};
+    "Tell me about your website, store or web app. I reply within 24 hours with honest advice and a fixed quote. WhatsApp, email or the contact form.",
+  path: "/contact",
+  image: "/og-contact.png",
+});
+
+export const blogMetadata: Metadata = buildMetadata({
+  title: "Blog — Next.js, SEO & Web Dev Guides",
+  description:
+    "Practical guides for business owners and developers: Next.js website costs, WordPress to Next.js migration, Salla stores, speed and SEO.",
+  path: "/blog",
+});
 
 // ====================================
 // 🔍 JSON-LD Structured Data
 // ====================================
 
-// Person Schema (for homepage)
+const PERSON_ID = `${SITE_URL}/#person`;
+
 export const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Amr Elshabrawy",
-  url: "https://amrelshabrawydev.github.io",
-  image: "https://amrelshabrawydev.github.io/profile.webp",
-  jobTitle: "Front-End Developer",
+  "@id": PERSON_ID,
+  name: SITE_NAME,
+  url: SITE_URL,
+  image: absoluteUrl("/profile.webp"),
+  jobTitle: "Freelance React & Next.js Developer",
   description:
-    "Professional Front-End Developer specializing in React, Next.js, and TypeScript with 5+ years of experience.",
+    "Freelance front-end developer specializing in React, Next.js and TypeScript — websites, online stores and web apps in Arabic and English.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Cairo",
-    addressCountry: "Egypt",
+    addressCountry: "EG",
   },
-  email: "amrelshabrawy.dev@gmail.com",
-  sameAs: [
-    "https://github.com/Amr-Elshabrawy-Dev",
-    "https://linkedin.com/in/amr-elshabrawy",
-  ],
+  email: `mailto:${SOCIAL.email}`,
+  sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.x],
   knowsAbout: [
     "React",
     "Next.js",
     "TypeScript",
-    "JavaScript",
     "Tailwind CSS",
-    "Web Development",
-    "Frontend Development",
-    "UI/UX Implementation",
-    "Web Performance",
+    "Salla theme development",
+    "Technical SEO",
+    "Core Web Vitals",
+    "WordPress to Next.js migration",
   ],
+  knowsLanguage: ["en", "ar"],
 };
 
-// Professional Service Schema
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: `${SITE_NAME} — Freelance React & Next.js Developer`,
+  publisher: { "@id": PERSON_ID },
+  inLanguage: "en",
+};
+
 export const professionalServiceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Amr Elshabrawy - Front-End Development Services",
-  image: "https://amrelshabrawydev.github.io/og-image.png",
-  url: "https://amrelshabrawydev.github.io",
-  priceRange: "$$",
+  "@id": `${SITE_URL}/#service`,
+  name: `${SITE_NAME} — Web Development Services`,
+  image: absoluteUrl("/og-image.png"),
+  url: absoluteUrl("/services"),
+  email: SOCIAL.email,
+  founder: { "@id": PERSON_ID },
   address: {
     "@type": "PostalAddress",
     addressLocality: "Cairo",
-    addressCountry: "Egypt",
+    addressCountry: "EG",
   },
-  areaServed: {
-    "@type": "Country",
-    name: "Worldwide",
+  areaServed: ["EG", "SA", "AE", "KW", "QA", "Worldwide"],
+  availableLanguage: ["English", "Arabic"],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Web development services",
+    itemListElement: [
+      "Next.js business website development",
+      "Next.js and Salla online store development",
+      "WordPress to Next.js migration",
+      "Web apps and dashboards",
+      "Website speed optimization",
+      "Technical SEO for React sites",
+    ].map((name) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name },
+    })),
   },
-  serviceType: [
-    "Front-End Development",
-    "React Development",
-    "Next.js Development",
-    "UI/UX Implementation",
-    "Web Performance Optimization",
-  ],
 };
 
-// Portfolio Schema
 export const portfolioSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Web Development Portfolio",
-  description: "Portfolio of web development projects by Amr Elshabrawy",
-  numberOfItems: 3,
-  itemListElement: [
-    {
-      "@type": "CreativeWork",
-      position: 1,
-      name: "CRUD Operations Dashboard",
-      description:
-        "Full-featured data management application with real-time updates",
-      url: "https://amrelshabrawydev.github.io/work/crud-operations",
-      author: {
-        "@type": "Person",
-        name: "Amr Elshabrawy",
-      },
-      datePublished: "2024-01-15",
-      keywords: ["React", "TypeScript", "Tailwind CSS"],
-    },
-    {
-      "@type": "CreativeWork",
-      position: 2,
-      name: "Todo List Pro",
-      description: "Task management app with drag-and-drop functionality",
-      url: "https://amrelshabrawydev.github.io/work/todo-list",
-      author: {
-        "@type": "Person",
-        name: "Amr Elshabrawy",
-      },
-      datePublished: "2024-03-20",
-      keywords: ["React", "Framer Motion", "LocalStorage"],
-    },
-    {
-      "@type": "CreativeWork",
-      position: 3,
-      name: "Travel Smart UI",
-      description: "Modern travel website with stunning animations",
-      url: "https://amrelshabrawydev.github.io/work/travel-smart",
-      author: {
-        "@type": "Person",
-        name: "Amr Elshabrawy",
-      },
-      datePublished: "2024-05-10",
-      keywords: ["Next.js 14", "Framer Motion", "TypeScript"],
-    },
-  ],
+  name: "Web development case studies by Amr Elshabrawy",
+  numberOfItems: caseStudies.length,
+  itemListElement: caseStudies.map((study, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: absoluteUrl(`/work/${study.slug}`),
+    name: study.title,
+  })),
 };
 
-// ====================================
-// 💡 Usage Instructions
-// ====================================
+export const faqSchema = (items: FaqItem[]) => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+});
 
-/*
-HOW TO USE IN YOUR PAGES:
-
-1. Home Page (app/page.tsx):
-   import { homeMetadata as metadata, personSchema } from '@/lib/metadata';
-   export { metadata };
-
-2. About Page (app/about/page.tsx):
-   import { aboutMetadata as metadata } from '@/lib/metadata';
-   export { metadata };
-
-3. Services Page (app/services/page.tsx):
-   import { servicesMetadata as metadata } from '@/lib/metadata';
-   export { metadata };
-
-4. Work Page (app/work/page.tsx):
-   import { workMetadata as metadata } from '@/lib/metadata';
-   export { metadata };
-
-5. Contact Page (app/contact/page.tsx):
-   import { contactMetadata as metadata } from '@/lib/metadata';
-   export { metadata };
-
-6. Add JSON-LD to Homepage (app/page.tsx):
-   export default function HomePage() {
-     return (
-       <>
-         <script
-           type="application/ld+json"
-           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-         />
-         { Your page content }
-       </>
-     );
-   }
-*/
+export const breadcrumbSchema = (items: { name: string; path: string }[]) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.name,
+    item: absoluteUrl(item.path),
+  })),
+});

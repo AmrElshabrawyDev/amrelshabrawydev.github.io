@@ -23,7 +23,7 @@ export const markdownComponents: Components = {
     const isInline = !className?.includes("language-");
     return isInline ? (
       <code
-        className="bg-primary-500/10 text-primary-400 px-1.5 py-0.5 rounded text-sm"
+        className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm"
         {...props}
       >
         {children}
@@ -41,7 +41,7 @@ export const markdownComponents: Components = {
   // Links with external attributes and theme colors
   a: ({ ...props }) => (
     <a
-      className="text-primary-400 hover:text-primary-300 underline transition-colors"
+      className="text-primary hover:text-secondary underline transition-colors"
       target="_blank"
       rel="noopener noreferrer"
       {...props}

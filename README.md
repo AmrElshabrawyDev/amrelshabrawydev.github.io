@@ -217,7 +217,40 @@ The design is inspired by modern developer tools and terminals.
   - 🛠️ **Best Practices:** Modern web standards and error-free console (96+ score).
   - 🔎 **SEO:** Fully optimized metadata, sitemap, and robots.txt (100/100 score).
 - **Next/Image**: Automatic optimization with fallback handling.
-- **JSON-LD**: Proper structured data for personal brand and services.
+- **JSON-LD**: Person, WebSite, ProfessionalService, FAQPage, BlogPosting, CreativeWork and BreadcrumbList.
+- **Per-page canonicals**: every page sets its own canonical via `buildMetadata()` in `lib/seo.ts`.
+- **Growth plan**: keyword research and content roadmap in [`docs/SEO-GROWTH-PLAN.md`](docs/SEO-GROWTH-PLAN.md).
+
+---
+
+## ✍️ Content: Case Studies & Blog
+
+### Add a case study
+
+1. Add an entry to `caseStudies` in [`data/projects.ts`](data/projects.ts).
+2. Add a 1600×1000 cover image at `public/projects/<name>.webp`.
+   A real screenshot of the live site works best — replace any cover with a screenshot of the same name.
+3. Set `repo` to the GitHub repo name so the repo card isn't listed twice.
+
+Practice repos you don't want clients to see go in `hiddenRepos` in the same file.
+
+### Write a blog post
+
+Create `content/blog/<slug>.md`:
+
+```md
+---
+title: "Post title (≤ 60 characters)"
+description: "Meta description, 140–160 characters"
+date: "2026-09-26"
+lang: "en"          # or "ar" for Arabic (RTL)
+tags: ["Next.js", "SEO"]
+---
+
+Your article in Markdown…
+```
+
+The post is added automatically to `/blog`, the homepage, `sitemap.xml` and `rss.xml`.
 
 ---
 
@@ -225,7 +258,8 @@ The design is inspired by modern developer tools and terminals.
 
 ```bash
 # Deploys directly to GitHub Pages
-pnpm run deploy
+# Set GITHUB_TOKEN first so the build can list your repos without rate limits
+GITHUB_TOKEN=<token> pnpm run deploy
 ```
 
 ---

@@ -29,9 +29,20 @@ export function ServicesSection() {
               CAPABILITIES_INDEX.LOG
             </PowerlineSegment>
             <PowerlineSegment color="surface">
-              SERVICES_VERB_LEVEL_P0
+              FIXED QUOTES · AR / EN
             </PowerlineSegment>
           </PowerlineGroup>
+        </div>
+
+        <div className="mb-16 max-w-3xl gsap-reveal opacity-0">
+          <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6">
+            Web development services for growing businesses
+          </h1>
+          <p className="font-[family-name:var(--font-inter)] text-lg">
+            Next.js websites, online stores on Next.js or Salla, WordPress
+            migrations, dashboards, speed and SEO. You work directly with me,
+            get a fixed quote upfront, and own everything at the end.
+          </p>
         </div>
 
         {/* Services Grid */}
@@ -44,21 +55,27 @@ export function ServicesSection() {
               <div className="terminal-header flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="text-info">{service.icon}</div>
-                  <span className="text-[10px] text-text-primary font-mono font-bold uppercase tracking-widest px-2">
-                    {service.title.toUpperCase()}
-                  </span>
+                  <h2 className="heading-natural text-base md:text-lg font-bold text-text-primary px-2">
+                    {service.title}
+                  </h2>
                 </div>
               </div>
 
               <div className="p-8 space-y-8">
-                <p className="text-text-secondary text-sm leading-relaxed font-mono">
-                  {">"} {service.description.toUpperCase()}
+                <p className="text-text-secondary text-base leading-relaxed font-[family-name:var(--font-inter)]">
+                  {service.description}
+                </p>
+                <p className="text-xs font-mono text-text-tertiary">
+                  <span className="text-secondary font-bold uppercase tracking-widest">
+                    Ideal for:
+                  </span>{" "}
+                  {service.idealFor}
                 </p>
 
                 <div className="pt-6 border-t border-border-subtle">
-                  <div className="text-[10px] text-text-tertiary font-mono font-bold uppercase tracking-[0.2em] mb-4">
-                    core_deliverables
-                  </div>
+                  <h3 className="text-[10px]! text-text-tertiary font-mono font-bold uppercase tracking-[0.2em] mb-4">
+                    What you get
+                  </h3>
                   <ul className="grid sm:grid-cols-2 gap-3">
                     {service.deliverables.map((deliverable) => (
                       <li
@@ -66,29 +83,13 @@ export function ServicesSection() {
                         className="flex items-center gap-3 text-xs text-text-secondary font-mono hover:text-info transition-colors"
                       >
                         <span className="text-info font-bold">▶</span>
-                        <span>{deliverable.toUpperCase()}</span>
+                        <span>{deliverable}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              <div className="p-4 bg-bg-base/40 border-t border-border-subtle flex justify-end">
-                <PowerlineGroup>
-                  <PowerlineSegment
-                    color="info"
-                    className="h-6 text-[10px] px-3"
-                  >
-                    OPTIMIZED
-                  </PowerlineSegment>
-                  <PowerlineSegment
-                    color="surface"
-                    className="h-6 text-[10px] px-3"
-                  >
-                    v3.1.0
-                  </PowerlineSegment>
-                </PowerlineGroup>
-              </div>
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import { cache } from "react";
 import type { Project } from "@/types/github";
 import { projectOverrides } from "@/data";
+import { caseStudyRepos, hiddenRepos } from "@/data/projects";
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "AmrElshabrawyDev";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -89,9 +90,18 @@ async function fetchWithToken(url: string) {
 }
 
 export const getAllProjects = cache(async (): Promise<Project[]> => {
-  const repos: GitHubRepo[] = await fetchWithToken(
-    `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
-  );
+  let repos: GitHubRepo[];
+  try {
+    repos = await fetchWithToken(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+    );
+  } catch (error) {
+    // Don't fail the whole build — case studies still render without GitHub.
+    // If you see this during `npm run build`, set GITHUB_TOKEN and rebuild
+    // before deploying, or the /work/<repo> pages will be missing.
+    console.warn("⚠️  [github] Could not fetch repositories:", error);
+    return [];
+  }
 
   let selectedRepos = repos.filter((r) => !r.fork);
   if (FEATURED_REPOS.length > 0) {
@@ -173,4 +183,16 @@ export async function getProjectReadme(
     }
     return null;
   }
+}
+
+/**
+ * Public repos worth showing to clients: excludes practice repos and repos
+ * that already have a full case study.
+ */
+export async function getOpenSourceProjects(): Promise<Project[]> {
+  const projects = await getAllProjects();
+  return projects.filter((project) => {
+    const repo = project.fullName.split("/")[1].toLowerCase();
+    return !hiddenRepos.has(repo) && !caseStudyRepos.has(repo);
+  });
 }

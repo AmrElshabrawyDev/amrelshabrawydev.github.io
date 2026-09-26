@@ -1,4 +1,10 @@
-import { Orbitron, Share_Tech_Mono, JetBrains_Mono } from "next/font/google";
+import {
+  Orbitron,
+  Share_Tech_Mono,
+  JetBrains_Mono,
+  Inter,
+  Cairo,
+} from "next/font/google";
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
@@ -26,6 +32,19 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+// Readable fonts for long-form content (blog, case studies, Arabic pages)
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  variable: "--font-cairo",
+  display: "swap",
+});
+
 // ====================================
 // 📊 Metadata Configuration
 // ====================================
@@ -36,29 +55,22 @@ export const metadata: Metadata = {
 
   // Basic Info
   title: {
-    default:
-      "Amr Elshabrawy | Front-End Developer | React & Next.js Specialist",
+    default: "Freelance React & Next.js Developer | Amr Elshabrawy",
     template: "%s | Amr Elshabrawy",
   },
   description:
-    "Professional Front-End Developer from Egypt with 5+ years of experience. Specializing in React.js, Next.js, TypeScript, and modern web development. Building fast, accessible, and scalable web applications.",
+    "Freelance React & Next.js developer in Egypt building fast, SEO-ready websites, online stores (Next.js & Salla) and web apps in Arabic & English.",
 
   // Keywords
   keywords: [
-    "Front-End Developer",
-    "React Developer",
-    "Next.js Developer",
-    "TypeScript Developer",
-    "Web Developer Egypt",
-    "UI Developer",
-    "JavaScript Developer",
-    "Tailwind CSS",
-    "Responsive Web Design",
-    "Web Performance Optimization",
-    "SEO Optimization",
-    "Freelance Web Developer",
-    "React Specialist",
-    "Frontend Engineer",
+    "Freelance Next.js Developer",
+    "Freelance React Developer",
+    "Next.js Developer Egypt",
+    "Hire Next.js Developer",
+    "Salla Theme Developer",
+    "WordPress to Next.js Migration",
+    "Arabic RTL Website Development",
+    "Front-End Developer Cairo",
     "Amr Elshabrawy",
   ],
 
@@ -74,10 +86,11 @@ export const metadata: Metadata = {
 
   // Robots
   robots: {
-    index: true,
+    // Preview builds (PREVIEW_BASE_PATH) must never be indexed
+    index: !process.env.NEXT_PUBLIC_BASE_PATH,
     follow: true,
     googleBot: {
-      index: true,
+      index: !process.env.NEXT_PUBLIC_BASE_PATH,
       follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
@@ -119,10 +132,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://amrelshabrawydev.github.io",
-    siteName: "Amr Elshabrawy - Front-End Developer",
-    title: "Amr Elshabrawy | Front-End Developer | React & Next.js Specialist",
+    siteName: "Amr Elshabrawy — Freelance React & Next.js Developer",
+    title: "Freelance React & Next.js Developer | Amr Elshabrawy",
     description:
-      "Professional Front-End Developer specializing in React, Next.js, and TypeScript. Building fast, accessible web applications with 5+ years of experience.",
+      "Fast, SEO-ready websites, online stores and web apps built with React & Next.js — in Arabic & English.",
     images: [
       {
         url: "https://amrelshabrawydev.github.io/og-image.png",
@@ -137,11 +150,11 @@ export const metadata: Metadata = {
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    site: "@amrelshabrawy",
-    creator: "@amrelshabrawy",
-    title: "Amr Elshabrawy | Front-End Developer",
+    site: "@AmrElshabr43803",
+    creator: "@AmrElshabr43803",
+    title: "Freelance React & Next.js Developer | Amr Elshabrawy",
     description:
-      "Professional Front-End Developer specializing in React, Next.js, and TypeScript. Building fast, accessible web applications.",
+      "Fast, SEO-ready websites, online stores and web apps built with React & Next.js — in Arabic & English.",
     images: ["https://amrelshabrawydev.github.io/twitter-card.png"],
   },
 
@@ -150,13 +163,8 @@ export const metadata: Metadata = {
     google: "KgRDbESCG4O2UXsHZBtAvTpkDVi7dr-nMXfYZbWGdS4",
   },
 
-  // Alternate Languages
-  alternates: {
-    canonical: "https://amrelshabrawydev.github.io",
-    languages: {
-      "en-US": "https://amrelshabrawydev.github.io",
-    },
-  },
+  // Canonical URLs are set per page (see lib/seo.ts). A canonical here would be
+  // inherited by every page and point them all at the homepage.
 
   // Category
   category: "Technology",
@@ -172,6 +180,8 @@ export const viewport: Viewport = {
 
 import { Navbar } from "@/components/Layout/Navbar";
 import { Footer } from "@/components/Layout/Footer";
+import Script from "next/script";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 // Console Easter Egg
 const easterEgg = `
@@ -202,12 +212,30 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${shareTechMono.variable} ${mono.variable}`}
+      className={`${orbitron.variable} ${shareTechMono.variable} ${mono.variable} ${inter.variable} ${cairo.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col">
+        {/* Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-9K8JSGDRYF"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9K8JSGDRYF');
+            `,
+          }}
+        />
         <Navbar />
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );
