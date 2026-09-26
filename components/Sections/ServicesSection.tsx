@@ -2,6 +2,7 @@
 
 import React from "react";
 import { serviceData } from "@/data";
+import { generateSlug } from "@/lib/utils";
 import { Cpu } from "lucide-react";
 import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
@@ -50,7 +51,8 @@ export function ServicesSection() {
           {serviceData.map((service) => (
             <div
               key={service.title}
-              className="terminal-card gsap-reveal opacity-0"
+              id={generateSlug(service.title)}
+              className="terminal-card gsap-reveal opacity-0 scroll-mt-28"
             >
               <div className="terminal-header flex items-center justify-between">
                 <div className="flex items-center gap-2">
