@@ -8,7 +8,22 @@ Covers live in /public/projects/<file>.webp (1600×1000).
 To swap in a real screenshot, replace the file and keep the same name.
 */
 
-export type ProjectType = "Client project" | "Concept study" | "UI build";
+export type ProjectType = "Client project" | "Concept study" | "UI build" | "Open source";
+
+/** The fields a portfolio card needs — shared by case studies and GitHub repos */
+export interface PortfolioCardData {
+  slug: string;
+  title: string;
+  type: ProjectType;
+  industry: string;
+  location: string;
+  year: string;
+  summary: string;
+  stack: string[];
+  /** Optional — cards without a cover get a generated one */
+  cover?: string;
+  coverAlt?: string;
+}
 
 export interface CaseStudy {
   /** URL slug under /work/ */

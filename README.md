@@ -126,16 +126,13 @@ amrelshabrawydev/
 │   │   ├── AboutSection.tsx      # Skills, experience, and bio
 │   │   ├── ServicesSection.tsx   # Services offered
 │   │   ├── ContactSection.tsx    # EmailJS-powered contact form
-│   │   ├── GitHubProjectsSection.tsx  # Project grid (Masonry Layout)
-│   │   ├── GitHubProjectsLoader.tsx   # Client-side projects entry point
-│   │   └── GitHubProjects/
-│   │       ├── ProjectCard.tsx   # Individual project card UI
-│   │       ├── ProjectSkeleton.tsx  # Single card skeleton
-│   │       └── ProjectSkeletonGrid.tsx # Full grid skeleton
+│   │   └── CaseStudies/
+│   │       ├── CaseStudyCard.tsx  # One card for case studies & GitHub repos
+│   │       ├── CaseStudyView.tsx  # Case study detail page
+│   │       └── PortfolioGrid.tsx  # Filterable project grid (/work)
 │   └── ui/                       # Custom UI Components
 │       ├── Powerline.tsx         # Terminal Powerline segments
 │       ├── LogoIcon.tsx          # SVG Logo component
-│       ├── ImageWithFallback.tsx # Optimized Next.js Image wrapper
 │       └── markdown-components.tsx  # Custom markdown renderers
 │
 ├── lib/
@@ -178,7 +175,7 @@ graph LR
 
 ### Runtime Behavior
 
-- **GSAP Masonry**: A custom hook calculates column positions dynamically without heavy UI libraries.
+- **Unified portfolio grid**: case studies and GitHub repos share one card design, with filters.
 - **Scroll Reveals**: Components use `useGSAP` + `ScrollTrigger` for smooth, performant entry animations.
 - **Contact Form**: Uses EmailJS SDK to send emails directly from the client.
 

@@ -1,30 +1,20 @@
 import { Metadata } from "next";
-import { Suspense } from "react";
 import { workMetadata, portfolioSchema, breadcrumbSchema } from "@/lib/metadata";
 import { jsonLd } from "@/lib/seo";
 import { caseStudies } from "@/data/projects";
-import { CaseStudyCard } from "@/components/Sections/CaseStudies/CaseStudyCard";
-import { GitHubProjectsSection } from "@/components/Sections/GitHubProjectsSection";
-import { GitHubProjectsLoader } from "@/components/Sections/GitHubProjectsLoader";
+import { PortfolioGrid } from "@/components/Sections/CaseStudies/PortfolioGrid";
 import { CtaBanner } from "@/components/ui/CtaBanner";
-import { getOpenSourceProjects } from "@/lib/github";
+import { getOpenSourceProjects, repoToCard } from "@/lib/github";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
 export const metadata: Metadata = workMetadata;
 
-/**
- * Server Component that fetches projects and renders the client section.
- * This is wrapped in Suspense to enable streaming.
- */
-async function GitHubProjectsServer() {
-  const projects = await getOpenSourceProjects();
-  if (projects.length === 0) return null;
-  return <GitHubProjectsSection projects={projects} />;
-}
+export default async function WorkPage() {
+  const repos = await getOpenSourceProjects();
+  const items = [...caseStudies, ...repos.map(repoToCard)];
 
-export default function WorkPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(portfolioSchema)} />
@@ -38,7 +28,7 @@ export default function WorkPage() {
         )}
       />
 
-      <section className="pt-16 pb-12 bg-bg-base">
+      <section className="pt-16 pb-10 bg-bg-base">
         <div className="container-custom">
           <p className="eyebrow mb-4">Portfolio</p>
           <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6 max-w-4xl">
@@ -51,17 +41,11 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <section aria-label="Case studies" className="pb-20 bg-bg-base">
-        <div className="container-custom grid grid-cols-1 md:grid-cols-2 gap-8">
-          {caseStudies.map((study, index) => (
-            <CaseStudyCard key={study.slug} study={study} priority={index < 2} />
-          ))}
+      <section aria-label="Projects" className="pb-20 bg-bg-base">
+        <div className="container-custom">
+          <PortfolioGrid items={items} />
         </div>
       </section>
-
-      <Suspense fallback={<GitHubProjectsLoader />}>
-        <GitHubProjectsServer />
-      </Suspense>
 
       <section className="pb-24 bg-bg-base">
         <div className="container-custom">

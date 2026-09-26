@@ -2,6 +2,8 @@ import { cache } from "react";
 import type { Project } from "@/types/github";
 import { projectOverrides } from "@/data";
 import { caseStudyRepos, hiddenRepos } from "@/data/projects";
+import type { PortfolioCardData } from "@/data/projects";
+import { generateSlug } from "@/lib/utils";
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "AmrElshabrawyDev";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -195,4 +197,21 @@ export async function getOpenSourceProjects(): Promise<Project[]> {
     const repo = project.fullName.split("/")[1].toLowerCase();
     return !hiddenRepos.has(repo) && !caseStudyRepos.has(repo);
   });
+}
+
+/** Shape a GitHub repo like a case study so both render with the same card */
+export function repoToCard(project: Project): PortfolioCardData {
+  const hasDescription = project.description !== "No description available.";
+  return {
+    slug: generateSlug(project.title),
+    title: project.title,
+    type: "Open source",
+    industry: project.language !== "Unknown" ? project.language : "Open source",
+    location: "—",
+    year: new Date(project.createdAt).getFullYear().toString(),
+    summary: hasDescription
+      ? project.description
+      : `An open-source ${project.language !== "Unknown" ? `${project.language} ` : ""}project — source code and README on GitHub.`,
+    stack: project.technologies,
+  };
 }

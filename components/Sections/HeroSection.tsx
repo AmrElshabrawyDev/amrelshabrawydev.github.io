@@ -1,193 +1,158 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ArrowRight,
-  Terminal,
-  User,
-  Code,
-  Globe,
-  Zap,
-  Mail,
-} from "lucide-react";
-import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
-import { heroData, personalInfo } from "@/data";
-import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
+import { ArrowRight, ArrowUpRight, Check, MessageCircle } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { heroData, personalInfo } from "@/data";
+import { featuredCaseStudies } from "@/data/projects";
+import { whatsappLink } from "@/lib/site";
+import { trackLead } from "@/lib/analytics";
+
+const trustPoints = ["Arabic & English", "SEO-ready from day one", "Fixed-price quotes"];
 
 export function HeroSection() {
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLElement>(null);
+  const latest = featuredCaseStudies[0];
 
-  // Standardized Section Reveal
-  useSectionReveal(container, ".gsap-reveal", {
-    stagger: 0.1,
-    y: 30,
-    scale: 0.98,
-    duration: 0.8,
-  });
-
-  // Specialized entrance for the profile visual
   useGSAP(
     () => {
-      gsap.fromTo(
-        ".gsap-reveal-fade",
-        { opacity: 0, scale: 0.95 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          ease: "power2.out",
-          delay: 0.4,
-        },
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(
+        ".hero-reveal",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 },
+      ).fromTo(
+        ".hero-visual",
+        { opacity: 0, scale: 0.96 },
+        { opacity: 1, scale: 1, duration: 1 },
+        "-=0.6",
       );
     },
     { scope: container },
   );
 
   return (
-    <section
-      ref={container}
-      className="container-custom min-h-[calc(100vh-8rem)] relative overflow-hidden bg-bg-base py-20 flex flex-col justify-center"
-    >
-      <div className="mb-10 w-full flex justify-start gsap-reveal opacity-0">
-        <PowerlineGroup>
-          <PowerlineSegment color="primary" icon={<User className="w-4 h-4" />}>
-            {personalInfo.name.toUpperCase()}
-          </PowerlineSegment>
-          <PowerlineSegment
-            color="secondary"
-            icon={<Code className="w-4 h-4" />}
-          >
-            {personalInfo.availability.toUpperCase()}
-          </PowerlineSegment>
-        </PowerlineGroup>
-      </div>
+    <section ref={container} className="relative overflow-hidden bg-bg-base">
+      {/* Background: subtle grid + glows */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[48px_48px] mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
+      />
+      <div
+        aria-hidden
+        className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-primary/10 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="absolute -bottom-40 right-0 w-[500px] h-[500px] rounded-full bg-info/10 blur-3xl"
+      />
 
-      <div className="relative z-10 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left Column: Terminal Content */}
-        <div className="w-full flex flex-col items-center lg:items-start text-center lg:text-left">
-          {/* Large Hero Text */}
-          <h1 className="font-black font-heading mb-8 tracking-tighter leading-none text-text-primary gsap-reveal opacity-0">
-            <span className="block text-base md:text-xl tracking-[0.2em] text-primary mb-5">
+      <div className="container-custom relative grid lg:grid-cols-[1.2fr_0.8fr] gap-14 lg:gap-12 items-center py-16 md:py-24 lg:min-h-[calc(100vh-5rem)]">
+        {/* Copy */}
+        <div className="font-[family-name:var(--font-inter)]">
+          <p className="hero-reveal opacity-0 inline-flex items-center gap-2 border border-success/30 bg-success/10 px-3 py-1.5 text-xs! font-semibold text-success! mb-8">
+            <span className="relative flex w-2 h-2">
+              <span className="absolute inline-flex w-full h-full rounded-full bg-success opacity-75 animate-ping" />
+              <span className="relative inline-flex w-2 h-2 rounded-full bg-success" />
+            </span>
+            {personalInfo.availability} · Cairo, Egypt — remote worldwide
+          </p>
+
+          <h1 className="hero-reveal opacity-0 normal-case! tracking-tight! font-[family-name:var(--font-inter)]!">
+            <span className="block font-mono text-sm md:text-base font-bold tracking-[0.2em] uppercase text-primary mb-5">
               Freelance React &amp; Next.js Developer
             </span>
-            <span className="block text-5xl md:text-7xl lg:text-8xl">
-              WEBSITES <br />
-              THAT <span className="text-secondary">WIN</span> <br />
-              CLIENTS
+            <span className="block text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-[4.25rem] font-extrabold text-text-primary">
+              Fast websites that turn visitors into{" "}
+              <span className="bg-linear-to-r from-primary via-secondary to-info bg-clip-text text-transparent">
+                clients
+              </span>
             </span>
           </h1>
 
-          {/* Powerline Roles Row */}
-          <div className="mb-10 w-full flex justify-start gsap-reveal opacity-0">
-            <PowerlineGroup>
-              <PowerlineSegment
-                color="info"
-                icon={<Globe className="w-4 h-4" />}
-              >
-                EGYPT
-              </PowerlineSegment>
-              <PowerlineSegment
-                color="success"
-                icon={<Zap className="w-4 h-4" />}
-                className="tracking-normal!"
-              >
-                REMOTE · WORLDWIDE
-              </PowerlineSegment>
-              <PowerlineSegment color="warning">AR / EN</PowerlineSegment>
-            </PowerlineGroup>
-          </div>
+          <p className="hero-reveal opacity-0 mt-7 max-w-xl text-lg! md:text-xl! leading-relaxed text-text-secondary">
+            {heroData.description}
+          </p>
 
-          {/* Description Block */}
-          <div className="text-text-secondary text-base text-left md:text-lg max-w-xl mb-12 leading-relaxed font-mono border border-border-subtle/50 p-6 bg-bg-elevated/20 relative overflow-hidden gsap-reveal opacity-0">
-            <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
-            <div className="flex items-center gap-2 mb-4 text-text-tertiary text-[10px] uppercase tracking-widest">
-              <Terminal className="w-3 h-3" />
-              <span>system_info.md</span>
-            </div>
-            <p className="opacity-90 leading-relaxed">{heroData.description}</p>
-          </div>
-
-          {/* CTAs as Segments */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 gsap-reveal opacity-0">
-            <Link href="/work" className="group">
-              <PowerlineGroup>
-                <PowerlineSegment
-                  color="primary"
-                  className="px-8! text-lg transition-transform group-hover:scale-105 duration-500"
-                  icon={<ArrowRight className="w-5 h-5" />}
-                  direction="both"
-                >
-                  {heroData.primaryCTA.toUpperCase()}
-                </PowerlineSegment>
-              </PowerlineGroup>
+          <div className="hero-reveal opacity-0 mt-10 flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/contact"
+              className="btn-primary h-14! px-7! text-base!"
+              onClick={() => trackLead("contact_hero")}
+            >
+              {heroData.secondaryCTA} <ArrowRight className="w-4 h-4" />
             </Link>
-
-            <Link href="/contact" className="group">
-              <PowerlineGroup>
-                <PowerlineSegment
-                  color="info"
-                  className="px-8! text-lg transition-transform group-hover:scale-105 duration-500"
-                  icon={<Mail className="w-5 h-5" />}
-                  direction="both"
-                >
-                  {heroData.secondaryCTA.toUpperCase()}
-                </PowerlineSegment>
-              </PowerlineGroup>
+            <Link href="/work" className="btn-outline h-14! px-7! text-base!">
+              {heroData.primaryCTA}
             </Link>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 h-14 px-4 text-sm font-semibold text-success hover:text-success hover:brightness-125"
+              onClick={() => trackLead("whatsapp_hero")}
+            >
+              <MessageCircle className="w-4 h-4" /> or WhatsApp me
+            </a>
           </div>
+
+          <ul className="hero-reveal opacity-0 mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-text-secondary">
+            {trustPoints.map((point) => (
+              <li key={point} className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-success" />
+                {point}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Right Column: Profile Image Block */}
-        <div className="relative flex justify-center items-center gsap-reveal-fade opacity-0">
-          {/* Terminal Window Container */}
-          <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] terminal-card overflow-hidden rounded-sm border-border-subtle/40">
-            {/* Window Controls */}
-            <div className="terminal-header flex items-center justify-between bg-bg-elevated/50 backdrop-blur-md">
-              <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 bg-primary/40" />
-                <div className="w-2.5 h-2.5 bg-secondary/40" />
-                <div className="w-2.5 h-2.5 bg-accent/40" />
-              </div>
-              <div className="text-[10px] text-text-tertiary font-mono tracking-widest">
-                PROFILE_VIEWER.SH
-              </div>
+        {/* Visual */}
+        <div className="hero-visual opacity-0 relative mx-auto w-full max-w-[420px] lg:max-w-none">
+          <div className="relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated shadow-[0_30px_80px_-20px] shadow-primary/25">
+            <Image
+              src="/profile.webp"
+              alt={`${personalInfo.name} — freelance React and Next.js developer`}
+              fill
+              priority
+              sizes="(max-width: 1024px) 420px, 480px"
+              className="object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-bg-base/95 via-bg-base/40 to-transparent" />
+            <div className="absolute left-5 right-5 bottom-5 font-[family-name:var(--font-inter)]">
+              <p className="text-xl! font-bold text-text-primary">{personalInfo.name}</p>
+              <p className="text-sm! text-text-secondary">
+                Next.js · React · TypeScript · Salla
+              </p>
             </div>
+          </div>
 
-            {/* Profile Image with Terminal Effect */}
-            <div className="relative w-full h-full p-4">
-              <div className="relative w-full h-full border border-border-subtle/30 grayscale hover:grayscale-0 transition-all duration-1000 overflow-hidden group">
-                {/* Scanline Overlay */}
-                <div className="absolute inset-0 bg-linear-to-b from-transparent via-white/5 to-transparent h-2 w-full animate-scanline z-10 pointer-events-none opacity-10" />
+          {/* Floating proof card → latest case study */}
+          {latest && (
+            <Link
+              href={`/work/${latest.slug}`}
+              className="group mt-4 flex flex-col lg:absolute lg:mt-0 lg:-left-10 lg:top-8 lg:max-w-[250px] border border-border-default bg-bg-base/90 backdrop-blur-md p-4 shadow-xl font-[family-name:var(--font-inter)] text-text-secondary hover:text-text-secondary hover:border-primary transition-colors"
+            >
+              <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-secondary mb-1.5">
+                Latest case study
+              </span>
+              <span className="flex items-start gap-1 text-sm font-semibold text-text-primary leading-snug">
+                {latest.client.split(" (")[0]} — {latest.services[0]}
+                <ArrowUpRight className="w-4 h-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
+              <span className="block text-xs mt-1">{latest.location}</span>
+            </Link>
+          )}
 
-                <Image
-                  src="/profile.webp"
-                  alt={`${personalInfo.name} — freelance React and Next.js developer`}
-                  fill
-                  priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100"
-                  sizes="(max-width: 768px) 300px, 450px"
-                />
-
-                {/* Terminal Grid Overlay */}
-                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(17,17,27,0.4)_100%)]" />
-              </div>
-            </div>
-
-            {/* Status Footer */}
-            <div className="absolute bottom-4 left-4 right-4 z-20">
-              <PowerlineGroup>
-                <PowerlineSegment color="secondary" className="h-8 text-[10px]">
-                  OS: NEON_TERMINAL
-                </PowerlineSegment>
-                <PowerlineSegment color="surface" className="h-8 text-[10px]">
-                  READY
-                </PowerlineSegment>
-              </PowerlineGroup>
-            </div>
+          <div className="hidden sm:block absolute -right-6 bottom-28 border border-border-default bg-bg-base/90 backdrop-blur-md px-4 py-3 shadow-xl font-[family-name:var(--font-inter)]">
+            <p className="text-2xl! font-extrabold text-primary leading-none">
+              {heroData.stats.yearsOfExperience}
+            </p>
+            <p className="text-[11px]! uppercase tracking-widest text-text-tertiary mt-1">
+              Years building for the web
+            </p>
           </div>
         </div>
       </div>
