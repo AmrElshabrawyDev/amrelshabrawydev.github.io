@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Check, MessageCircle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Download, MessageCircle } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { heroData, personalInfo } from "@/data";
@@ -88,14 +88,24 @@ export function HeroSection() {
             <Link href="/work" className="btn-outline h-14! px-7! text-base!">
               {heroData.primaryCTA}
             </Link>
+          </div>
+
+          <div className="hero-reveal opacity-0 mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-semibold">
             <a
               href={whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 h-14 px-4 text-sm font-semibold text-success hover:text-success hover:brightness-125"
+              className="inline-flex items-center gap-2 text-success hover:text-success hover:brightness-125"
               onClick={() => trackLead("whatsapp_hero")}
             >
-              <MessageCircle className="w-4 h-4" /> or WhatsApp me
+              <MessageCircle className="w-4 h-4" /> WhatsApp me
+            </a>
+            <a
+              href={personalInfo.resume}
+              download
+              className="inline-flex items-center gap-2 text-text-secondary hover:text-primary"
+            >
+              <Download className="w-4 h-4" /> Download CV (PDF)
             </a>
           </div>
 

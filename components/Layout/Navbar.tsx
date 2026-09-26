@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   Menu,
   X,
-  Download,
   Terminal,
   User,
   Cpu,
@@ -170,16 +169,6 @@ export function Navbar() {
                     );
                   })}
                 </div>
-                <a href={personalInfo.resume} download>
-                  <PowerlineSegment
-                    direction="right"
-                    color="surface"
-                    icon={<Download className="w-4 h-4" />}
-                    className={`normal-case! transition-all group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base`}
-                  >
-                    CV.pdf
-                  </PowerlineSegment>
-                </a>
               </div>
             </PowerlineGroup>
           </div>
@@ -233,14 +222,6 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <a
-                href={personalInfo.resume}
-                download
-                className="mt-4 p-4 bg-warning text-bg-base font-bold text-center flex items-center justify-center gap-2 hover:brightness-110 transition-all"
-              >
-                <Download className="w-5 h-5" />
-                DOWNLOAD CV
-              </a>
             </nav>
           </div>
         )}

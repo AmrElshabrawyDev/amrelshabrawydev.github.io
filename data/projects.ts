@@ -223,36 +223,6 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
   },
   {
-    slug: "aman-tokyo-digital-experience",
-    title: "Aman Tokyo — Bilingual Luxury Web Experience",
-    client: "Independent concept study",
-    type: "Concept study",
-    industry: "Luxury hospitality",
-    location: "—",
-    year: "2026",
-    role: "Front-End Developer",
-    period: "Aug 2026",
-    summary:
-      "A pixel-accurate, bilingual (English + Arabic) single-page experience built from a Figma concept, with video, motion and self-hosted typography.",
-    challenge:
-      "Translate a high-end Figma concept into a web page that keeps the calm, editorial feel of luxury hospitality — with English and Arabic side by side, heavy imagery and motion, and without hurting load speed.",
-    solution:
-      "I built nine sections on Next.js 16 with Tailwind v4 design tokens and Framer Motion reveals, self-hosted the 29LT Bukra font with next/font, and used a video-over-still hero so the page paints instantly before the video loads.",
-    highlights: [
-      "Figma-to-code with design tokens and strict TypeScript",
-      "English and Arabic composed side by side (bilingual by design)",
-      "Scroll-driven motion with Framer Motion",
-      "Video hero with a still-image fallback for fast first paint",
-    ],
-    services: ["Figma to Next.js", "Motion design", "Bilingual UI"],
-    stack: ["Next.js 16", "TypeScript", "Tailwind CSS v4", "Framer Motion"],
-    cover: "/projects/aman-tokyo.webp",
-    coverAlt: "Aman Tokyo bilingual luxury hotel website concept built with Next.js",
-    liveUrl: "https://aman-tokyo-six.vercel.app",
-    featured: true,
-    note: "Independent concept study — not commissioned by or affiliated with Aman.",
-  },
-  {
     slug: "ecommerco",
     title: "Ecommerco — TypeScript Retail Store",
     client: "Personal project",
