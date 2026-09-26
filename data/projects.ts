@@ -224,4 +224,17 @@ export const hiddenRepos = new Set([
   "twstudy",
   "startbootstrap",
   "autocomplete",
+  "luxellia-preview", // preview of the Luxellia case study
 ]);
+
+/**
+ * Real screenshots for GitHub repos (lowercase repo name → image in /public).
+ * Repos without an entry get a generated cover.
+ */
+export const repoCovers: Record<string, string> = {
+  "travel-smart-ui": "/projects/travel-smart.webp",
+  "companions-saas-app": "/projects/converso.webp",
+  "weather-app": "/projects/weather-app.webp",
+  "landing-page": "/projects/landing-page.webp",
+  "rich-black-theme": "/projects/rich-black-theme.webp",
+};

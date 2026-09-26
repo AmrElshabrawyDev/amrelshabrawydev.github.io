@@ -1,7 +1,7 @@
 import { cache } from "react";
 import type { Project } from "@/types/github";
 import { projectOverrides } from "@/data";
-import { caseStudyRepos, hiddenRepos } from "@/data/projects";
+import { caseStudyRepos, hiddenRepos, repoCovers } from "@/data/projects";
 import type { PortfolioCardData } from "@/data/projects";
 import { generateSlug } from "@/lib/utils";
 
@@ -140,7 +140,10 @@ export const getAllProjects = cache(async (): Promise<Project[]> => {
           createdAt: repo.created_at,
           readme: null, // Don't fetch full readme in list
           size: formatSize(repo.size),
-          image: override?.image || `https://opengraph.githubassets.com/1/${repo.full_name}`,
+          image:
+            override?.image ||
+            repoCovers[repo.name.toLowerCase()] ||
+            `https://opengraph.githubassets.com/1/${repo.full_name}`,
           fullName: repo.full_name,
           defaultBranch: repo.default_branch,
         };
@@ -213,5 +216,7 @@ export function repoToCard(project: Project): PortfolioCardData {
       ? project.description
       : `An open-source ${project.language !== "Unknown" ? `${project.language} ` : ""}project — source code and README on GitHub.`,
     stack: project.technologies,
+    cover: repoCovers[project.fullName.split("/")[1].toLowerCase()],
+    coverAlt: `${project.title} — project screenshot`,
   };
 }
