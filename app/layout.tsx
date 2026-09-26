@@ -86,10 +86,11 @@ export const metadata: Metadata = {
 
   // Robots
   robots: {
-    index: true,
+    // Preview builds (PREVIEW_BASE_PATH) must never be indexed
+    index: !process.env.NEXT_PUBLIC_BASE_PATH,
     follow: true,
     googleBot: {
-      index: true,
+      index: !process.env.NEXT_PUBLIC_BASE_PATH,
       follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
