@@ -10,8 +10,8 @@
 
 <p align="center">
   <a href="https://amrelshabrawydev.github.io"><img src="https://img.shields.io/badge/Live_Demo-Visit_Site-blue?style=for-the-badge&logo=vercel" alt="Live Demo" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.0.10-black?style=for-the-badge&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/GSAP-3.x-green?style=for-the-badge&logo=greensock" alt="GSAP" />
@@ -69,8 +69,8 @@ A fully static, blazing-fast developer portfolio with client case studies, a blo
 
 | Technology                                        | Version   | Why We Use It                                                                                                                  |
 | ------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **[Next.js](https://nextjs.org/)**                | `16.0.10` | App Router, static export (`output: "export"`), file-based routing, built-in image optimization, and Turbopack for fast builds |
-| **[React](https://react.dev/)**                   | `19.2.0`  | Latest concurrent features, server components, improved performance with automatic batching                                    |
+| **[Next.js](https://nextjs.org/)**                | `16.3`    | App Router, static export (`output: "export"`), file-based routing and Turbopack for fast builds                               |
+| **[React](https://react.dev/)**                   | `19.2`    | Latest concurrent features, server components, improved performance with automatic batching                                    |
 | **[TypeScript](https://www.typescriptlang.org/)** | `5.x`     | Type safety across the entire codebase — catches bugs at compile time, improves DX with autocomplete                           |
 
 ### Styling & Animations
@@ -81,6 +81,7 @@ A fully static, blazing-fast developer portfolio with client case studies, a blo
 | **[GSAP](https://greensock.com/gsap/)**         | The industry standard for high-performance animations. Precision timelines, ScrollTrigger, and complex DOM manipulation          |
 | **[@gsap/react](https://gsap.com/react)**       | Official React wrapper for GSAP, providing `useGSAP` for safe lifecycle management and cleanup                                   |
 | **[Lucide React](https://lucide.dev/)**         | Beautiful, consistent SVG icon set with tree-shaking — only imports icons we use                                                 |
+| **[three.js](https://threejs.org/)**            | The home hero's interactive 3D block field — one instanced mesh, loaded lazily on desktop only                                   |
 
 ### Data & Communication
 
@@ -103,54 +104,49 @@ A fully static, blazing-fast developer portfolio with client case studies, a blo
 ```
 amrelshabrawydev/
 ├── app/                          # Next.js App Router
-│   ├── layout.tsx                # Root layout (fonts, metadata, navbar, footer)
-│   ├── page.tsx                  # Home page → HeroSection
+│   ├── layout.tsx                # Root layout (fonts, metadata, intro, navbar, footer)
+│   ├── page.tsx                  # Home page
 │   ├── globals.css               # Design system (Catppuccin theme, utilities)
-│   ├── robots.ts                 # Dynamic robots.txt generation
-│   ├── sitemap.ts                # Dynamic sitemap.xml generation
-│   ├── about/page.tsx            # About page
-│   ├── services/page.tsx         # Services page
-│   ├── work/
-│   │   ├── page.tsx              # Projects grid section
-│   │   └── [slug]/page.tsx       # Dynamic project detail pages (ISR/Static)
-│   └── contact/page.tsx          # Contact page
+│   ├── intro-gate.css            # The intro animation (logo + curtains)
+│   ├── robots.ts / sitemap.ts    # robots.txt and sitemap.xml
+│   ├── rss.xml/route.ts          # Blog RSS feed
+│   ├── about/ services/ contact/ # Pages
+│   ├── work/                     # Case studies grid + [slug] detail pages
+│   └── blog/                     # Blog list + [slug] article pages
 │
 ├── components/
-│   ├── Layout/
-│   │   ├── Navbar.tsx            # Navigation bar
-│   │   └── Footer.tsx            # Persistent site footer
+│   ├── Layout/                   # Navbar, Footer
 │   ├── Sections/
-│   │   ├── HeroSection.tsx       # Hero with GSAP typewriter animation
-│   │   ├── AboutSection.tsx      # Skills, experience, and bio
-│   │   ├── ServicesSection.tsx   # Services offered
-│   │   ├── ContactSection.tsx    # EmailJS-powered contact form
-│   │   └── CaseStudies/
-│   │       ├── CaseStudyCard.tsx  # Project card (used on /work and the homepage)
-│   │       ├── CaseStudyView.tsx  # Case study detail page
-│   │       └── PortfolioGrid.tsx  # Filterable project grid (/work)
-│   └── ui/                       # Custom UI Components
+│   │   ├── HeroSection.tsx       # Home hero (CSS entrance + 3D background)
+│   │   ├── Hero3D/               # three.js block field (loaded lazily)
+│   │   ├── Home/HomeSections.tsx # Home page sections (services, work, FAQ…)
+│   │   ├── Reviews/              # Client reviews (EN translation / AR original)
+│   │   ├── CaseStudies/          # Cards, grid, /work hero, detail view
+│   │   └── About/Services/ContactSection.tsx
+│   ├── Blog/PostCard.tsx
+│   └── ui/                       # Shared UI
+│       ├── IntroGate.tsx         # Intro markup (timeline in app/intro-gate.css)
+│       ├── PageHeader.tsx        # Top of every page: badge → H1 → intro
+│       ├── SectionHeader.tsx     # Section titles: eyebrow → H2 → text
 │       ├── Powerline.tsx         # Terminal Powerline segments
-│       ├── LogoIcon.tsx          # SVG Logo component
-│       ├── CtaBanner.tsx         # Reusable call-to-action
-│       └── WhatsAppButton.tsx    # Floating WhatsApp button
+│       ├── LogoIcon.tsx + logoPaths.ts  # The logo (single source for all uses)
+│       └── CtaBanner.tsx, WhatsAppButton.tsx
 │
-├── lib/
-│   ├── blog.ts                   # Markdown blog loader
-│   ├── seo.ts                    # buildMetadata() + JSON-LD helpers
-│   ├── metadata.ts               # Centralized SEO metadata
-│   └── utils.ts                  # Date and slug utilities
-│
+├── content/blog/                 # Blog posts (Markdown, EN + AR)
 ├── data/
-│   ├── index.tsx                 # Personal info, services, FAQ
+│   ├── index.tsx                 # Personal info, services, skills, FAQ, reviews
 │   └── projects.ts               # Case studies (all projects on /work)
 │
-├── public/                       # Static assets
-│   ├── logo.svg, profile.png     # Branding
-│   └── .nojekyll                 # GitHub Pages compatibility
+├── lib/
+│   ├── intro-gate.ts             # Intro scripts (mode, skip, landing measurement)
+│   ├── blog.ts                   # Markdown blog loader
+│   ├── seo.ts / metadata.ts      # Metadata + JSON-LD helpers
+│   ├── site.ts                   # Site URL, social links, WhatsApp link
+│   ├── analytics.ts              # GA4 lead events
+│   └── utils.ts                  # Slug + number helpers
 │
-├── next.config.ts                # Next.js configuration
-├── pnpm-lock.yaml                # Lockfile (pnpm preferred)
-└── package.json                  # Dependencies & scripts
+├── public/                       # Images, CV, icons, OG images
+└── next.config.ts
 ```
 
 ---
@@ -176,9 +172,11 @@ graph LR
 
 ### Runtime Behavior
 
+- **Intro**: on every full page load the logo is traced in light, fills in while `npm run build` types, then flies into the header as the curtains open (~2.5s, pure CSS, skippable with any click/key, off for reduced motion).
+- **Home 3D hero**: a three.js block field, loaded on desktop only after the first interaction / idle, skipped without a GPU.
 - **Portfolio grid**: every project uses the same card, with Client / Personal / Concept filters.
 - **Scroll Reveals**: Components use `useGSAP` + `ScrollTrigger` for smooth, performant entry animations.
-- **Contact Form**: Uses EmailJS SDK to send emails directly from the client.
+- **Contact Form**: Uses EmailJS SDK to send emails directly from the client (with spam protection, see Security).
 
 ---
 
@@ -245,6 +243,34 @@ Your article in Markdown…
 ```
 
 The post is added automatically to `/blog`, the homepage, `sitemap.xml` and `rss.xml`.
+
+---
+
+## 🧰 Editing & Previews
+
+| I want to…                         | Where                                                                   |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| Add a client review                | `testimonialData` + `reviewSource.count` in `data/index.tsx`            |
+| Add a skill / tool                 | `aboutData.skillCategories` in `data/index.tsx` (link its case studies) |
+| Add a case study                   | `data/projects.ts` + images in `public/projects/<slug>/`                |
+| Change the intro speed             | `--gs` in `app/intro-gate.css` (1 = ~2.5s, 1.5 = slower)                |
+| Change the logo                    | `components/ui/logoPaths.ts` (used by the header, footer and intro)    |
+
+Preview helpers (add to any URL):
+
+- `?gate` — always play the intro (even with reduced motion on)
+- `?gate=debug` — also log the intro's landing measurements to the console
+- `?3d` — force the home 3D scene on machines without a GPU
+
+---
+
+## 🔒 Security
+
+- No secrets in the code: the only env vars are EmailJS's **public** IDs (`.env.example`); `.env*.local` is git-ignored.
+- JSON-LD is escaped (`jsonLd()` in `lib/seo.ts`), RSS text is XML-escaped, blog Markdown renders without raw HTML, and every external link uses `rel="noopener noreferrer"`.
+- Contact form: honeypot field for bots, one message per browser every 30s (EmailJS `limitRate`), and field length limits.
+  In the EmailJS dashboard also turn on **Account → Security → allowed domains** (your site's domain) and, if spam appears, **reCAPTCHA** on the template.
+- Check dependencies with `pnpm audit` before deploying.
 
 ---
 

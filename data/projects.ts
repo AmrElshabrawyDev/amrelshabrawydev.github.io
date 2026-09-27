@@ -15,7 +15,10 @@ Images live in /public/projects/<slug>/:
 To add a project: add an entry below and drop its images in a new folder.
 */
 
-export type ProjectType = "Client project" | "Personal project" | "Concept study";
+export type ProjectType =
+  | "Client project"
+  | "Personal project"
+  | "Concept study";
 
 /** The fields a portfolio card needs */
 export interface PortfolioCardData {
@@ -89,11 +92,25 @@ export const caseStudies: CaseStudy[] = [
       "One responsive carousel for mobile, tablet and desktop",
       "HSTS security headers, canonical URLs and technical SEO",
     ],
-    services: ["Production bug fixing", "Payments integration", "Performance", "Technical SEO"],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Stripe", "PayPal", "Cloudflare"],
+    services: [
+      "Production bug fixing",
+      "Payments integration",
+      "Performance",
+      "Technical SEO",
+    ],
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Stripe",
+      "PayPal",
+      "Cloudflare",
+    ],
     performance: { desktop: 97, mobile: 50 },
     ...media("kosovo-travels"),
-    coverAlt: "Kosovo Travels booking platform — desktop and mobile screenshots",
+    coverAlt:
+      "Kosovo Travels booking platform — desktop and mobile screenshots",
     liveUrl: "https://kosovotravels.com/",
     sourceUrl:
       "https://github.com/kosovot/kosovotravels/commit/490d7131dc15392bfaf49453816ca8421866d5da",
@@ -123,11 +140,24 @@ export const caseStudies: CaseStudy[] = [
       "Sanitized inputs and content for security",
       "Local SEO, structured data and Search Console setup",
     ],
-    services: ["Website rebuild", "Lead generation", "Local SEO", "Admin panel"],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase", "Resend"],
+    services: [
+      "Website rebuild",
+      "Lead generation",
+      "Local SEO",
+      "Admin panel",
+    ],
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Supabase",
+      "Resend",
+    ],
     performance: { desktop: 100, mobile: 76 },
     ...media("al-amal-furniture-moving-kuwait"),
-    coverAlt: "Al-Amal furniture moving Kuwait Arabic website — desktop and mobile",
+    coverAlt:
+      "Al-Amal furniture moving Kuwait Arabic website — desktop and mobile",
     liveUrl: "https://naklafeshkw.com/",
     featured: true,
   },
@@ -154,8 +184,20 @@ export const caseStudies: CaseStudy[] = [
       "De-duplicated analytics events",
       "Fast multi-page UI with catalog filters and search",
     ],
-    services: ["Full-stack development", "Payments integration", "Database design"],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Prisma", "PostgreSQL", "Supabase", "Paddle"],
+    services: [
+      "Full-stack development",
+      "Payments integration",
+      "Database design",
+    ],
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL",
+      "Supabase",
+      "Paddle",
+    ],
     performance: { desktop: 94, mobile: 80 },
     ...media("tonextstep-digital-marketplace"),
     coverAlt: "ToNextStep digital products marketplace — desktop and mobile",
@@ -187,7 +229,8 @@ export const caseStudies: CaseStudy[] = [
     services: ["Salla theme customization", "E-commerce UI", "Catalog tooling"],
     stack: ["Salla Twilight", "Raed theme", "CSS", "JavaScript", "Node.js"],
     cover: "/projects/luxellia-parfums.webp",
-    coverAlt: "Luxellia Parfums Arabic Salla store theme — desktop and mobile preview",
+    coverAlt:
+      "Luxellia Parfums Arabic Salla store theme — desktop and mobile preview",
     featured: true,
     note: "Screens show the pre-launch preview with sample products.",
   },
@@ -214,7 +257,14 @@ export const caseStudies: CaseStudy[] = [
       "Booking flow and trip summary",
     ],
     services: ["AI integration", "Web app development", "UI animation"],
-    stack: ["Next.js 16", "React", "TypeScript", "Gemini 2.5 Flash", "Tailwind CSS", "Framer Motion"],
+    stack: [
+      "Next.js 16",
+      "React",
+      "TypeScript",
+      "Gemini 2.5 Flash",
+      "Tailwind CSS",
+      "Framer Motion",
+    ],
     performance: { desktop: 96, mobile: 73 },
     ...media("travel-smart-ui"),
     coverAlt: "TravelSmart AI travel planner — desktop and mobile",
@@ -468,6 +518,10 @@ export const caseStudies: CaseStudy[] = [
 ];
 
 export const featuredCaseStudies = caseStudies.filter((c) => c.featured);
+
+/** "Kosovo Travels — Travel & Booking…" → "Kosovo Travels" */
+export const shortTitle = (study: { title: string }) =>
+  study.title.split(" — ")[0];
 
 export const getCaseStudy = (slug: string) =>
   caseStudies.find((c) => c.slug === slug);

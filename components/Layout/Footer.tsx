@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, MessageCircle, MapPin, Clock, FileText, Rss } from "lucide-react";
+import {
+  Mail,
+  MessageCircle,
+  MapPin,
+  Clock,
+  FileText,
+  Rss,
+} from "lucide-react";
 import { personalInfo, serviceData, socialLinks } from "@/data";
-import { featuredCaseStudies } from "@/data/projects";
+import { featuredCaseStudies, shortTitle } from "@/data/projects";
 import { SOCIAL, whatsappLink } from "@/lib/site";
 import { generateSlug } from "@/lib/utils";
 import { trackLead } from "@/lib/analytics";
@@ -16,7 +23,7 @@ const serviceLinks = serviceData.slice(0, 4).map((service) => ({
 
 const workLinks = featuredCaseStudies.slice(0, 4).map((study) => ({
   // "Kosovo Travels — Travel & Booking…" → "Kosovo Travels"
-  label: study.title.split(" — ")[0],
+  label: shortTitle(study),
   href: `/work/${study.slug}`,
 }));
 
@@ -37,7 +44,10 @@ function FooterColumn({
       <ul className="space-y-3">
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="text-sm text-text-secondary hover:text-primary">
+            <Link
+              href={link.href}
+              className="text-sm text-text-secondary hover:text-primary"
+            >
               {link.label}
             </Link>
           </li>
@@ -66,9 +76,15 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] gap-12 lg:gap-10">
           {/* Brand */}
           <div className="space-y-5 sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-3" aria-label="Home">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3"
+              aria-label="Home"
+            >
               <LogoIcon className="w-11 h-11" />
-              <span className="text-lg font-bold text-text-primary">{personalInfo.name}</span>
+              <span className="text-lg font-bold text-text-primary">
+                {personalInfo.name}
+              </span>
             </Link>
             <p className="text-sm! leading-relaxed text-text-secondary max-w-xs">
               Freelance React &amp; Next.js developer building fast, SEO-ready
@@ -163,7 +179,9 @@ export function Footer() {
             </a>
             <span aria-hidden className="w-px h-5 bg-border-default" />
             {socialLinks
-              .filter((social) => ["GitHub", "LinkedIn"].includes(social.platform))
+              .filter((social) =>
+                ["GitHub", "LinkedIn"].includes(social.platform),
+              )
               .map((social) => (
                 <a
                   key={social.platform}

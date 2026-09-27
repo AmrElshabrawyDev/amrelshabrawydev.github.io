@@ -1,15 +1,4 @@
 /**
- * Format a date string to a readable format
- */
-export function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-/**
  * Generate a URL-friendly slug from a project title
  */
 export function generateSlug(title: string): string {
@@ -19,3 +8,6 @@ export function generateSlug(title: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+/** 1 → "01": two-digit numbers for numbered cards */
+export const formatIndex = (n: number) => String(n).padStart(2, "0");

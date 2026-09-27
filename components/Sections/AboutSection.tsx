@@ -15,7 +15,9 @@ import {
   User,
 } from "lucide-react";
 import { aboutData, personalInfo, statsData } from "@/data";
-import { getCaseStudy } from "@/data/projects";
+import { getCaseStudy, shortTitle } from "@/data/projects";
+import { formatIndex } from "@/lib/utils";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { trackLead } from "@/lib/analytics";
@@ -73,7 +75,7 @@ function UsedIn({
               href={`/work/${study.slug}`}
               className="group inline-flex items-center gap-1 text-sm text-text-secondary hover:text-primary"
             >
-              {study.title.split(" — ")[0]}
+              {shortTitle(study)}
               <ArrowUpRight className="w-3.5 h-3.5 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </li>
@@ -241,10 +243,10 @@ export function AboutSection() {
 
         {/* How I work */}
         <div className="mt-24">
-          <p className="eyebrow mb-3">Working with me</p>
-          <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-12">
-            What you can count on
-          </h2>
+          <SectionHeader
+            eyebrow="Working with me"
+            title="What you can count on"
+          />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-[family-name:var(--font-inter)]">
             {promises.map((item, index) => (
               <article
@@ -256,7 +258,7 @@ export function AboutSection() {
                     {item.icon}
                   </span>
                   <span className="font-mono text-sm text-text-tertiary">
-                    0{index + 1}
+                    {formatIndex(index + 1)}
                   </span>
                 </div>
                 <h3 className="heading-natural font-[inherit]! text-lg! font-bold mb-2">
@@ -270,18 +272,11 @@ export function AboutSection() {
 
         {/* Skills */}
         <div className="mt-24">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div className="max-w-2xl">
-              <p className="eyebrow mb-3">Skills &amp; tools</p>
-              <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-4">
-                What I work with
-              </h2>
-              <p className="font-[family-name:var(--font-inter)] text-lg">
-                Only tools I&apos;ve shipped real projects with — each one
-                linked to the case studies where you can see it in action.
-              </p>
-            </div>
-          </div>
+          <SectionHeader
+            eyebrow="Skills & tools"
+            title="What I work with"
+            text="Only tools I've shipped real projects with — each one linked to the case studies where you can see it in action."
+          />
 
           {featuredSkills.map((category) => (
             <article
@@ -338,7 +333,7 @@ export function AboutSection() {
                       {category.icon}
                     </span>
                     <span className="font-mono text-sm text-text-tertiary">
-                      {String(index + 1).padStart(2, "0")}
+                      {formatIndex(index + 1)}
                     </span>
                   </div>
 

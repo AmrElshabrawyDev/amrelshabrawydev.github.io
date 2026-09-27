@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { FolderGit2 } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { shortTitle } from "@/data/projects";
 
 interface WorkHeroProps {
   total: number;
@@ -37,36 +38,46 @@ export function WorkHero({ total, stats, showcase }: WorkHeroProps) {
           stagger: 0.15,
           ease: "power3.out",
         });
-        gsap.from(".work-stat", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08, delay: 0.2 });
+        gsap.from(".work-stat", {
+          y: 16,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.08,
+          delay: 0.2,
+        });
       });
 
       // Mouse parallax: each window moves by a different depth
-      mm.add("(prefers-reduced-motion: no-preference) and (hover: hover) and (min-width: 1024px)", () => {
-        const stage = container.current?.querySelector<HTMLElement>(".work-stage");
-        if (!stage) return;
-        const windows = gsap.utils.toArray<HTMLElement>(".work-window");
-        const movers = windows.map((el, i) => ({
-          x: gsap.quickTo(el, "x", { duration: 0.8, ease: "power3.out" }),
-          y: gsap.quickTo(el, "y", { duration: 0.8, ease: "power3.out" }),
-          depth: (i + 1) * 10,
-        }));
-        const onMove = (event: MouseEvent) => {
-          const rect = stage.getBoundingClientRect();
-          const px = (event.clientX - rect.left) / rect.width - 0.5;
-          const py = (event.clientY - rect.top) / rect.height - 0.5;
-          movers.forEach((m) => {
-            m.x(px * m.depth);
-            m.y(py * m.depth);
-          });
-        };
-        const onLeave = () => movers.forEach((m) => (m.x(0), m.y(0)));
-        window.addEventListener("mousemove", onMove);
-        stage.addEventListener("mouseleave", onLeave);
-        return () => {
-          window.removeEventListener("mousemove", onMove);
-          stage.removeEventListener("mouseleave", onLeave);
-        };
-      });
+      mm.add(
+        "(prefers-reduced-motion: no-preference) and (hover: hover) and (min-width: 1024px)",
+        () => {
+          const stage =
+            container.current?.querySelector<HTMLElement>(".work-stage");
+          if (!stage) return;
+          const windows = gsap.utils.toArray<HTMLElement>(".work-window");
+          const movers = windows.map((el, i) => ({
+            x: gsap.quickTo(el, "x", { duration: 0.8, ease: "power3.out" }),
+            y: gsap.quickTo(el, "y", { duration: 0.8, ease: "power3.out" }),
+            depth: (i + 1) * 10,
+          }));
+          const onMove = (event: MouseEvent) => {
+            const rect = stage.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width - 0.5;
+            const py = (event.clientY - rect.top) / rect.height - 0.5;
+            movers.forEach((m) => {
+              m.x(px * m.depth);
+              m.y(py * m.depth);
+            });
+          };
+          const onLeave = () => movers.forEach((m) => (m.x(0), m.y(0)));
+          window.addEventListener("mousemove", onMove);
+          stage.addEventListener("mouseleave", onLeave);
+          return () => {
+            window.removeEventListener("mousemove", onMove);
+            stage.removeEventListener("mouseleave", onLeave);
+          };
+        },
+      );
     },
     { scope: container },
   );
@@ -86,15 +97,23 @@ export function WorkHero({ total, stats, showcase }: WorkHeroProps) {
       >
         <dl className="mt-10 grid grid-cols-3 max-w-lg border-y border-border-subtle divide-x divide-border-subtle font-[family-name:var(--font-inter)]">
           {stats.map((stat) => (
-            <div key={stat.label} className="work-stat flex flex-col-reverse py-4 px-4 first:pl-0">
+            <div
+              key={stat.label}
+              className="work-stat flex flex-col-reverse py-4 px-4 first:pl-0"
+            >
               <dt className="text-xs text-text-tertiary mt-1">{stat.label}</dt>
-              <dd className="text-2xl md:text-3xl font-extrabold text-text-primary">{stat.value}</dd>
+              <dd className="text-2xl md:text-3xl font-extrabold text-text-primary">
+                {stat.value}
+              </dd>
             </div>
           ))}
         </dl>
       </PageHeader>
 
-      <div className="work-stage hidden md:block relative aspect-5/4 w-full max-w-xl mx-auto lg:mt-10" aria-hidden>
+      <div
+        className="work-stage hidden md:block relative aspect-5/4 w-full max-w-xl mx-auto lg:mt-10"
+        aria-hidden
+      >
         {showcase.slice(0, 3).map((project, index) => (
           <Link
             key={project.slug}
@@ -113,7 +132,7 @@ export function WorkHero({ total, stats, showcase }: WorkHeroProps) {
                 className="object-cover"
               />
               <span className="absolute left-0 bottom-0 px-2 py-1 bg-bg-base/90 font-mono text-[10px] text-text-secondary">
-                {project.title.split(" — ")[0]}
+                {shortTitle(project)}
               </span>
             </span>
           </Link>

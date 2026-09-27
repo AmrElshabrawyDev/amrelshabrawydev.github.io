@@ -5,26 +5,39 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ArrowDownRight, Check, Cpu, Users } from "lucide-react";
 import { serviceData } from "@/data";
-import { generateSlug } from "@/lib/utils";
+import { formatIndex, generateSlug } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 
 export function ServicesSection() {
   const container = useRef<HTMLDivElement>(null);
 
-  useSectionReveal(container, ".gsap-reveal", { stagger: 0.12, y: 20, scale: 0.99 });
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.12,
+    y: 20,
+    scale: 0.99,
+  });
 
   useGSAP(
     () => {
       gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".service-index-item", { opacity: 0, x: 24, duration: 0.5, stagger: 0.07, delay: 0.2 });
+        gsap.from(".service-index-item", {
+          opacity: 0,
+          x: 24,
+          duration: 0.5,
+          stagger: 0.07,
+          delay: 0.2,
+        });
       });
     },
     { scope: container },
   );
 
   return (
-    <section ref={container} className="pb-24 bg-bg-base relative overflow-hidden">
+    <section
+      ref={container}
+      className="pb-24 bg-bg-base relative overflow-hidden"
+    >
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center pb-12 md:pb-16">
           <PageHeader
@@ -37,12 +50,17 @@ export function ServicesSection() {
           />
 
           {/* Service index: jump links to each card */}
-          <nav aria-label="Services on this page" className="terminal-card lg:mt-16 font-[family-name:var(--font-inter)]">
+          <nav
+            aria-label="Services on this page"
+            className="terminal-card lg:mt-16 font-[family-name:var(--font-inter)]"
+          >
             <div className="terminal-header flex items-center justify-between">
               <span className="font-mono text-[10px] uppercase tracking-widest text-text-tertiary">
                 services.list
               </span>
-              <span className="font-mono text-[10px] text-text-tertiary">{serviceData.length} items</span>
+              <span className="font-mono text-[10px] text-text-tertiary">
+                {serviceData.length} items
+              </span>
             </div>
             <ol className="divide-y divide-border-subtle">
               {serviceData.map((service, index) => (
@@ -52,9 +70,11 @@ export function ServicesSection() {
                     className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-primary/5"
                   >
                     <span className="font-mono text-xs text-text-tertiary group-hover:text-primary">
-                      {String(index + 1).padStart(2, "0")}
+                      {formatIndex(index + 1)}
                     </span>
-                    <span className="flex-1 text-sm font-semibold text-text-primary">{service.title}</span>
+                    <span className="flex-1 text-sm font-semibold text-text-primary">
+                      {service.title}
+                    </span>
                     <ArrowDownRight className="w-4 h-4 text-text-tertiary transition-transform group-hover:text-primary group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                   </a>
                 </li>
@@ -76,19 +96,23 @@ export function ServicesSection() {
                 </span>
                 <div className="flex-1">
                   <span className="block font-mono text-xs text-text-tertiary mb-1">
-                    {String(index + 1).padStart(2, "0")} / {String(serviceData.length).padStart(2, "0")}
+                    {formatIndex(index + 1)} / {formatIndex(serviceData.length)}
                   </span>
                   <h2 className="heading-natural font-[inherit]! text-xl! md:text-2xl! font-bold mb-2">
                     {service.title}
                   </h2>
-                  <p className="text-base! leading-relaxed">{service.description}</p>
+                  <p className="text-base! leading-relaxed">
+                    {service.description}
+                  </p>
                 </div>
               </div>
 
               <p className="flex items-start gap-2 text-sm! text-text-secondary border-l-2 border-secondary pl-3">
                 <Users className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
                 <span>
-                  <span className="font-semibold text-text-primary">Ideal for: </span>
+                  <span className="font-semibold text-text-primary">
+                    Ideal for:{" "}
+                  </span>
                   {service.idealFor}
                 </span>
               </p>
@@ -99,7 +123,10 @@ export function ServicesSection() {
                 </h3>
                 <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
                   {service.deliverables.map((deliverable) => (
-                    <li key={deliverable} className="flex gap-2.5 items-start text-sm text-text-secondary">
+                    <li
+                      key={deliverable}
+                      className="flex gap-2.5 items-start text-sm text-text-secondary"
+                    >
                       <Check className="w-4 h-4 text-success shrink-0 mt-0.5" />
                       {deliverable}
                     </li>

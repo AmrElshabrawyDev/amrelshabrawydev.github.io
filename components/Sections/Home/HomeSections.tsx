@@ -1,45 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, Plus } from "lucide-react";
-import {
-  heroData,
-  serviceData,
-  processData,
-  faqData,
-} from "@/data";
+import { Plus } from "lucide-react";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { heroData, serviceData, processData, faqData } from "@/data";
 import { featuredCaseStudies } from "@/data/projects";
 import type { PostMeta } from "@/lib/blog";
 import { CaseStudyCard } from "@/components/Sections/CaseStudies/CaseStudyCard";
 import { PostCard } from "@/components/Blog/PostCard";
-
-function SectionHeader({
-  eyebrow,
-  title,
-  text,
-  link,
-}: {
-  eyebrow: string;
-  title: string;
-  text?: string;
-  link?: { href: string; label: string };
-}) {
-  return (
-    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-      <div className="max-w-2xl">
-        <p className="eyebrow mb-3">{eyebrow}</p>
-        <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-4">{title}</h2>
-        {text && <p className="font-[family-name:var(--font-inter)] text-lg">{text}</p>}
-      </div>
-      {link && (
-        <Link
-          href={link.href}
-          className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider shrink-0"
-        >
-          {link.label} <ArrowRight className="w-4 h-4" />
-        </Link>
-      )}
-    </div>
-  );
-}
 
 export function StatsBar() {
   const stats = [
@@ -50,7 +16,10 @@ export function StatsBar() {
   ];
 
   return (
-    <section aria-label="Key numbers" className="bg-bg-base border-y border-border-subtle">
+    <section
+      aria-label="Key numbers"
+      className="bg-bg-base border-y border-border-subtle"
+    >
       <dl className="container-custom grid grid-cols-2 md:grid-cols-4">
         {stats.map((stat) => (
           <div
@@ -137,7 +106,9 @@ export function ProcessSection() {
               <div className="text-4xl font-black font-heading text-primary/60 mb-4">
                 {item.step}
               </div>
-              <h3 className="heading-natural text-lg font-bold mb-2">{item.title}</h3>
+              <h3 className="heading-natural text-lg font-bold mb-2">
+                {item.title}
+              </h3>
               <p className="font-[family-name:var(--font-inter)] text-sm leading-relaxed">
                 {item.description}
               </p>
