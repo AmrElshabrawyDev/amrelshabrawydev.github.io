@@ -685,6 +685,8 @@
 }
 
 :root[data-gate="play"] .intro-gate,
+:root[data-gate="film"] .intro-gate,
+:root[data-gate="open"] .intro-gate,
 :root[data-gate="skip"] .intro-gate {
   --logo: clamp(7rem, 22vmin, 11rem);
   display: block;
@@ -857,24 +859,78 @@
   }
 }
 
+/* ---- Film mode: doors wait closed while the logo video plays ---- */
+
+:root[data-gate="film"],
+:root[data-gate="open"],
+:root[data-gate="done"] {
+  /* the hero's entrance starts as the doors open after the film (~3.3s);
+     kept after "done" so running entrance animations aren't cut short */
+  --gate-delay: 3.3s;
+}
+
+:root[data-gate="film"] .intro-gate,
+:root[data-gate="open"] .intro-gate {
+  animation: none;
+}
+
+:root[data-gate="film"] .intro-gate-door,
+:root[data-gate="film"] :is(.intro-gate-logo, .intro-gate-seam, .intro-gate-terminal),
+:root[data-gate="open"] :is(.intro-gate-logo, .intro-gate-seam, .intro-gate-terminal) {
+  animation: none;
+}
+
+:root[data-gate="film"] :is(.intro-gate-logo, .intro-gate-seam, .intro-gate-terminal),
+:root[data-gate="open"] :is(.intro-gate-logo, .intro-gate-seam, .intro-gate-terminal) {
+  display: none;
+}
+
+:root[data-gate="open"] .intro-gate-door-left {
+  animation: gate-open-left 0.9s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+:root[data-gate="open"] .intro-gate-door-right {
+  animation: gate-open-right 0.9s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.intro-film {
+  display: none;
+}
+
+:root[data-gate="film"] .intro-film,
+:root[data-gate="open"] .intro-film {
+  --film: clamp(16rem, 62vmin, 32rem);
+  display: block;
+  position: fixed;
+  z-index: 101;
+  left: calc(50% - var(--film) / 2);
+  top: calc(50% - var(--film) / 2);
+  width: var(--film);
+  height: var(--film);
+  pointer-events: none;
+  transform-origin: center;
+  /* While the doors are closed: soft edges, like a spotlight on the logo
+     (cheap — no blending with the page yet) */
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent);
+  mask-image: radial-gradient(closest-side, #000 72%, transparent);
+}
+
+/* In flight over the page: the film's black background disappears */
+:root[data-gate="open"] .intro-film {
+  -webkit-mask-image: none;
+  mask-image: none;
+  mix-blend-mode: screen;
+}
+
+/* The header logo waits for the flying one to land */
+:root[data-gate="film"] [data-intro-target],
+:root[data-gate="open"] [data-intro-target] {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* ?gate forces a preview (the global reduced-motion rule skips the gate) */
   :root:not([data-gate-force]) .intro-gate {
     display: none !important;
-  }
-}
-
-/* Hero photo steps aside while the 3D scene builds the logo in its place
-   (data-hero-logo is set by components/Sections/Hero3D/HeroScene.tsx) */
-.hero-photo {
-  transition:
-    opacity 0.9s ease,
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@media (min-width: 1024px) {
-  :root[data-hero-logo="on"] .hero-photo {
-    opacity: 0;
-    transform: translateY(24px) scale(0.97);
   }
 }

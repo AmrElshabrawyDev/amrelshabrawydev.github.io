@@ -56,17 +56,6 @@ export function HeroScene({ className = "" }: { className?: string }) {
 
     let cancelled = false;
     let destroy: (() => void) | undefined;
-    const root = document.documentElement;
-
-    // While the logo is built where the hero photo sits, the photo steps
-    // aside (CSS: :root[data-hero-logo] .hero-photo)
-    const hidePhoto = () => {
-      root.dataset.heroLogo = "on";
-    };
-    const showPhoto = () => {
-      delete root.dataset.heroLogo;
-    };
-
     let started = false;
     const start = async () => {
       if (started) return;
@@ -81,19 +70,6 @@ export function HeroScene({ className = "" }: { className?: string }) {
       const dispose = await createHeroScene(el, {
         lite: (nav.hardwareConcurrency ?? 8) <= 4,
         onReady: () => setReady(true),
-        logo: {
-          anchor: () =>
-            document
-              .querySelector(".hero-photo-frame")
-              ?.getBoundingClientRect() ?? null,
-          // Never while the intro gate is still closed (it opens by ~2.9s)
-          delay:
-            root.dataset.gate === "play"
-              ? Math.max(600, 3000 - performance.now())
-              : 600,
-          onStart: hidePhoto,
-          onDone: showPhoto,
-        },
       });
       if (cancelled) dispose();
       else destroy = dispose;
@@ -129,7 +105,6 @@ export function HeroScene({ className = "" }: { className?: string }) {
       window.removeEventListener("load", schedule);
       removeTriggers();
       window.clearTimeout(timer);
-      showPhoto();
       destroy?.();
     };
   }, []);

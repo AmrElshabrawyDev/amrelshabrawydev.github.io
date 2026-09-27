@@ -62,7 +62,11 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 shrink-0" aria-label={`${personalInfo.name} — home`}>
-          <LogoIcon className="w-10 h-10 transition-transform duration-200 hover:scale-105" />
+          <LogoIcon
+            className="w-10 h-10 transition-transform duration-200 hover:scale-105"
+            // the intro film's logo flies here
+            data-intro-target=""
+          />
           <span className="flex flex-col leading-tight">
             <span className="text-base font-bold text-text-primary">{personalInfo.name}</span>
             <span className="font-mono text-[11px] tracking-wider text-text-tertiary">

@@ -153,53 +153,50 @@ export function HeroSection() {
           {...reveal(6)}
           className="hero-in relative mx-auto w-full max-w-[420px] lg:max-w-none"
         >
-          {/* hidden while the 3D scene builds the logo in its place */}
-          <div className="hero-photo">
-            <div className="hero-photo-frame relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated shadow-[0_30px_80px_-20px] shadow-primary/25">
-              <Image
-                src="/profile.webp"
-                alt={`${personalInfo.name} — freelance React and Next.js developer`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 420px, 480px"
-                className="object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-bg-base/95 via-bg-base/40 to-transparent" />
-              <div className="absolute left-5 right-5 bottom-5 font-[family-name:var(--font-inter)]">
-                <p className="text-xl! font-bold text-text-primary">
-                  {personalInfo.name}
-                </p>
-                <p className="text-sm! text-text-secondary">
-                  Next.js · React · TypeScript · Salla
-                </p>
-              </div>
-            </div>
-
-            {/* Floating proof card → latest case study */}
-            {latest && (
-              <Link
-                href={`/work/${latest.slug}`}
-                className="group mt-4 flex flex-col lg:absolute lg:mt-0 lg:-left-10 lg:top-8 lg:max-w-[250px] border border-border-default bg-bg-base/90 backdrop-blur-md p-4 shadow-xl font-[family-name:var(--font-inter)] text-text-secondary hover:text-text-secondary hover:border-primary transition-colors"
-              >
-                <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-secondary mb-1.5">
-                  Latest case study
-                </span>
-                <span className="flex items-start gap-1 text-sm font-semibold text-text-primary leading-snug">
-                  {latest.client.split(" (")[0]} — {latest.services[0]}
-                  <ArrowUpRight className="w-4 h-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
-                <span className="block text-xs mt-1">{latest.location}</span>
-              </Link>
-            )}
-
-            <div className="hidden sm:block absolute -right-6 bottom-28 border border-border-default bg-bg-base/90 backdrop-blur-md px-4 py-3 shadow-xl font-[family-name:var(--font-inter)]">
-              <p className="text-2xl! font-extrabold text-primary leading-none">
-                {heroData.stats.yearsOfExperience}
+          <div className="relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated shadow-[0_30px_80px_-20px] shadow-primary/25">
+            <Image
+              src="/profile.webp"
+              alt={`${personalInfo.name} — freelance React and Next.js developer`}
+              fill
+              priority
+              sizes="(max-width: 1024px) 420px, 480px"
+              className="object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-bg-base/95 via-bg-base/40 to-transparent" />
+            <div className="absolute left-5 right-5 bottom-5 font-[family-name:var(--font-inter)]">
+              <p className="text-xl! font-bold text-text-primary">
+                {personalInfo.name}
               </p>
-              <p className="text-[11px]! uppercase tracking-widest text-text-tertiary mt-1">
-                Years building for the web
+              <p className="text-sm! text-text-secondary">
+                Next.js · React · TypeScript · Salla
               </p>
             </div>
+          </div>
+
+          {/* Floating proof card → latest case study */}
+          {latest && (
+            <Link
+              href={`/work/${latest.slug}`}
+              className="group mt-4 flex flex-col lg:absolute lg:mt-0 lg:-left-10 lg:top-8 lg:max-w-[250px] border border-border-default bg-bg-base/90 backdrop-blur-md p-4 shadow-xl font-[family-name:var(--font-inter)] text-text-secondary hover:text-text-secondary hover:border-primary transition-colors"
+            >
+              <span className="block font-mono text-[10px] font-bold uppercase tracking-widest text-secondary mb-1.5">
+                Latest case study
+              </span>
+              <span className="flex items-start gap-1 text-sm font-semibold text-text-primary leading-snug">
+                {latest.client.split(" (")[0]} — {latest.services[0]}
+                <ArrowUpRight className="w-4 h-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
+              <span className="block text-xs mt-1">{latest.location}</span>
+            </Link>
+          )}
+
+          <div className="hidden sm:block absolute -right-6 bottom-28 border border-border-default bg-bg-base/90 backdrop-blur-md px-4 py-3 shadow-xl font-[family-name:var(--font-inter)]">
+            <p className="text-2xl! font-extrabold text-primary leading-none">
+              {heroData.stats.yearsOfExperience}
+            </p>
+            <p className="text-[11px]! uppercase tracking-widest text-text-tertiary mt-1">
+              Years building for the web
+            </p>
           </div>
         </div>
       </div>

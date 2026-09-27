@@ -1,9 +1,10 @@
 import React from "react";
 import { LOGO_PATHS, LOGO_VIEWBOX } from "./logoPaths";
 
-export function LogoIcon({ className }: { className?: string }) {
+export function LogoIcon({ className, ...rest }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      {...rest}
       viewBox={`0 0 ${LOGO_VIEWBOX} ${LOGO_VIEWBOX}`}
       xmlns="http://www.w3.org/2000/svg"
       strokeLinecap="round"
