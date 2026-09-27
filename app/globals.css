@@ -679,10 +679,6 @@
 
 :root {
   --gs: 1;
-  /* where the logo flies (measured by the intro script; rough fallback) */
-  --fly-x: calc(-50vw + 3.5rem);
-  --fly-y: calc(-50vh + 2.5rem);
-  --fly-s: 0.2;
 }
 
 .intro-gate {
@@ -882,6 +878,18 @@
 .intro-gate-result {
   color: var(--color-success);
   animation: gate-result calc(0.25 * var(--t)) ease-out calc(0.95 * var(--t)) both;
+}
+
+/* No measurement (script blocked or failed): no flight — the logo shrinks
+   away in place and the header logo simply appears */
+.intro-gate:not([data-measured]) {
+  --fly-x: 0px;
+  --fly-y: calc(var(--mark) * -0.12);
+  --fly-s: 0.6;
+}
+
+.intro-gate:not([data-measured]) .intro-gate-mark {
+  animation: gate-fade-out calc(0.45 * var(--t)) ease-in calc(1.45 * var(--t)) forwards;
 }
 
 /* The header logo takes over the instant the flying one lands (same size and
