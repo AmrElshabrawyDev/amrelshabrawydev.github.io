@@ -1,7 +1,7 @@
 import { LogoIcon } from "./LogoIcon";
 
 /**
- * First-visit intro: two terminal-style doors close over the page with the
+ * Intro on every visit: two terminal-style doors close over the page with the
  * logo on the seam, "build" the site, then split the logo and open.
  * Pure CSS timeline (app/globals.css → .intro-gate); the page renders
  * underneath the whole time, so it never delays loading. Skipping is handled

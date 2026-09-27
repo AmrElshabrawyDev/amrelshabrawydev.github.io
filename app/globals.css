@@ -863,3 +863,18 @@
     display: none !important;
   }
 }
+
+/* Hero photo steps aside while the 3D scene builds the logo in its place
+   (data-hero-logo is set by components/Sections/Hero3D/HeroScene.tsx) */
+.hero-photo {
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 1024px) {
+  :root[data-hero-logo="on"] .hero-photo {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+}

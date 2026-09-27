@@ -7,10 +7,22 @@ type NavigatorHints = Navigator & {
   deviceMemory?: number;
 };
 
-const supportsWebGL = () => {
+/**
+ * WebGL with a real GPU. Software renderers (no graphics card — some VMs,
+ * old laptops, and the servers PageSpeed Insights runs on) would stutter.
+ */
+const hasHardwareWebGL = () => {
   try {
-    const canvas = document.createElement("canvas");
-    return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+    const gl = document.createElement("canvas").getContext("webgl");
+    if (!gl) return false;
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const renderer = String(
+      gl.getParameter(info ? info.UNMASKED_RENDERER_WEBGL : gl.RENDERER),
+    );
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(
+      renderer,
+    );
   } catch {
     return false;
   }
@@ -19,7 +31,8 @@ const supportsWebGL = () => {
 /**
  * Decorative 3D background for the home hero.
  * three.js is only downloaded on desktop-width screens, on the first
- * interaction or once the page has loaded and gone idle — never for phones, reduced-motion users, data-saver,
+ * interaction or once the page has loaded and gone idle — never for phones,
+ * software-rendered WebGL, reduced-motion users, data-saver,
  * very low-memory devices or browsers without WebGL (they keep the static
  * background).
  */
@@ -43,26 +56,51 @@ export function HeroScene({ className = "" }: { className?: string }) {
 
     let cancelled = false;
     let destroy: (() => void) | undefined;
+    const root = document.documentElement;
 
+    // While the logo is built where the hero photo sits, the photo steps
+    // aside (CSS: :root[data-hero-logo] .hero-photo)
+    const hidePhoto = () => {
+      root.dataset.heroLogo = "on";
+    };
+    const showPhoto = () => {
+      delete root.dataset.heroLogo;
+    };
+
+    let started = false;
     const start = async () => {
       if (started) return;
       started = true;
       removeTriggers();
-      // Creating a WebGL context is expensive, so this check is deferred too
-      if (!supportsWebGL()) return;
+      // Creating a WebGL context is expensive, so this check is deferred too.
+      // ?3d forces the scene (previews, testing on machines without a GPU).
+      const forced = /[?&]3d(=|&|$)/.test(window.location.search);
+      if (!forced && !hasHardwareWebGL()) return;
       const { createHeroScene } = await import("./heroSceneEngine");
       if (cancelled) return;
       const dispose = await createHeroScene(el, {
         lite: (nav.hardwareConcurrency ?? 8) <= 4,
         onReady: () => setReady(true),
+        logo: {
+          anchor: () =>
+            document
+              .querySelector(".hero-photo-frame")
+              ?.getBoundingClientRect() ?? null,
+          // Never while the intro gate is still closed (it opens by ~2.9s)
+          delay:
+            root.dataset.gate === "play"
+              ? Math.max(600, 3000 - performance.now())
+              : 600,
+          onStart: hidePhoto,
+          onDone: showPhoto,
+        },
       });
       if (cancelled) dispose();
       else destroy = dispose;
     };
 
-    // Start on the first interaction, or a few seconds after the page is idle —
-    // so the 3D never competes with loading and hydrating the page itself.
-    let started = false;
+    // Start on the first interaction, or once the page (and the intro gate)
+    // is done and idle — so the 3D never competes with loading the page.
     let timer: number | undefined;
     const triggers = [
       "pointermove",
@@ -91,6 +129,7 @@ export function HeroScene({ className = "" }: { className?: string }) {
       window.removeEventListener("load", schedule);
       removeTriggers();
       window.clearTimeout(timer);
+      showPhoto();
       destroy?.();
     };
   }, []);
