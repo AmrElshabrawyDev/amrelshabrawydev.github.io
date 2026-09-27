@@ -1,6 +1,8 @@
 @import "tailwindcss";
 /* Intro animation (logo + curtains) — see components/ui/IntroGate.tsx */
 @import "./intro-gate.css";
+/* Loader for slow page changes — see components/ui/NavigationLoader.tsx */
+@import "./nav-loader.css";
 
 @theme {
   /* ====================================

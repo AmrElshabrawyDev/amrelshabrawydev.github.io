@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { BookOpen, Rss } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { blogMetadata, breadcrumbSchema } from "@/lib/metadata";
@@ -53,12 +52,13 @@ export default function BlogPage() {
               <>
                 Plain-language articles on Next.js, online stores, SEO and speed —
                 for business owners deciding what to build, and developers building it.{" "}
-                <Link
+                {/* a plain <a>: the feed is a file, not a page next/link can prefetch */}
+                <a
                   href="/rss.xml"
                   className="inline-flex items-center gap-1.5 text-warning hover:text-primary font-semibold"
                 >
                   <Rss className="w-4 h-4" /> RSS
-                </Link>
+                </a>
               </>
             }
           />
