@@ -645,6 +645,7 @@
 
 .hero-in {
   animation: hero-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0ms) + var(--gate-delay, 0ms));
 }
 
 /* Headline + intro only slide (no fade): they must be visible from the first
@@ -660,4 +661,195 @@
 
 .hero-rise {
   animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0ms) + var(--gate-delay, 0ms));
+}
+
+/* ====================================
+  🚪 Intro gate (first visit per session)
+==================================== */
+
+.intro-gate {
+  display: none;
+}
+
+:root[data-gate="play"] {
+  /* Hero entrance starts as the doors open */
+  --gate-delay: 950ms;
+}
+
+:root[data-gate="play"] .intro-gate,
+:root[data-gate="skip"] .intro-gate {
+  --logo: clamp(7rem, 22vmin, 11rem);
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  cursor: pointer;
+  animation: gate-done 0s linear 1.5s forwards;
+}
+
+:root[data-gate="skip"] .intro-gate {
+  animation: gate-skip 0.25s ease-out forwards;
+}
+
+.intro-gate-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-color: var(--color-bg-base);
+  background-image:
+    linear-gradient(rgba(137, 180, 250, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(137, 180, 250, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.intro-gate-door-left {
+  left: 0;
+  animation: gate-open-left 0.55s cubic-bezier(0.77, 0, 0.18, 1) 0.9s forwards;
+}
+
+.intro-gate-door-right {
+  right: 0;
+  animation: gate-open-right 0.55s cubic-bezier(0.77, 0, 0.18, 1) 0.9s forwards;
+}
+
+/* Glowing seam between the doors, with a gap where the logo sits */
+.intro-gate-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary) 0 calc(50% - var(--logo) * 0.8),
+    transparent calc(50% - var(--logo) * 0.8) calc(50% + var(--logo) * 0.4 + 3.5rem),
+    var(--color-primary) calc(50% + var(--logo) * 0.4 + 3.5rem)
+  );
+  filter: drop-shadow(0 0 8px var(--color-primary));
+  animation: gate-fade-out 0.15s ease-out 0.85s forwards;
+}
+
+/* Each door carries one half of the logo, split down the middle of the "M" */
+.intro-gate-logo {
+  position: absolute;
+  top: calc(50% - var(--logo) * 0.75);
+  width: var(--logo);
+  height: var(--logo);
+  filter: drop-shadow(0 0 24px rgba(137, 180, 250, 0.55));
+  animation: gate-logo-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.intro-gate-logo-left {
+  right: calc(var(--logo) / -2);
+  /* negative insets keep the glow; only the right half is cut */
+  clip-path: inset(-3rem 50% -3rem -3rem);
+}
+
+.intro-gate-logo-right {
+  left: calc(var(--logo) / -2);
+  clip-path: inset(-3rem -3rem -3rem 50%);
+}
+
+.intro-gate-terminal {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--logo) * 0.4);
+  transform: translateX(-50%);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  text-align: left;
+  animation: gate-fade-out 0.15s ease-out 0.8s forwards;
+}
+
+.intro-gate-command {
+  width: 15ch;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  border-right: 2px solid var(--color-primary);
+  animation:
+    gate-type 0.4s steps(15) 0.15s both,
+    gate-caret 0.5s step-end infinite;
+}
+
+.intro-gate-result {
+  margin-top: 0.25rem;
+  color: var(--color-success);
+  animation: gate-result 0.01s linear 0.62s both;
+}
+
+@keyframes gate-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gate-type {
+  from {
+    width: 0;
+  }
+  to {
+    width: 15ch;
+  }
+}
+
+@keyframes gate-caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes gate-result {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gate-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes gate-open-left {
+  to {
+    transform: translateX(-101%);
+  }
+}
+
+@keyframes gate-open-right {
+  to {
+    transform: translateX(101%);
+  }
+}
+
+@keyframes gate-done {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@keyframes gate-skip {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-gate {
+    display: none !important;
+  }
 }

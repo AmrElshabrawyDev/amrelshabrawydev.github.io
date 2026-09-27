@@ -27,7 +27,7 @@ export function HeroSection() {
   // Entrance animation is pure CSS (.hero-in) so the text paints without
   // waiting for JavaScript — it's the page's Largest Contentful Paint.
   const reveal = (order: number) => ({
-    style: { animationDelay: `${order * 80}ms` },
+    style: { "--d": `${order * 80}ms` } as React.CSSProperties,
   });
 
   return (

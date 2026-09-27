@@ -169,6 +169,8 @@ import { Navbar } from "@/components/Layout/Navbar";
 import { Footer } from "@/components/Layout/Footer";
 import Script from "next/script";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { IntroGate } from "@/components/ui/IntroGate";
+import { introGateScript } from "@/lib/intro-gate";
 
 // Console Easter Egg
 const easterEgg = `
@@ -200,8 +202,14 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${mono.variable} ${inter.variable} ${cairo.variable}`}
+      // data-gate is set by the inline script before hydration
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
+      </head>
       <body className="antialiased min-h-screen flex flex-col">
+        <IntroGate />
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
