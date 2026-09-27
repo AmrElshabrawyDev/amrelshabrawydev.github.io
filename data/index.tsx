@@ -86,6 +86,7 @@ import {
   Rocket,
   Database,
   CreditCard,
+  Store,
   Github,
   Linkedin,
   Mail,
@@ -101,6 +102,8 @@ export interface SkillCategory {
   skills: string[];
   /** Case studies (slugs from data/projects.ts) where these tools were used */
   projects: string[];
+  /** Shown as a full-width card above the others */
+  featured?: boolean;
 }
 
 export interface AboutData {
@@ -117,6 +120,21 @@ export const aboutData: AboutData = {
   // Only tools used in shipped projects. Add new ones here once a real
   // project uses them (e.g. Node.js, Laravel) — with the case study as proof.
   skillCategories: [
+    {
+      title: "E-commerce platforms",
+      icon: <Store className="w-6 h-6" />,
+      benefit:
+        "Online stores on the platforms Saudi, Gulf and global merchants use — theme customization, setup, speed and SEO.",
+      skills: [
+        "Salla (Twilight · Raed)",
+        "Zid",
+        "Shopify",
+        "WordPress",
+        "WooCommerce",
+      ],
+      projects: ["luxellia-parfums-salla-store"],
+      featured: true,
+    },
     {
       title: "Frameworks & languages",
       icon: <Code2 className="w-6 h-6" />,
@@ -170,11 +188,10 @@ export const aboutData: AboutData = {
       projects: ["tonextstep-digital-marketplace", "dashboard", "ecommerco"],
     },
     {
-      title: "E-commerce & integrations",
+      title: "Payments & integrations",
       icon: <CreditCard className="w-6 h-6" />,
-      benefit: "Stores, checkouts and services connected end to end.",
+      benefit: "Checkouts, auth, email and AI connected end to end.",
       skills: [
-        "Salla (Twilight · Raed)",
         "Stripe",
         "PayPal",
         "Paddle",
@@ -183,9 +200,9 @@ export const aboutData: AboutData = {
         "Gemini API",
       ],
       projects: [
-        "luxellia-parfums-salla-store",
         "kosovo-travels",
         "tonextstep-digital-marketplace",
+        "travel-smart-ui",
       ],
     },
     {

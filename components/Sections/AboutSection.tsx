@@ -46,6 +46,43 @@ const whoami = [
   ["status", personalInfo.availability],
 ];
 
+const featuredSkills = aboutData.skillCategories.filter((c) => c.featured);
+const gridSkills = aboutData.skillCategories.filter((c) => !c.featured);
+
+/** Links to the case studies where a group of tools was used */
+function UsedIn({
+  slugs,
+  className = "",
+}: {
+  slugs: string[];
+  className?: string;
+}) {
+  const projects = slugs
+    .map((slug) => getCaseStudy(slug))
+    .filter((study) => study !== undefined);
+  if (projects.length === 0) return null;
+  return (
+    <div className={className}>
+      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-secondary mb-2">
+        Used in
+      </p>
+      <ul className="flex flex-col gap-1.5">
+        {projects.map((study) => (
+          <li key={study.slug}>
+            <Link
+              href={`/work/${study.slug}`}
+              className="group inline-flex items-center gap-1 text-sm text-text-secondary hover:text-primary"
+            >
+              {study.title.split(" — ")[0]}
+              <ArrowUpRight className="w-3.5 h-3.5 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** "50+" → { value: 50, suffix: "+" } so the number can count up */
 const parseStat = (raw: string) => {
   const match = raw.match(/^(\d+)(.*)$/);
@@ -246,11 +283,51 @@ export function AboutSection() {
             </div>
           </div>
 
+          {featuredSkills.map((category) => (
+            <article
+              key={category.title}
+              className="terminal-card mb-6 p-6 md:p-8 grid grid-cols-1 lg:grid-cols-[1fr_1.6fr_0.7fr] gap-8 items-center border-l-2! border-l-primary! font-[family-name:var(--font-inter)] gsap-reveal opacity-0"
+            >
+              <div>
+                <span className="flex items-center justify-center w-12 h-12 mb-5 border border-primary/40 bg-primary/10 text-primary">
+                  {category.icon}
+                </span>
+                <h3 className="heading-natural font-[inherit]! text-xl! md:text-2xl! font-bold mb-2">
+                  {category.title}
+                </h3>
+                <p className="text-sm! leading-relaxed">{category.benefit}</p>
+              </div>
+
+              <ul
+                className="grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-3"
+                aria-label={`${category.title} tools`}
+              >
+                {category.skills.map((skill) => {
+                  const [name, detail] = skill.split(" (");
+                  return (
+                    <li
+                      key={skill}
+                      className="flex flex-col justify-center min-h-16 px-4 py-3 border border-border-default bg-bg-base/40"
+                    >
+                      <span className="font-bold text-text-primary">
+                        {name}
+                      </span>
+                      {detail && (
+                        <span className="font-mono text-[10px] text-text-tertiary">
+                          {detail.replace(")", "")} themes
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <UsedIn slugs={category.projects} />
+            </article>
+          ))}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-[family-name:var(--font-inter)]">
-            {aboutData.skillCategories.map((category, index) => {
-              const projects = category.projects
-                .map((slug) => getCaseStudy(slug))
-                .filter((study) => study !== undefined);
+            {gridSkills.map((category, index) => {
               return (
                 <article
                   key={category.title}
@@ -288,26 +365,10 @@ export function AboutSection() {
                     ))}
                   </ul>
 
-                  {projects.length > 0 && (
-                    <div className="mt-auto pt-4 border-t border-border-subtle">
-                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-secondary mb-2">
-                        Used in
-                      </p>
-                      <ul className="flex flex-col gap-1.5">
-                        {projects.map((study) => (
-                          <li key={study.slug}>
-                            <Link
-                              href={`/work/${study.slug}`}
-                              className="group inline-flex items-center gap-1 text-sm text-text-secondary hover:text-primary"
-                            >
-                              {study.title.split(" — ")[0]}
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  <UsedIn
+                    slugs={category.projects}
+                    className="mt-auto pt-4 border-t border-border-subtle"
+                  />
                 </article>
               );
             })}
