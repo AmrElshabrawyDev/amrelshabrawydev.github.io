@@ -290,7 +290,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
+  /* The intro gate is hidden for reduced motion anyway, except in ?gate preview */
+  *:not(.intro-gate, .intro-gate *),
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
@@ -849,7 +850,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .intro-gate {
+  /* ?gate forces a preview (the global reduced-motion rule skips the gate) */
+  :root:not([data-gate-force]) .intro-gate {
     display: none !important;
   }
 }
