@@ -85,7 +85,7 @@ import {
   GitBranch,
   Rocket,
   Database,
-  Server,
+  CreditCard,
   Github,
   Linkedin,
   Mail,
@@ -96,8 +96,11 @@ import {
 export interface SkillCategory {
   title: string;
   icon: React.ReactNode;
+  /** What this means for the client, in one line */
+  benefit: string;
   skills: string[];
-  proficiency: "expert" | "advanced" | "learning";
+  /** Case studies (slugs from data/projects.ts) where these tools were used */
+  projects: string[];
 }
 
 export interface AboutData {
@@ -111,42 +114,101 @@ export const aboutData: AboutData = {
   bio: "I'm Amr, a freelance front-end developer based in Cairo. I build websites and web apps with React and Next.js for businesses that care about speed, search rankings and a polished experience — from Arabic RTL stores on Salla to full-stack marketplaces. You work directly with me, from the first call to launch and beyond.",
   yearsOfExperience: 5,
   projectsCompleted: 50,
+  // Only tools used in shipped projects. Add new ones here once a real
+  // project uses them (e.g. Node.js, Laravel) — with the case study as proof.
   skillCategories: [
     {
-      title: "Frontend Development",
+      title: "Frameworks & languages",
       icon: <Code2 className="w-6 h-6" />,
-      skills: ["React", "Next.js", "TypeScript", "JavaScript (ES6+)"],
-      proficiency: "expert",
+      benefit: "Modern, typed code that's easy to maintain and grow.",
+      skills: [
+        "Next.js (App Router)",
+        "React",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "HTML5",
+      ],
+      projects: [
+        "kosovo-travels",
+        "tonextstep-digital-marketplace",
+        "companions-saas-app",
+      ],
     },
     {
-      title: "Styling & Animation",
+      title: "UI, styling & motion",
       icon: <Palette className="w-6 h-6" />,
-      skills: ["Tailwind CSS", "Framer Motion", "CSS3", "Responsive Design"],
-      proficiency: "expert",
+      benefit: "Pixel-perfect, responsive interfaces — Arabic RTL included.",
+      skills: [
+        "Tailwind CSS",
+        "CSS3",
+        "Material UI",
+        "Bootstrap",
+        "Framer Motion",
+        "GSAP",
+        "RTL layouts",
+      ],
+      projects: [
+        "al-amal-furniture-moving-kuwait",
+        "travel-smart-ui",
+        "dashboard",
+      ],
     },
     {
-      title: "Tools & Workflow",
-      icon: <GitBranch className="w-6 h-6" />,
-      skills: ["Git", "GitHub", "VS Code", "Figma", "Chrome DevTools"],
-      proficiency: "advanced",
+      title: "App logic & data",
+      icon: <Database className="w-6 h-6" />,
+      benefit: "Dashboards, forms and API-driven screens that just work.",
+      skills: ["Redux", "React Router", "Formik", "Axios", "REST APIs"],
+      projects: ["dashboard", "ecommerco", "weather-app"],
+    },
+    {
+      title: "E-commerce & integrations",
+      icon: <CreditCard className="w-6 h-6" />,
+      benefit: "Stores, checkouts and services connected end to end.",
+      skills: [
+        "Salla (Twilight · Raed)",
+        "Stripe",
+        "PayPal",
+        "Paddle",
+        "Supabase",
+        "Resend",
+        "Gemini API",
+      ],
+      projects: [
+        "luxellia-parfums-salla-store",
+        "kosovo-travels",
+        "tonextstep-digital-marketplace",
+      ],
     },
     {
       title: "Performance & SEO",
       icon: <Rocket className="w-6 h-6" />,
-      skills: ["Web Vitals", "Lighthouse", "SEO Optimization", "Accessibility"],
-      proficiency: "advanced",
+      benefit: "Fast pages that pass Core Web Vitals and rank on Google.",
+      skills: [
+        "Core Web Vitals",
+        "Lighthouse / PageSpeed",
+        "Technical SEO",
+        "Accessibility",
+        "Image optimization",
+      ],
+      projects: [
+        "landing-page",
+        "al-amal-furniture-moving-kuwait",
+        "akirastore",
+      ],
     },
     {
-      title: "Backend (Learning)",
-      icon: <Server className="w-6 h-6" />,
-      skills: ["Node.js", "Express", "REST APIs"],
-      proficiency: "learning",
-    },
-    {
-      title: "Database & PHP",
-      icon: <Database className="w-6 h-6" />,
-      skills: ["PHP", "Laravel", "MySQL"],
-      proficiency: "learning",
+      title: "Workflow & delivery",
+      icon: <GitBranch className="w-6 h-6" />,
+      benefit: "Clean Git history, previews and a hand-off you can maintain.",
+      skills: [
+        "Git & GitHub",
+        "Vite",
+        "Cloudflare",
+        "Figma",
+        "Chrome DevTools",
+        "VS Code",
+      ],
+      projects: ["kosovo-travels", "landing-page", "rich-black-theme"],
     },
   ],
 };
@@ -325,7 +387,8 @@ export const faqData: FaqItem[] = [
       "Yes. I build Arabic-first and bilingual Arabic/English websites and stores, including Salla themes, with proper RTL layout and Arabic SEO.",
   },
   {
-    question: "Can you move my WordPress site to Next.js without losing my Google rankings?",
+    question:
+      "Can you move my WordPress site to Next.js without losing my Google rankings?",
     answer:
       "Yes. I keep your existing URLs, titles and content, redirect only what must change, and monitor Search Console after launch. I did exactly this for a Kuwaiti company with 182 indexed Arabic pages.",
   },

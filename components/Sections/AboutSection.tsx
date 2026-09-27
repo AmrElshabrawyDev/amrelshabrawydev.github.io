@@ -5,17 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ArrowRight, Download, FileCheck2, Gauge, Handshake, User } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Download,
+  FileCheck2,
+  Gauge,
+  Handshake,
+  User,
+} from "lucide-react";
 import { aboutData, personalInfo, statsData } from "@/data";
+import { getCaseStudy } from "@/data/projects";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { trackLead } from "@/lib/analytics";
-
-const levels = {
-  expert: { label: "Expert", dot: "bg-primary", text: "text-primary" },
-  advanced: { label: "Advanced", dot: "bg-secondary", text: "text-secondary" },
-  learning: { label: "Learning", dot: "bg-warning", text: "text-warning" },
-} as const;
 
 const promises = [
   {
@@ -52,14 +55,28 @@ const parseStat = (raw: string) => {
 export function AboutSection() {
   const container = useRef<HTMLDivElement>(null);
 
-  useSectionReveal(container, ".gsap-reveal", { stagger: 0.1, y: 20, scale: 0.99 });
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.1,
+    y: 20,
+    scale: 0.99,
+  });
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".about-photo", { clipPath: "inset(100% 0 0 0)", duration: 1.1, ease: "power3.inOut" });
-        gsap.from(".about-whoami > *", { opacity: 0, x: -12, duration: 0.4, stagger: 0.08, delay: 0.7 });
+        gsap.from(".about-photo", {
+          clipPath: "inset(100% 0 0 0)",
+          duration: 1.1,
+          ease: "power3.inOut",
+        });
+        gsap.from(".about-whoami > *", {
+          opacity: 0,
+          x: -12,
+          duration: 0.4,
+          stagger: 0.08,
+          delay: 0.7,
+        });
 
         gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
           const target = Number(el.dataset.count);
@@ -70,7 +87,9 @@ export function AboutSection() {
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 90%" },
             onUpdate: () => {
-              el.textContent = Math.round(counter.value).toLocaleString("en-US");
+              el.textContent = Math.round(counter.value).toLocaleString(
+                "en-US",
+              );
             },
           });
         });
@@ -80,7 +99,10 @@ export function AboutSection() {
   );
 
   return (
-    <section ref={container} className="pb-24 bg-bg-base relative overflow-hidden">
+    <section
+      ref={container}
+      className="pb-24 bg-bg-base relative overflow-hidden"
+    >
       <div className="container-custom relative z-10">
         {/* Hero: intro + photo */}
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center pb-16">
@@ -93,7 +115,11 @@ export function AboutSection() {
             intro={aboutData.bio}
           >
             <div className="mt-10 flex flex-col sm:flex-row gap-3 font-[family-name:var(--font-inter)]">
-              <Link href="/contact" className="btn-primary" onClick={() => trackLead("contact_about")}>
+              <Link
+                href="/contact"
+                className="btn-primary"
+                onClick={() => trackLead("contact_about")}
+              >
                 Start a project <ArrowRight className="w-4 h-4" />
               </Link>
               <a href={personalInfo.resume} download className="btn-outline">
@@ -122,7 +148,9 @@ export function AboutSection() {
                   <span className="w-2 h-2 rounded-full bg-warning/80" />
                   <span className="w-2 h-2 rounded-full bg-success/80" />
                 </span>
-                <span className="font-mono text-[10px] text-text-tertiary">~/amr</span>
+                <span className="font-mono text-[10px] text-text-tertiary">
+                  ~/amr
+                </span>
               </div>
               <dl className="about-whoami p-4 font-mono text-xs space-y-1.5">
                 <p className="text-text-tertiary mb-2">
@@ -131,7 +159,13 @@ export function AboutSection() {
                 {whoami.map(([key, value]) => (
                   <div key={key} className="flex gap-3">
                     <dt className="w-14 shrink-0 text-secondary">{key}</dt>
-                    <dd className={key === "status" ? "text-success" : "text-text-primary"}>{value}</dd>
+                    <dd
+                      className={
+                        key === "status" ? "text-success" : "text-text-primary"
+                      }
+                    >
+                      {value}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -144,12 +178,19 @@ export function AboutSection() {
           {statsData.map((stat) => {
             const parsed = parseStat(stat.value);
             return (
-              <div key={stat.label} className="flex flex-col-reverse p-6 md:p-8 bg-bg-elevated">
-                <dt className="text-sm text-text-tertiary mt-2">{stat.label}</dt>
+              <div
+                key={stat.label}
+                className="flex flex-col-reverse p-6 md:p-8 bg-bg-elevated"
+              >
+                <dt className="text-sm text-text-tertiary mt-2">
+                  {stat.label}
+                </dt>
                 <dd className="text-4xl md:text-5xl font-extrabold text-primary tabular-nums">
                   {parsed ? (
                     <>
-                      <span data-count={parsed.value}>{parsed.value.toLocaleString("en-US")}</span>
+                      <span data-count={parsed.value}>
+                        {parsed.value.toLocaleString("en-US")}
+                      </span>
                       {parsed.suffix}
                     </>
                   ) : (
@@ -169,14 +210,21 @@ export function AboutSection() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-[family-name:var(--font-inter)]">
             {promises.map((item, index) => (
-              <article key={item.title} className="terminal-card p-6 md:p-8 gsap-reveal opacity-0">
+              <article
+                key={item.title}
+                className="terminal-card p-6 md:p-8 gsap-reveal opacity-0"
+              >
                 <div className="flex items-center justify-between mb-6">
                   <span className="flex items-center justify-center w-12 h-12 border border-success/40 bg-success/10 text-success">
                     {item.icon}
                   </span>
-                  <span className="font-mono text-sm text-text-tertiary">0{index + 1}</span>
+                  <span className="font-mono text-sm text-text-tertiary">
+                    0{index + 1}
+                  </span>
                 </div>
-                <h3 className="heading-natural font-[inherit]! text-lg! font-bold mb-2">{item.title}</h3>
+                <h3 className="heading-natural font-[inherit]! text-lg! font-bold mb-2">
+                  {item.title}
+                </h3>
                 <p className="text-sm! leading-relaxed">{item.text}</p>
               </article>
             ))}
@@ -185,29 +233,51 @@ export function AboutSection() {
 
         {/* Skills */}
         <div className="mt-24">
-          <p className="eyebrow mb-3">Skills &amp; tools</p>
-          <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-12">
-            What I work with
-          </h2>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-3">Skills &amp; tools</p>
+              <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-4">
+                What I work with
+              </h2>
+              <p className="font-[family-name:var(--font-inter)] text-lg">
+                Only tools I&apos;ve shipped real projects with — each one
+                linked to the case studies where you can see it in action.
+              </p>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-[family-name:var(--font-inter)]">
-            {aboutData.skillCategories.map((category) => {
-              const level = levels[category.proficiency];
+            {aboutData.skillCategories.map((category, index) => {
+              const projects = category.projects
+                .map((slug) => getCaseStudy(slug))
+                .filter((study) => study !== undefined);
               return (
-                <article key={category.title} className="terminal-card p-6 flex flex-col gap-5 gsap-reveal opacity-0">
+                <article
+                  key={category.title}
+                  className="terminal-card p-6 md:p-7 flex flex-col gap-5 gsap-reveal opacity-0"
+                >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-primary">{category.icon}</span>
-                      <h3 className="heading-natural font-[inherit]! text-lg! font-bold">
-                        {category.title}
-                      </h3>
-                    </div>
-                    <span className={`flex items-center gap-1.5 text-xs font-semibold shrink-0 ${level.text}`}>
-                      <span className={`w-2 h-2 rounded-full ${level.dot}`} />
-                      {level.label}
+                    <span className="flex items-center justify-center w-12 h-12 border border-primary/40 bg-primary/10 text-primary">
+                      {category.icon}
+                    </span>
+                    <span className="font-mono text-sm text-text-tertiary">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
-                  <ul className="flex flex-wrap gap-2">
+
+                  <div>
+                    <h3 className="heading-natural font-[inherit]! text-lg! font-bold mb-1.5">
+                      {category.title}
+                    </h3>
+                    <p className="text-sm! leading-relaxed">
+                      {category.benefit}
+                    </p>
+                  </div>
+
+                  <ul
+                    className="flex flex-wrap gap-2"
+                    aria-label={`${category.title} tools`}
+                  >
                     {category.skills.map((skill) => (
                       <li
                         key={skill}
@@ -217,6 +287,27 @@ export function AboutSection() {
                       </li>
                     ))}
                   </ul>
+
+                  {projects.length > 0 && (
+                    <div className="mt-auto pt-4 border-t border-border-subtle">
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-secondary mb-2">
+                        Used in
+                      </p>
+                      <ul className="flex flex-col gap-1.5">
+                        {projects.map((study) => (
+                          <li key={study.slug}>
+                            <Link
+                              href={`/work/${study.slug}`}
+                              className="group inline-flex items-center gap-1 text-sm text-text-secondary hover:text-primary"
+                            >
+                              {study.title.split(" — ")[0]}
+                              <ArrowUpRight className="w-3.5 h-3.5 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </article>
               );
             })}
