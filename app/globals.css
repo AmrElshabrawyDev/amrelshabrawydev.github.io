@@ -673,9 +673,15 @@
   display: none;
 }
 
+:root {
+  /* Intro gate speed: every timing below is multiplied by this.
+     1 = 1.65s total, 1.75 ≈ 2.9s. */
+  --gs: 1.75;
+}
+
 :root[data-gate="play"] {
   /* Hero entrance starts as the doors open */
-  --gate-delay: 950ms;
+  --gate-delay: calc(1.1s * var(--gs));
 }
 
 :root[data-gate="play"] .intro-gate,
@@ -686,7 +692,7 @@
   inset: 0;
   z-index: 100;
   cursor: pointer;
-  animation: gate-done 0s linear 1.5s forwards;
+  animation: gate-done 0s linear calc(1.65s * var(--gs)) forwards;
 }
 
 :root[data-gate="skip"] .intro-gate {
@@ -707,12 +713,14 @@
 
 .intro-gate-door-left {
   left: 0;
-  animation: gate-open-left 0.55s cubic-bezier(0.77, 0, 0.18, 1) 0.9s forwards;
+  animation: gate-open-left calc(0.55s * var(--gs)) cubic-bezier(0.77, 0, 0.18, 1)
+    calc(1.05s * var(--gs)) forwards;
 }
 
 .intro-gate-door-right {
   right: 0;
-  animation: gate-open-right 0.55s cubic-bezier(0.77, 0, 0.18, 1) 0.9s forwards;
+  animation: gate-open-right calc(0.55s * var(--gs)) cubic-bezier(0.77, 0, 0.18, 1)
+    calc(1.05s * var(--gs)) forwards;
 }
 
 /* Glowing seam between the doors, with a gap where the logo sits */
@@ -729,7 +737,7 @@
     var(--color-primary) calc(50% + var(--logo) * 0.4 + 3.5rem)
   );
   filter: drop-shadow(0 0 8px var(--color-primary));
-  animation: gate-fade-out 0.15s ease-out 0.85s forwards;
+  animation: gate-fade-out calc(0.15s * var(--gs)) ease-out calc(1s * var(--gs)) forwards;
 }
 
 /* Each door carries one half of the logo, split down the middle of the "M" */
@@ -739,7 +747,7 @@
   width: var(--logo);
   height: var(--logo);
   filter: drop-shadow(0 0 24px rgba(137, 180, 250, 0.55));
-  animation: gate-logo-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: gate-logo-in calc(0.45s * var(--gs)) cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .intro-gate-logo-left {
@@ -762,7 +770,7 @@
   font-size: 0.875rem;
   white-space: nowrap;
   text-align: left;
-  animation: gate-fade-out 0.15s ease-out 0.8s forwards;
+  animation: gate-fade-out calc(0.15s * var(--gs)) ease-out calc(0.95s * var(--gs)) forwards;
 }
 
 .intro-gate-command {
@@ -771,14 +779,14 @@
   color: var(--color-text-primary);
   border-right: 2px solid var(--color-primary);
   animation:
-    gate-type 0.4s steps(15) 0.15s both,
+    gate-type calc(0.4s * var(--gs)) steps(15) calc(0.15s * var(--gs)) both,
     gate-caret 0.5s step-end infinite;
 }
 
 .intro-gate-result {
   margin-top: 0.25rem;
   color: var(--color-success);
-  animation: gate-result 0.01s linear 0.62s both;
+  animation: gate-result 0.01s linear calc(0.62s * var(--gs)) both;
 }
 
 @keyframes gate-logo-in {
