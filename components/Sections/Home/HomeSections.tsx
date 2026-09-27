@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { ArrowRight, Plus, Quote } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import {
   heroData,
   serviceData,
   processData,
   faqData,
-  testimonialData,
 } from "@/data";
 import { featuredCaseStudies } from "@/data/projects";
 import type { PostMeta } from "@/lib/blog";
@@ -151,34 +150,6 @@ export function ProcessSection() {
 }
 
 /** Renders only once real testimonials are added in data/index.tsx */
-export function Testimonials() {
-  if (testimonialData.length === 0) return null;
-
-  return (
-    <section className="py-24 bg-bg-base border-t border-border-subtle">
-      <div className="container-custom">
-        <SectionHeader eyebrow="Testimonials" title="What clients say" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonialData.map((t) => (
-            <figure key={t.name} className="terminal-card p-6 flex flex-col gap-4">
-              <Quote className="w-6 h-6 text-primary" />
-              <blockquote className="font-[family-name:var(--font-inter)] text-text-primary leading-relaxed">
-                {t.message}
-              </blockquote>
-              <figcaption className="mt-auto text-sm">
-                <span className="font-bold text-text-primary">{t.name}</span>
-                <span className="block text-text-tertiary">
-                  {t.position}, {t.company}
-                </span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function LatestPosts({ posts }: { posts: PostMeta[] }) {
   if (posts.length === 0) return null;
 

@@ -348,20 +348,84 @@ export const faqData: FaqItem[] = [
 */
 
 export interface TestimonialData {
-  image: string;
   name: string;
-  position: string;
-  company: string;
-  message: string;
   rating: number;
+  /** Month the review was left, e.g. "Sep 2026" */
+  date: string;
+  /** The Khamsat service the review was left on (English) */
+  service: string;
+  /** Original review text, exactly as the client wrote it (Arabic) */
+  original: string;
+  /** Faithful English translation of `original` */
+  translation: string;
 }
 
+/** Public profile where every review below can be verified */
+export const reviewSource = {
+  name: "Khamsat",
+  url: "https://khamsat.com/user/amrelshabrawydev/reviews",
+  rating: 5.0,
+  count: 7,
+  completion: "100%",
+};
+
+const bugFixing = "Fixing React, JavaScript, CSS & HTML bugs";
+
 /**
- * Add real client testimonials here (with their permission).
- * The testimonials section only renders when this list is not empty.
- * Tip: a short quote + name + company + link to their site builds the most trust.
+ * Real client reviews from Khamsat (Arabic), shown with an English translation.
+ * Only detailed reviews are listed; one-word ones are left out.
  */
-export const testimonialData: TestimonialData[] = [];
+export const testimonialData: TestimonialData[] = [
+  {
+    name: "Verified buyer",
+    rating: 5,
+    date: "Sep 2026",
+    service: bugFixing,
+    original:
+      "أنصح بشدة التعامل مع الأستاذ عمرو الشبراوى شخص محترف جداً، سريع في الإنجاز، وخدوم لأبعد الحدود، كما أنه يتميز بسعة صدره وتفهمه الكامل للمتطلبات وتعديلات الـ CSS بدقة عالية. شكراً جزيلاً لك على هذه الخدمة الممتازة وليعاملات أخرى قادمة بإذن الله.",
+    translation:
+      "I highly recommend working with Amr Elshabrawy. He's very professional, fast to deliver and goes out of his way to help. He's patient, fully understood the requirements and made the CSS changes with great precision. Thank you so much for the excellent service — here's to more work together, God willing.",
+  },
+  {
+    name: "Bahaeddin A.",
+    rating: 5,
+    date: "Jun 2026",
+    service: bugFixing,
+    original:
+      "مهندس محترم وفاهم شغله مزبوط ما بتعب معه ابدا بس خبره بالمشكلة وهو بلاقي الحل وفي مشاكل هو بلاقيها اثناء الفحص وبحلها",
+    translation:
+      "A respectful engineer who really knows his craft. Working with him is effortless — just tell him the problem and he finds the solution. He even finds other issues while investigating, and fixes them.",
+  },
+  {
+    name: "Solafh A.",
+    rating: 5,
+    date: "Jul 2026",
+    service: bugFixing,
+    original:
+      "انسان محترم ومهندس شاطر كل الشكر لك وتمنياتي لك بكل التوفيق ماقصر ابداً أنجز عمله بكل دقه انصح بالتعامل معه",
+    translation:
+      "A respectful person and a skilled engineer. Many thanks and best wishes — he went above and beyond and did his work with great precision. I recommend working with him.",
+  },
+  {
+    name: "Mohanad A.",
+    rating: 5,
+    date: "Aug 2026",
+    service: bugFixing,
+    original:
+      "عمر شخص محترف وذوق جدا ومتعاون ويعمل بكل حب أشكره على جهوده بإذن الله سيكون لنا تعامل اخر",
+    translation:
+      "Amr is professional, very courteous and cooperative, and clearly enjoys his work. Thank you for your effort — God willing, we'll work together again.",
+  },
+  {
+    name: "Ahmed A.",
+    rating: 5,
+    date: "Jun 2026",
+    service: bugFixing,
+    original: "التعامل راق و خلاق عاليه يقدم الخدمة باحترافية تجربة ممتازة",
+    translation:
+      "Classy to deal with and has great manners. He delivers the service professionally — an excellent experience.",
+  },
+];
 
 /*
 ===============================================
