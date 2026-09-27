@@ -759,8 +759,9 @@
   top: calc(50% - var(--mark) / 2 - var(--mark) * 0.12);
   width: var(--mark);
   height: var(--mark);
-  animation: gate-fly-x calc(0.7 * var(--t)) cubic-bezier(0.55, 0, 0.3, 1) calc(1.45 * var(--t))
-    forwards;
+  animation:
+    gate-fly-x calc(0.7 * var(--t)) cubic-bezier(0.55, 0, 0.3, 1) calc(1.45 * var(--t)) forwards,
+    gate-hide 0s linear calc(2.15 * var(--t)) forwards;
 }
 
 .intro-gate-mark-inner {
@@ -883,13 +884,13 @@
   animation: gate-result calc(0.25 * var(--t)) ease-out calc(0.95 * var(--t)) both;
 }
 
-/* The header logo waits for the flying one to land, then settles with a pulse */
+/* The header logo takes over the instant the flying one lands (same size and
+   spot), then glows once — no scaling, so there's no jump */
 :root[data-gate="play"] [data-intro-target] {
   opacity: 0;
   animation:
-    gate-land 0s linear calc(2.12 * var(--gs) * 1s) forwards,
-    /* no fill: it must not scale the logo while the intro script measures it */
-    gate-settle 0.55s ease-out calc(2.12 * var(--gs) * 1s);
+    gate-land 0s linear calc(2.15 * var(--gs) * 1s) forwards,
+    gate-settle 0.6s ease-out calc(2.15 * var(--gs) * 1s);
 }
 
 /* ---- keyframes ---- */
@@ -1020,12 +1021,16 @@
 
 @keyframes gate-settle {
   0% {
-    transform: scale(1.18);
     filter: drop-shadow(0 0 10px rgba(137, 180, 250, 0.9));
   }
   100% {
-    transform: none;
-    filter: none;
+    filter: drop-shadow(0 0 0 rgba(137, 180, 250, 0));
+  }
+}
+
+@keyframes gate-hide {
+  to {
+    opacity: 0;
   }
 }
 
