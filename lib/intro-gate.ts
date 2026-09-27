@@ -1,11 +1,13 @@
 /**
  * Runs before first paint (inlined in <head>): plays the intro on every full
  * page load ("play"), or nothing with reduced motion ("seen").
- * Any click or key press skips it — handled here, so it works before hydration.
+ * A click or key press while it is on screen skips it — handled here, so it
+ * works before hydration. Once it has finished, clicks are left alone (a late
+ * "skip" would bring the overlay back and swallow the click).
  * Preview: add ?gate to any URL to force it to play (even with reduced motion);
  * ?gate=debug also logs the landing measurements to the console.
  */
-export const introGateScript = `try{var d=document.documentElement,f=/[?&]gate(=|&|$)/.test(location.search);if(f)d.dataset.gateForce="";if(!f&&matchMedia("(prefers-reduced-motion: reduce)").matches){d.dataset.gate="seen"}else{d.dataset.gate="play";var s=function(){if(d.dataset.gate==="play")d.dataset.gate="skip"};addEventListener("pointerdown",s,{once:true});addEventListener("keydown",s,{once:true})}}catch(e){}`;
+export const introGateScript = `try{var d=document.documentElement,f=/[?&]gate(=|&|$)/.test(location.search);if(f)d.dataset.gateForce="";if(!f&&matchMedia("(prefers-reduced-motion: reduce)").matches){d.dataset.gate="seen"}else{d.dataset.gate="play";var s=function(){var g=document.querySelector(".intro-gate");if(d.dataset.gate==="play"&&g&&getComputedStyle(g).visibility!=="hidden")d.dataset.gate="skip"};addEventListener("pointerdown",s,{once:true});addEventListener("keydown",s,{once:true})}}catch(e){}`;
 
 /**
  * Runs right after the intro markup. Measures where the header logo is and

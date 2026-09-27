@@ -1,0 +1,75 @@
+/* ====================================
+  ⏳ Page-change loader (components/ui/NavigationLoader.tsx)
+  Shown only when a navigation takes longer than 300ms: the page blurs and
+  the logo is drawn, erased and drawn again until the new page arrives.
+==================================== */
+
+.nav-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 90; /* above the header, below the intro */
+  display: grid;
+  place-items: center;
+  background: rgb(17 17 27 / 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s ease,
+    visibility 0s linear 0.25s;
+}
+
+.nav-loader.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
+}
+
+.nav-loader svg {
+  width: clamp(4.5rem, 12vmin, 6.5rem);
+  overflow: visible;
+  filter: drop-shadow(0 0 5px rgba(137, 180, 250, 0.9)) drop-shadow(0 0 14px rgba(137, 180, 250, 0.45));
+}
+
+.nav-loader path {
+  fill: none;
+  stroke: #cfe0ff;
+  stroke-width: 12;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* draw → erase → draw…; hexagon first, then A, M, R */
+.nav-loader.is-visible path {
+  animation: nav-trace 1.6s cubic-bezier(0.55, 0, 0.35, 1) infinite;
+}
+.nav-loader.is-visible path:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.nav-loader.is-visible path:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.nav-loader.is-visible path:nth-child(4) {
+  animation-delay: 0.28s;
+}
+
+@keyframes nav-trace {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  55% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* a still, fully drawn logo */
+  .nav-loader path {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+}

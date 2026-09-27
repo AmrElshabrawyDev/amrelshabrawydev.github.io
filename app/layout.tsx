@@ -170,6 +170,7 @@ import { Footer } from "@/components/Layout/Footer";
 import Script from "next/script";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { IntroGate } from "@/components/ui/IntroGate";
+import { NavigationLoader } from "@/components/ui/NavigationLoader";
 import { introGateScript } from "@/lib/intro-gate";
 
 // Console Easter Egg
@@ -231,6 +232,7 @@ export default function RootLayout({
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <NavigationLoader />
       </body>
     </html>
   );
