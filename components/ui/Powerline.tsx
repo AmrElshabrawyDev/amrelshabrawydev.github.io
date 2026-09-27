@@ -40,6 +40,8 @@ interface PowerlineSegmentProps {
   className?: string;
   icon?: React.ReactNode;
   onClick?: () => void;
+  /** "md" (default) for navigation and headers, "sm" for badges and tags */
+  size?: "sm" | "md";
 }
 
 const segmentStyles: Record<
@@ -84,6 +86,7 @@ export function PowerlineSegment({
   className = "",
   icon,
   onClick,
+  size = "md",
 }: PowerlineSegmentProps) {
   const styles = segmentStyles[color];
   const isRight = direction === "right";
@@ -94,6 +97,7 @@ export function PowerlineSegment({
     <div
       onClick={onClick}
       data-direction={direction}
+      data-size={size}
       className={`powerline-segment ${styles.segment} ${className}`}
     >
       {showArrow && (isRight || isBoth) && (

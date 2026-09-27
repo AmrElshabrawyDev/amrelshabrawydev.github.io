@@ -126,7 +126,7 @@ export function Navbar() {
                           icon={link.icon}
                           className={`transition-all ${
                             isActive
-                              ? "font-bold text-base"
+                              ? "font-bold"
                               : "group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
                           }`}
                         >
@@ -159,7 +159,7 @@ export function Navbar() {
                           icon={link.icon}
                           className={`transition-all ${
                             isActive
-                              ? "font-bold text-base"
+                              ? "font-bold"
                               : "group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
                           }`}
                         >

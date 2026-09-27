@@ -231,9 +231,32 @@
     left: -14px;
   }
 
+  /* Two fixed sizes keep every segment on the site the same height.
+     Use the `size` prop instead of height classes. */
+  .powerline-segment[data-size="sm"] {
+    height: 1.75rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+  .powerline-segment[data-size="sm"][data-direction="left"] {
+    padding-left: 1.25rem;
+    padding-right: 0.625rem;
+  }
+  .powerline-segment[data-size="sm"] .powerline-arrow-left,
+  .powerline-segment[data-size="sm"] .powerline-arrow-right {
+    width: 11px;
+  }
+  .powerline-segment[data-size="sm"] .powerline-arrow-left {
+    right: -10px;
+  }
+  .powerline-segment[data-size="sm"] .powerline-arrow-right {
+    left: -10px;
+  }
+
   @media (max-width: 1024px) {
-    .powerline-segment {
-      height: 2rem;
+    .powerline-segment[data-size="md"] {
+      height: 2.25rem;
+      font-size: 0.8125rem;
     }
   }
 }

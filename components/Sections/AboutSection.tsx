@@ -137,13 +137,13 @@ export function AboutSection() {
                 <PowerlineGroup>
                   <PowerlineSegment
                     color={proficiencyColors[category.proficiency]}
-                    className="h-6 text-[10px] px-3"
+                    size="sm"
                   >
                     {category.proficiency.toUpperCase()}
                   </PowerlineSegment>
                   <PowerlineSegment
                     color="surface"
-                    className="h-6 text-[10px] pl-6 pr-3"
+                    size="sm"
                     showArrow={false}
                   >
                     STRENGTH_OK
