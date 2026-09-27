@@ -145,6 +145,7 @@ export const aboutData: AboutData = {
         "Bootstrap",
         "Framer Motion",
         "GSAP",
+        "three.js",
         "RTL layouts",
       ],
       projects: [
@@ -156,9 +157,17 @@ export const aboutData: AboutData = {
     {
       title: "App logic & data",
       icon: <Database className="w-6 h-6" />,
-      benefit: "Dashboards, forms and API-driven screens that just work.",
-      skills: ["Redux", "React Router", "Formik", "Axios", "REST APIs"],
-      projects: ["dashboard", "ecommerco", "weather-app"],
+      benefit: "Dashboards, forms, APIs and databases that just work.",
+      skills: [
+        "Redux",
+        "React Router",
+        "Formik",
+        "Axios",
+        "REST APIs",
+        "Prisma",
+        "PostgreSQL",
+      ],
+      projects: ["tonextstep-digital-marketplace", "dashboard", "ecommerco"],
     },
     {
       title: "E-commerce & integrations",
