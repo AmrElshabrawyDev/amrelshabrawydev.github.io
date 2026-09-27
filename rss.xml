@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Amr Elshabrawy — Blog</title>
+    <link>https://amrelshabrawydev.github.io/blog</link>
+    <description>Guides on Next.js, online stores, SEO and web performance.</description>
+    <language>en</language>
+    <item>
+      <title>Next.js vs WordPress for a Business Website</title>
+      <link>https://amrelshabrawydev.github.io/blog/nextjs-vs-wordpress-business-website</link>
+      <guid>https://amrelshabrawydev.github.io/blog/nextjs-vs-wordpress-business-website</guid>
+      <description>Next.js or WordPress for your business website? An honest comparison of speed, SEO, security, cost and editing — and when each one is the right choice.</description>
+      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+    <item>
+      <title>How Much Does a Next.js Website Cost in 2026?</title>
+      <link>https://amrelshabrawydev.github.io/blog/nextjs-website-cost</link>
+      <guid>https://amrelshabrawydev.github.io/blog/nextjs-website-cost</guid>
+      <description>An honest breakdown of Next.js website costs in 2026: what drives the price, typical budgets for sites, stores and web apps, and how to avoid overpaying.</description>
+      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+    <item>
+      <title>تخصيص ثيم سلة: دليل التاجر لمتجر احترافي يبيع أكثر</title>
+      <link>https://amrelshabrawydev.github.io/blog/salla-theme-customization-guide</link>
+      <guid>https://amrelshabrawydev.github.io/blog/salla-theme-customization-guide</guid>
+      <description>دليل عملي لأصحاب متاجر سلة: ماذا يمكن تخصيصه في ثيم رائد، متى تحتاج مطورًا، وكيف تحوّل متجرك من قالب افتراضي إلى هوية فاخرة تزيد المبيعات.</description>
+      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+    <item>
+      <title>WordPress to Next.js Migration Without Losing SEO</title>
+      <link>https://amrelshabrawydev.github.io/blog/wordpress-to-nextjs-migration-seo</link>
+      <guid>https://amrelshabrawydev.github.io/blog/wordpress-to-nextjs-migration-seo</guid>
+      <description>A step-by-step checklist to migrate a WordPress site to Next.js while keeping your Google rankings — URLs, metadata, redirects, sitemaps and monitoring.</description>
+      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+  </channel>
+</rss>
