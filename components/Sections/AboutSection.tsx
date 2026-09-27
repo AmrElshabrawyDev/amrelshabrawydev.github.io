@@ -314,7 +314,7 @@ export function AboutSection() {
                       </span>
                       {detail && (
                         <span className="font-mono text-[10px] text-text-tertiary">
-                          {detail.replace(")", "")} themes
+                          {detail.replace(")", "")}
                         </span>
                       )}
                     </li>

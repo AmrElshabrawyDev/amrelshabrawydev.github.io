@@ -124,15 +124,19 @@ export const aboutData: AboutData = {
       title: "E-commerce platforms",
       icon: <Store className="w-6 h-6" />,
       benefit:
-        "Online stores on the platforms Saudi, Gulf and global merchants use — theme customization, setup, speed and SEO.",
+        "Custom Next.js storefronts, or stores on the platforms Saudi, Gulf and global merchants use — theme customization, setup, speed and SEO.",
       skills: [
-        "Salla (Twilight · Raed)",
+        "Next.js (custom storefronts)",
+        "Salla (Twilight · Raed themes)",
         "Zid",
         "Shopify",
         "WordPress",
         "WooCommerce",
       ],
-      projects: ["luxellia-parfums-salla-store"],
+      projects: [
+        "luxellia-parfums-salla-store",
+        "tonextstep-digital-marketplace",
+      ],
       featured: true,
     },
     {
