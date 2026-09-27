@@ -2,11 +2,11 @@ import { LogoIcon } from "./LogoIcon";
 import { introFilmScript } from "@/lib/intro-gate";
 
 /**
- * Intro on every visit (mode chosen in lib/intro-gate.ts):
- *  - film: two terminal-style doors stay closed while the cinematic logo video
- *    plays over them, then they open and the logo flies into the header
- *  - play (fallback): CSS-only — the logo sits on the seam, "builds", splits
- *    and leaves with the doors
+ * Intro on every visit (lib/intro-gate.ts):
+ *  1. The gate (CSS only): terminal-style doors with the logo on the seam
+ *     "build" the site, then the logo splits and the doors open.
+ *  2. As they open, the cinematic logo film plays on a dark stage, then the
+ *     logo flies into the header and the page appears.
  * The page renders underneath the whole time, so it never delays loading.
  */
 export function IntroGate() {
@@ -34,21 +34,14 @@ export function IntroGate() {
         </div>
       </div>
 
-      {/* Outside the gate so it can blend (screen) with the page as it flies */}
-      <video
-        id="intro-film"
-        className="intro-film"
-        muted
-        playsInline
-        preload="none"
-        aria-hidden
-        tabIndex={-1}
-        // the inline intro script starts playback before React hydrates
+      {/* Stage behind the doors while the film plays */}
+      <div className="intro-stage" aria-hidden />
+      {/* The <video> is created by the script (React never touches it) */}
+      <div
+        id="intro-film-slot"
+        dangerouslySetInnerHTML={{ __html: "" }}
         suppressHydrationWarning
-      >
-        <source src="/intro/logo-intro.webm" type='video/webm; codecs="vp9"' />
-        <source src="/intro/logo-intro.mp4" type="video/mp4" />
-      </video>
+      />
       <script dangerouslySetInnerHTML={{ __html: introFilmScript }} />
     </>
   );

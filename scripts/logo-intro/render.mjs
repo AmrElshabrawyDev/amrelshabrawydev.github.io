@@ -71,7 +71,16 @@ server.close();
 
 const outDir = path.join(root, "public/intro");
 fs.mkdirSync(outDir, { recursive: true });
-const input = ["-y", "-hide_banner", "-loglevel", "error", "-framerate", String(FPS), "-i", path.join(frames, "f%04d.png"), "-vf", `scale=${OUT_SIZE}:${OUT_SIZE}:flags=lanczos,format=yuv420p`, "-an"];
+// Frames are rendered on pure black; "lighten" them onto the site's background
+// colour so the film sits on exactly the page's #11111b (no dark box)
+const BG = process.env.BG ?? "0x11111b";
+const input = [
+  "-y", "-hide_banner", "-loglevel", "error",
+  "-framerate", String(FPS), "-i", path.join(frames, "f%04d.png"),
+  "-f", "lavfi", "-i", `color=c=${BG}:s=${OUT_SIZE}x${OUT_SIZE}:r=${FPS}`,
+  "-filter_complex", `[0:v]scale=${OUT_SIZE}:${OUT_SIZE}:flags=lanczos,format=gbrp[f];[1:v]format=gbrp[bg];[f][bg]blend=all_mode=lighten:shortest=1,format=yuv420p`,
+  "-an",
+];
 execFileSync(FFMPEG, [...input, "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "36", "-row-mt", "1", "-deadline", "good", path.join(outDir, "logo-intro.webm")], { stdio: "inherit" });
 execFileSync(FFMPEG, [...input, "-c:v", "libx264", "-preset", "slow", "-crf", "22", "-profile:v", "high", "-movflags", "+faststart", path.join(outDir, "logo-intro.mp4")], { stdio: "inherit" });
 fs.writeFileSync(path.join(outDir, "logo-box.json"), JSON.stringify(box, null, 2) + "\n");
