@@ -1,6 +1,4 @@
 import {
-  Orbitron,
-  Share_Tech_Mono,
   JetBrains_Mono,
   Inter,
   Cairo,
@@ -12,19 +10,6 @@ import "./globals.css";
 // ====================================
 // 🎨 Fonts Configuration
 // ====================================
-
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  variable: "--font-orbitron",
-  display: "swap",
-});
-
-const shareTechMono = Share_Tech_Mono({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-share-tech-mono",
-  display: "swap",
-});
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -43,6 +28,8 @@ const cairo = Cairo({
   subsets: ["arabic", "latin"],
   variable: "--font-cairo",
   display: "swap",
+  // Only Arabic articles use it — don't make every page download it up front
+  preload: false,
 });
 
 // ====================================
@@ -212,7 +199,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${shareTechMono.variable} ${mono.variable} ${inter.variable} ${cairo.variable}`}
+      className={`${mono.variable} ${inter.variable} ${cairo.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col">
         {/* Google Analytics */}

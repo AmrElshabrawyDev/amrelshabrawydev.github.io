@@ -1,41 +1,37 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Check, Download, MessageCircle } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Download,
+  MessageCircle,
+} from "lucide-react";
 import { heroData, personalInfo } from "@/data";
 import { featuredCaseStudies } from "@/data/projects";
 import { whatsappLink } from "@/lib/site";
 import { trackLead } from "@/lib/analytics";
+import { HeroScene } from "./Hero3D/HeroScene";
 
-const trustPoints = ["Arabic & English", "SEO-ready from day one", "Fixed-price quotes"];
+const trustPoints = [
+  "Arabic & English",
+  "SEO-ready from day one",
+  "Fixed-price quotes",
+];
 
 export function HeroSection() {
-  const container = useRef<HTMLElement>(null);
   const latest = featuredCaseStudies[0];
 
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(
-        ".hero-reveal",
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 },
-      ).fromTo(
-        ".hero-visual",
-        { opacity: 0, scale: 0.96 },
-        { opacity: 1, scale: 1, duration: 1 },
-        "-=0.6",
-      );
-    },
-    { scope: container },
-  );
+  // Entrance animation is pure CSS (.hero-in) so the text paints without
+  // waiting for JavaScript — it's the page's Largest Contentful Paint.
+  const reveal = (order: number) => ({
+    style: { animationDelay: `${order * 80}ms` },
+  });
 
   return (
-    <section ref={container} className="relative overflow-hidden bg-bg-base">
+    <section className="relative overflow-hidden bg-bg-base">
       {/* Background: subtle grid + glows */}
       <div
         aria-hidden
@@ -50,10 +46,28 @@ export function HeroSection() {
         className="absolute -bottom-40 right-0 w-[500px] h-[500px] rounded-full bg-info/10 blur-3xl"
       />
 
+      {/* 3D field (loads after the page is idle) + fade so the copy stays readable */}
+      <HeroScene className="absolute inset-0 hidden lg:block" />
+      <div
+        aria-hidden
+        className="absolute inset-0 hidden lg:block bg-[radial-gradient(ellipse_55%_60%_at_25%_45%,var(--color-bg-base)_40%,transparent_100%)]"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-bg-base to-transparent"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-bg-base to-transparent"
+      />
+
       <div className="container-custom relative grid lg:grid-cols-[1.2fr_0.8fr] gap-14 lg:gap-12 items-center py-16 md:py-24 lg:min-h-[calc(100vh-5rem)]">
         {/* Copy */}
         <div className="font-[family-name:var(--font-inter)]">
-          <p className="hero-reveal opacity-0 inline-flex items-center gap-2 border border-success/30 bg-success/10 px-3 py-1.5 text-xs! font-semibold text-success! mb-8">
+          <p
+            className="hero-in inline-flex items-center gap-2 border border-success/30 bg-success/10 px-3 py-1.5 text-xs! font-semibold text-success! mb-8"
+            {...reveal(0)}
+          >
             <span className="relative flex w-2 h-2">
               <span className="absolute inline-flex w-full h-full rounded-full bg-success opacity-75 animate-ping" />
               <span className="relative inline-flex w-2 h-2 rounded-full bg-success" />
@@ -61,7 +75,10 @@ export function HeroSection() {
             {personalInfo.availability} · Cairo, Egypt — remote worldwide
           </p>
 
-          <h1 className="hero-reveal opacity-0 normal-case! tracking-tight! font-[family-name:var(--font-inter)]!">
+          <h1
+            className="hero-rise normal-case! tracking-tight! font-[family-name:var(--font-inter)]!"
+            {...reveal(1)}
+          >
             <span className="block font-mono text-sm md:text-base font-bold tracking-[0.2em] uppercase text-primary mb-5">
               Freelance React &amp; Next.js Developer
             </span>
@@ -73,11 +90,17 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p className="hero-reveal opacity-0 mt-7 max-w-xl text-lg! md:text-xl! leading-relaxed text-text-secondary">
+          <p
+            className="hero-rise mt-7 max-w-xl text-lg! md:text-xl! leading-relaxed text-text-secondary"
+            {...reveal(2)}
+          >
             {heroData.description}
           </p>
 
-          <div className="hero-reveal opacity-0 mt-10 flex flex-col sm:flex-row gap-3">
+          <div
+            className="hero-in mt-10 flex flex-col sm:flex-row gap-3"
+            {...reveal(3)}
+          >
             <Link
               href="/contact"
               className="btn-primary h-14! px-7! text-base!"
@@ -90,7 +113,10 @@ export function HeroSection() {
             </Link>
           </div>
 
-          <div className="hero-reveal opacity-0 mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-semibold">
+          <div
+            className="hero-in mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-semibold"
+            {...reveal(4)}
+          >
             <a
               href={whatsappLink()}
               target="_blank"
@@ -109,7 +135,10 @@ export function HeroSection() {
             </a>
           </div>
 
-          <ul className="hero-reveal opacity-0 mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-text-secondary">
+          <ul
+            className="hero-in mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-text-secondary"
+            {...reveal(5)}
+          >
             {trustPoints.map((point) => (
               <li key={point} className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-success" />
@@ -120,7 +149,10 @@ export function HeroSection() {
         </div>
 
         {/* Visual */}
-        <div className="hero-visual opacity-0 relative mx-auto w-full max-w-[420px] lg:max-w-none">
+        <div
+          {...reveal(6)}
+          className="hero-in relative mx-auto w-full max-w-[420px] lg:max-w-none"
+        >
           <div className="relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated shadow-[0_30px_80px_-20px] shadow-primary/25">
             <Image
               src="/profile.webp"
@@ -132,7 +164,9 @@ export function HeroSection() {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-bg-base/95 via-bg-base/40 to-transparent" />
             <div className="absolute left-5 right-5 bottom-5 font-[family-name:var(--font-inter)]">
-              <p className="text-xl! font-bold text-text-primary">{personalInfo.name}</p>
+              <p className="text-xl! font-bold text-text-primary">
+                {personalInfo.name}
+              </p>
               <p className="text-sm! text-text-secondary">
                 Next.js · React · TypeScript · Salla
               </p>
