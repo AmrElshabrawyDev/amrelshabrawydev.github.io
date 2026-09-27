@@ -1,29 +1,101 @@
 "use client";
 
-import React, { useState, FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import {
   Send,
-  CheckCircle,
+  CheckCircle2,
   Loader2,
-  Terminal,
-  Globe,
   MessageSquare,
+  MessageCircle,
+  Mail,
+  Clock,
+  MapPin,
+  AlertCircle,
+  ArrowUpRight,
+  ChevronDown,
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
-import Confetti from "react-confetti";
-import { personalInfo, socialLinks, contactData } from "@/data";
-import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { personalInfo, socialLinks } from "@/data";
+import { SOCIAL, whatsappLink } from "@/lib/site";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
-import { useRef } from "react";
 import { trackLead } from "@/lib/analytics";
 
 interface FormData {
   name: string;
   email: string;
+  projectType: string;
+  budget: string;
   message: string;
 }
 
 type FormStatus = "idle" | "loading" | "success" | "error";
+
+const emptyForm: FormData = {
+  name: "",
+  email: "",
+  projectType: "",
+  budget: "",
+  message: "",
+};
+
+// Anti-spam: field length limits, and at most one message per browser every
+// 30s (EmailJS's own rate limit — protects the monthly EmailJS quota)
+const LIMITS = { name: 80, email: 120, message: 4000 };
+const SEND_THROTTLE_MS = 30_000;
+
+const projectTypes = [
+  "Business website",
+  "Online store (Next.js or Salla)",
+  "WordPress → Next.js migration",
+  "Web app / dashboard",
+  "Speed or SEO fix",
+  "Something else",
+];
+
+const budgets = [
+  "Under $500",
+  "$500 – $1,500",
+  "$1,500 – $5,000",
+  "$5,000+",
+  "Not sure yet",
+];
+
+const nextSteps = [
+  "I read your message and reply within 24 hours.",
+  "A short call or chat to understand your goals.",
+  "A fixed price and timeline in writing — no surprises.",
+];
+
+const fieldClass =
+  "w-full bg-bg-base border border-border-default px-4 py-3 text-base text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors";
+
+function Field({
+  id,
+  label,
+  optional,
+  children,
+}: {
+  id: string;
+  label: string;
+  optional?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-2">
+      <label
+        htmlFor={id}
+        className="block text-sm font-semibold text-text-primary"
+      >
+        {label}
+        {optional && (
+          <span className="font-normal text-text-tertiary"> (optional)</span>
+        )}
+      </label>
+      {children}
+    </div>
+  );
+}
 
 export function ContactSection() {
   const container = useRef<HTMLDivElement>(null);
@@ -34,288 +106,377 @@ export function ContactSection() {
     scale: 0.99,
   });
 
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState<FormData>(emptyForm);
+  const [sentName, setSentName] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showConfetti, setShowConfetti] = useState(false);
-
-  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
-  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
-  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-    setErrorMessage("");
-
-    try {
-      if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-        throw new Error("Missing EmailJS configuration");
-      }
-
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_email: personalInfo.email,
-        },
-        EMAILJS_PUBLIC_KEY,
-      );
-
-      setStatus("success");
-      trackLead("contact_form");
-      setFormData({ name: "", email: "", message: "" });
-      setShowConfetti(true);
-    } catch (error) {
-      setStatus("error");
-      setErrorMessage(
-        `Sorry, the message couldn't be sent. Please email me at ${personalInfo.email} or message me on WhatsApp.`,
-      );
-      console.error("EmailJS error:", error);
-    }
-  };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Honeypot: a field people never see. Bots fill it — pretend it worked.
+    if (new window.FormData(e.currentTarget).get("website")) {
+      setStatus("success");
+      return;
+    }
+
+    setStatus("loading");
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+
+    try {
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("Missing EmailJS configuration");
+      }
+
+      // Project type and budget are also added to the message body, so the
+      // existing EmailJS template shows them without any template changes.
+      const details = [
+        formData.projectType && `Project type: ${formData.projectType}`,
+        formData.budget && `Budget: ${formData.budget}`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          project_type: formData.projectType,
+          budget: formData.budget,
+          message: details
+            ? `${details}\n\n${formData.message}`
+            : formData.message,
+          to_email: personalInfo.email,
+        },
+        {
+          publicKey,
+          limitRate: { id: "contact-form", throttle: SEND_THROTTLE_MS },
+        },
+      );
+
+      setSentName(formData.name.split(" ")[0]);
+      setStatus("success");
+      trackLead("contact_form");
+      setFormData(emptyForm);
+    } catch (error) {
+      setStatus("error");
+      console.error("EmailJS error:", error);
+    }
+  };
+
+  const directLinks = socialLinks.filter((link) =>
+    ["LinkedIn", "GitHub", "Resume"].includes(link.platform),
+  );
+
   return (
     <section
       ref={container}
-      className="py-24 bg-bg-base relative overflow-hidden"
+      className="pb-24 bg-bg-base relative overflow-hidden"
     >
       <div className="container-custom relative z-10">
-        {/* Section Header */}
-        <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
-          <PowerlineGroup>
-            <PowerlineSegment
-              color="secondary"
-              icon={<MessageSquare className="w-5 h-5" />}
-            >
-              COMMUNICATION_CHANNEL.SH
-            </PowerlineSegment>
-            <PowerlineSegment color="surface">
-              REPLY IN &lt; 24H
-            </PowerlineSegment>
-          </PowerlineGroup>
-        </div>
+        <PageHeader
+          label="CONTACT"
+          icon={<MessageSquare className="w-4 h-4" />}
+          meta="REPLY IN < 24H"
+          title="Let's talk about your project"
+          intro="Tell me what you want to build and roughly your budget. I'll reply within 24 hours with honest advice and a fixed quote — no obligation."
+        />
 
-        <div className="mb-16 max-w-3xl gsap-reveal opacity-0">
-          <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6">
-            Let&apos;s talk about your project
-          </h1>
-          <p className="font-[family-name:var(--font-inter)] text-lg">
-            Tell me what you want to build, your timeline and (roughly) your
-            budget. I&apos;ll reply within 24 hours with honest advice and a
-            fixed quote. Prefer chatting? Message me on WhatsApp.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Form Block */}
-          <div className="terminal-card hover:border-secondary! gsap-reveal opacity-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-12 items-start font-[family-name:var(--font-inter)]">
+          {/* Form */}
+          <div className="terminal-card gsap-reveal opacity-0">
             <div className="terminal-header flex items-center justify-between">
-              <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 bg-primary" />
-                <div className="w-2.5 h-2.5 bg-secondary" />
-                <div className="w-2.5 h-2.5 bg-accent" />
+              <div className="flex gap-2" aria-hidden>
+                <span className="w-2.5 h-2.5 bg-primary" />
+                <span className="w-2.5 h-2.5 bg-secondary" />
+                <span className="w-2.5 h-2.5 bg-accent" />
               </div>
-              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">
-                secure_transmission_form
+              <span className="text-[11px] text-text-tertiary font-mono tracking-widest">
+                new-project.md
               </span>
             </div>
 
-            <div className="p-8 lg:p-10">
+            <div className="p-6 md:p-10">
               {status === "success" ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center space-y-6 animate-fade-in">
-                  {showConfetti && (
-                    <Confetti
-                      recycle={false}
-                      numberOfPieces={200}
-                      colors={["#3b82f6", "#8b5cf6", "#10b981"]}
-                    />
-                  )}
-                  <div className="p-4 bg-success/10 border border-success">
-                    <CheckCircle className="w-12 h-12 text-success" />
-                  </div>
-                  <h3 className="text-3xl font-black font-heading text-success uppercase">
-                    TRANSFER_COMPLETE
-                  </h3>
-                  <p className="text-text-secondary font-mono">
-                    {contactData.successMessage.description.toUpperCase()}
+                <div
+                  className="flex flex-col items-center text-center py-10 gap-5"
+                  role="status"
+                >
+                  <CheckCircle2 className="w-14 h-14 text-success" />
+                  <h2 className="heading-natural font-[inherit]! text-2xl md:text-3xl font-bold">
+                    Thanks{sentName ? `, ${sentName}` : ""}! Your message is on
+                    its way.
+                  </h2>
+                  <p className="max-w-md">
+                    I&apos;ll reply within 24 hours. Need a faster answer?
+                    Message me on WhatsApp.
                   </p>
-                  <button
-                    onClick={() => {
-                      setStatus("idle");
-                      setShowConfetti(false);
-                    }}
-                    className="px-8 h-12 bg-bg-elevated border border-border-subtle hover:border-primary transition-colors text-xs font-mono font-bold uppercase tracking-widest"
-                  >
-                    RETURN_TO_INPUT
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-3 mt-2">
+                    <a
+                      href={whatsappLink()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary"
+                      onClick={() => trackLead("whatsapp_contact_success")}
+                    >
+                      <MessageCircle className="w-4 h-4" /> WhatsApp
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="btn-outline"
+                    >
+                      Send another message
+                    </button>
+                  </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-primary uppercase tracking-widest">
-                      <Terminal className="w-3 h-3" />
-                      <span>SRC_NAME</span>
-                    </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot for bots — hidden from people and screen readers */}
+                  <div
+                    aria-hidden
+                    className="absolute -left-[9999px] w-px h-px overflow-hidden"
+                  >
+                    <label htmlFor="website">Website</label>
                     <input
-                      id="name"
-                      name="name"
+                      id="website"
+                      name="website"
                       type="text"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="ENTER_NAME..."
-                      className="w-full bg-bg-base/50 border border-border-subtle px-4 py-3 font-mono text-sm text-text-primary focus:outline-none focus:border-primary transition-colors placeholder:text-text-tertiary/30"
+                      tabIndex={-1}
+                      autoComplete="off"
                     />
                   </div>
-
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-secondary uppercase tracking-widest">
-                      <Terminal className="w-3 h-3" />
-                      <span>SRC_EMAIL</span>
-                    </div>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="ENTER_EMAIL..."
-                      className="w-full bg-bg-base/50 border border-border-subtle px-4 py-3 font-mono text-sm text-text-primary focus:outline-none focus:border-secondary transition-colors placeholder:text-text-tertiary/30"
-                    />
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <Field id="name" label="Your name">
+                      <input
+                        id="name"
+                        name="name"
+                        maxLength={LIMITS.name}
+                        type="text"
+                        required
+                        autoComplete="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="John Smith"
+                        className={fieldClass}
+                      />
+                    </Field>
+                    <Field id="email" label="Email">
+                      <input
+                        id="email"
+                        name="email"
+                        maxLength={LIMITS.email}
+                        type="email"
+                        required
+                        autoComplete="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="you@company.com"
+                        className={fieldClass}
+                      />
+                    </Field>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-accent uppercase tracking-widest">
-                      <Terminal className="w-3 h-3" />
-                      <span>PAYLOAD_MSG</span>
-                    </div>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <Field id="projectType" label="What do you need?">
+                      <div className="relative">
+                        <select
+                          id="projectType"
+                          name="projectType"
+                          required
+                          value={formData.projectType}
+                          onChange={handleChange}
+                          className={`${fieldClass} appearance-none pr-10`}
+                        >
+                          <option value="" disabled>
+                            Choose a project type
+                          </option>
+                          {projectTypes.map((type) => (
+                            <option key={type}>{type}</option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          aria-hidden
+                          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary"
+                        />
+                      </div>
+                    </Field>
+                    <Field id="budget" label="Budget" optional>
+                      <div className="relative">
+                        <select
+                          id="budget"
+                          name="budget"
+                          value={formData.budget}
+                          onChange={handleChange}
+                          className={`${fieldClass} appearance-none pr-10`}
+                        >
+                          <option value="">Choose a range</option>
+                          {budgets.map((budget) => (
+                            <option key={budget}>{budget}</option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          aria-hidden
+                          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary"
+                        />
+                      </div>
+                    </Field>
+                  </div>
+
+                  <Field id="message" label="Tell me about your project">
                     <textarea
                       id="message"
                       name="message"
+                      maxLength={LIMITS.message}
                       required
+                      rows={6}
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="ENTER_MESSAGE_DATA..."
-                      rows={5}
-                      className="w-full bg-bg-base/50 border border-border-subtle px-4 py-3 font-mono text-sm text-text-primary focus:outline-none focus:border-accent transition-colors resize-none placeholder:text-text-tertiary/30"
+                      placeholder="What does your business do, what should the website achieve, and when do you need it?"
+                      className={`${fieldClass} resize-y min-h-36`}
                     />
-                  </div>
+                  </Field>
 
                   {status === "error" && (
-                    <div className="p-4 bg-error/10 border-l-4 border-error text-error text-[10px] font-mono font-bold uppercase tracking-widest">
-                      [!] ERROR: {errorMessage}
+                    <div
+                      role="alert"
+                      className="flex gap-3 items-start p-4 border border-accent/50 bg-accent/10 text-sm text-text-primary"
+                    >
+                      <AlertCircle className="w-5 h-5 text-accent shrink-0" />
+                      <span>
+                        Sorry, the message couldn&apos;t be sent. Please email
+                        me at{" "}
+                        <a
+                          href={`mailto:${SOCIAL.email}`}
+                          className="underline"
+                        >
+                          {SOCIAL.email}
+                        </a>{" "}
+                        or message me on WhatsApp.
+                      </span>
                     </div>
                   )}
 
-                  <PowerlineGroup className="justify-center">
-                    <PowerlineSegment
-                      color="secondary"
-                      direction="both"
-                      className={`p-0! hover:scale-105 hover:brightness-110 transition-all duration-500 ${status === "loading" && "cursor-not-allowed opacity-50"}`}
-                    >
-                      <button
-                        type="submit"
-                        disabled={status === "loading"}
-                        className="px-4 py-1 transition-all flex items-center gap-3 group disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        {status === "loading" ? (
-                          <>
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                            UPLOADING_DATA...
-                          </>
-                        ) : (
-                          <>
-                            INITIATE_TRANSFER.SH
-                            <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
-                          </>
-                        )}
-                      </button>
-                    </PowerlineSegment>
-                  </PowerlineGroup>
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="btn-primary w-full h-14! text-base! disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {status === "loading" ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" /> Sending…
+                      </>
+                    ) : (
+                      <>
+                        Send message <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                  <p className="text-xs! text-text-tertiary text-center">
+                    Your details are only used to reply to you.
+                  </p>
                 </form>
               )}
             </div>
           </div>
 
-          {/* Social Links Block */}
-          <div className="flex flex-col gap-10">
-            <div className="gsap-reveal opacity-0">
-              <h2 className="text-2xl! font-black font-heading uppercase text-text-primary mb-8 border-b border-border-subtle pb-4">
-                {">"} Other ways to reach me
+          {/* Direct contact */}
+          <aside className="space-y-6">
+            <div className="terminal-card p-6 md:p-8 gsap-reveal opacity-0 border-success/40!">
+              <p className="eyebrow mb-3 text-success!">Fastest reply</p>
+              <h2 className="heading-natural font-[inherit]! text-2xl font-bold mb-2">
+                Prefer a quick chat?
               </h2>
+              <p className="text-sm! mb-6">
+                Message me on WhatsApp for a faster answer.
+              </p>
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackLead("whatsapp_contact")}
+                className="flex items-center justify-center gap-2 h-14 bg-success text-bg-base font-bold hover:text-bg-base hover:brightness-110 transition-all"
+              >
+                <MessageCircle className="w-5 h-5" /> Chat on WhatsApp
+              </a>
+              <p
+                className="mt-3 text-center text-sm! text-text-secondary"
+                dir="ltr"
+              >
+                +20 120 254 6653
+              </p>
+            </div>
 
-              <div className="grid gap-4">
-                {socialLinks.map((link) => (
+            <div className="terminal-card p-6 md:p-8 gsap-reveal opacity-0">
+              <h2 className="font-mono text-xs! font-bold uppercase tracking-[0.2em] text-secondary mb-5">
+                Other ways to reach me
+              </h2>
+              <ul className="space-y-4 text-sm">
+                <li>
                   <a
-                    key={link.platform}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gsap-reveal opacity-0"
+                    href={`mailto:${SOCIAL.email}`}
+                    onClick={() => trackLead("email_contact")}
+                    className="flex items-center gap-3 text-text-primary hover:text-primary break-all"
                   >
-                    <PowerlineGroup className="hover:translate-x-4 transition-all duration-500">
-                      <PowerlineSegment
-                        color="surface"
-                        className="w-12 flex justify-center"
-                      >
-                        {link.icon}
-                      </PowerlineSegment>
-                      <PowerlineSegment color="secondary" className="px-6">
-                        {link.platform.toUpperCase()}
-                      </PowerlineSegment>
-                      <PowerlineSegment
-                        color="surface"
-                        showArrow={false}
-                        className="flex-1 text-[10px] text-text-tertiary overflow-hidden whitespace-nowrap"
-                      >
-                        {link.username.toUpperCase()}
-                      </PowerlineSegment>
-                    </PowerlineGroup>
+                    <Mail className="w-4 h-4 shrink-0 text-primary" />{" "}
+                    {SOCIAL.email}
                   </a>
+                </li>
+                {directLinks.map((link) => (
+                  <li key={link.platform}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-text-primary hover:text-primary"
+                    >
+                      <span className="text-primary [&_svg]:w-4 [&_svg]:h-4">
+                        {link.icon}
+                      </span>
+                      {link.platform === "Resume"
+                        ? "Download my CV"
+                        : link.platform}
+                      <ArrowUpRight className="w-3.5 h-3.5 text-text-tertiary" />
+                    </a>
+                  </li>
                 ))}
-              </div>
+                <li className="flex items-center gap-3 text-text-secondary pt-2 border-t border-border-subtle">
+                  <MapPin className="w-4 h-4 shrink-0" /> Cairo, Egypt — working
+                  worldwide
+                </li>
+                <li className="flex items-center gap-3 text-text-secondary">
+                  <Clock className="w-4 h-4 shrink-0" /> Replies within 24 hours
+                </li>
+              </ul>
             </div>
 
-            {/* Availability Status */}
-            <div className="gsap-reveal opacity-0">
-              <PowerlineGroup>
-                <PowerlineSegment
-                  color="secondary"
-                  className="h-16 px-8 animate-pulse-slow"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-bg-base animate-ping" />
-                    LIVE_STATUS: {personalInfo.availability.toUpperCase()}
-                  </div>
-                </PowerlineSegment>
-                <PowerlineSegment
-                  color="surface"
-                  className="h-16 flex items-center px-8"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-bg-base animate-ping" />
-                    OPEN_WORLDWIDE <Globe className="w-5 h-5" />
-                  </div>
-                </PowerlineSegment>
-              </PowerlineGroup>
+            <div className="terminal-card p-6 md:p-8 gsap-reveal opacity-0">
+              <h2 className="font-mono text-xs! font-bold uppercase tracking-[0.2em] text-secondary mb-5">
+                What happens next
+              </h2>
+              <ol className="space-y-4">
+                {nextSteps.map((step, index) => (
+                  <li key={step} className="flex gap-4 text-sm">
+                    <span className="flex items-center justify-center w-7 h-7 shrink-0 border border-primary/50 text-primary font-mono font-bold text-xs">
+                      {index + 1}
+                    </span>
+                    <span className="pt-1 text-text-secondary">{step}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>

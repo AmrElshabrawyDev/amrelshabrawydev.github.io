@@ -40,6 +40,8 @@ interface PowerlineSegmentProps {
   className?: string;
   icon?: React.ReactNode;
   onClick?: () => void;
+  /** "md" (default) for navigation and headers, "sm" for badges and tags */
+  size?: "sm" | "md";
 }
 
 const segmentStyles: Record<
@@ -48,31 +50,31 @@ const segmentStyles: Record<
 > = {
   primary: {
     segment: "bg-primary text-bg-base",
-    arrow: "bg-primary border-2 border-primary",
+    arrow: "bg-primary",
   },
   secondary: {
     segment: "bg-secondary text-bg-base",
-    arrow: "bg-secondary border-2 border-secondary",
+    arrow: "bg-secondary",
   },
   accent: {
     segment: "bg-accent text-bg-base",
-    arrow: "bg-accent border-2 border-accent",
+    arrow: "bg-accent",
   },
   warning: {
     segment: "bg-warning text-bg-base",
-    arrow: "bg-warning border-2 border-warning",
+    arrow: "bg-warning",
   },
   success: {
     segment: "bg-success text-bg-base",
-    arrow: "bg-success border-2 border-success",
+    arrow: "bg-success",
   },
   info: {
     segment: "bg-info text-bg-base",
-    arrow: "bg-info border-2 border-info",
+    arrow: "bg-info",
   },
   surface: {
     segment: "bg-bg-elevated text-text-primary",
-    arrow: "bg-bg-elevated border-2 border-bg-elevated",
+    arrow: "bg-bg-elevated",
   },
 };
 
@@ -84,6 +86,7 @@ export function PowerlineSegment({
   className = "",
   icon,
   onClick,
+  size = "md",
 }: PowerlineSegmentProps) {
   const styles = segmentStyles[color];
   const isRight = direction === "right";
@@ -93,11 +96,13 @@ export function PowerlineSegment({
   return (
     <div
       onClick={onClick}
-      className={`powerline-segment relative ${isLeft && "pl-5 pr-2"} ${isRight && "pl-2 pr-5"} ${isBoth && "px-5"} ${styles.segment} ${className}`}
+      data-direction={direction}
+      data-size={size}
+      className={`powerline-segment ${styles.segment} ${className}`}
     >
       {showArrow && (isRight || isBoth) && (
         <div
-          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover/color:bg-accent group-hover/color:border-accent group-active/color:bg-primary group-active/color:text-bg-base group-active/color:border-primary ${styles.arrow}`}
+          className={`powerline-arrow-right transition-colors duration-200 ease-linear group-hover/color:bg-accent group-active/color:bg-primary group-active/color:text-bg-base ${styles.arrow}`}
         />
       )}
 
@@ -112,7 +117,7 @@ export function PowerlineSegment({
 
       {showArrow && (isLeft || isBoth) && (
         <div
-          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover/color:bg-accent group-hover/color:border-accent group-active/color:bg-primary group-active/color:text-bg-base group-active/color:border-primary ${styles.arrow}`}
+          className={`powerline-arrow-left transition-colors duration-200 ease-linear group-hover/color:bg-accent group-active/color:bg-primary group-active/color:text-bg-base ${styles.arrow}`}
         />
       )}
     </div>

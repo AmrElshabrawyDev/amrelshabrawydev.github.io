@@ -85,7 +85,8 @@ import {
   GitBranch,
   Rocket,
   Database,
-  Server,
+  CreditCard,
+  Store,
   Github,
   Linkedin,
   Mail,
@@ -96,8 +97,13 @@ import {
 export interface SkillCategory {
   title: string;
   icon: React.ReactNode;
+  /** What this means for the client, in one line */
+  benefit: string;
   skills: string[];
-  proficiency: "expert" | "advanced" | "learning";
+  /** Case studies (slugs from data/projects.ts) where these tools were used */
+  projects: string[];
+  /** Shown as a full-width card above the others */
+  featured?: boolean;
 }
 
 export interface AboutData {
@@ -111,42 +117,128 @@ export const aboutData: AboutData = {
   bio: "I'm Amr, a freelance front-end developer based in Cairo. I build websites and web apps with React and Next.js for businesses that care about speed, search rankings and a polished experience — from Arabic RTL stores on Salla to full-stack marketplaces. You work directly with me, from the first call to launch and beyond.",
   yearsOfExperience: 5,
   projectsCompleted: 50,
+  // Only tools used in shipped projects. Add new ones here once a real
+  // project uses them (e.g. Node.js, Laravel) — with the case study as proof.
   skillCategories: [
     {
-      title: "Frontend Development",
+      title: "E-commerce platforms",
+      icon: <Store className="w-6 h-6" />,
+      benefit:
+        "Custom Next.js storefronts, or stores on the platforms Saudi, Gulf and global merchants use — theme customization, setup, speed and SEO.",
+      skills: [
+        "Next.js (custom storefronts)",
+        "Salla (Twilight · Raed themes)",
+        "Zid",
+        "Shopify",
+        "WordPress",
+        "WooCommerce",
+      ],
+      projects: [
+        "luxellia-parfums-salla-store",
+        "tonextstep-digital-marketplace",
+      ],
+      featured: true,
+    },
+    {
+      title: "Frameworks & languages",
       icon: <Code2 className="w-6 h-6" />,
-      skills: ["React", "Next.js", "TypeScript", "JavaScript (ES6+)"],
-      proficiency: "expert",
+      benefit: "Modern, typed code that's easy to maintain and grow.",
+      skills: [
+        "Next.js (App Router)",
+        "React",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "HTML5",
+      ],
+      projects: [
+        "kosovo-travels",
+        "tonextstep-digital-marketplace",
+        "companions-saas-app",
+      ],
     },
     {
-      title: "Styling & Animation",
+      title: "UI, styling & motion",
       icon: <Palette className="w-6 h-6" />,
-      skills: ["Tailwind CSS", "Framer Motion", "CSS3", "Responsive Design"],
-      proficiency: "expert",
+      benefit: "Pixel-perfect, responsive interfaces — Arabic RTL included.",
+      skills: [
+        "Tailwind CSS",
+        "CSS3",
+        "Material UI",
+        "Bootstrap",
+        "Framer Motion",
+        "GSAP",
+        "three.js",
+        "RTL layouts",
+      ],
+      projects: [
+        "al-amal-furniture-moving-kuwait",
+        "travel-smart-ui",
+        "dashboard",
+      ],
     },
     {
-      title: "Tools & Workflow",
-      icon: <GitBranch className="w-6 h-6" />,
-      skills: ["Git", "GitHub", "VS Code", "Figma", "Chrome DevTools"],
-      proficiency: "advanced",
+      title: "App logic & data",
+      icon: <Database className="w-6 h-6" />,
+      benefit: "Dashboards, forms, APIs and databases that just work.",
+      skills: [
+        "Redux",
+        "React Router",
+        "Formik",
+        "Axios",
+        "REST APIs",
+        "Prisma",
+        "PostgreSQL",
+      ],
+      projects: ["tonextstep-digital-marketplace", "dashboard", "ecommerco"],
+    },
+    {
+      title: "Payments & integrations",
+      icon: <CreditCard className="w-6 h-6" />,
+      benefit: "Checkouts, auth, email and AI connected end to end.",
+      skills: [
+        "Stripe",
+        "PayPal",
+        "Paddle",
+        "Supabase",
+        "Resend",
+        "Gemini API",
+      ],
+      projects: [
+        "kosovo-travels",
+        "tonextstep-digital-marketplace",
+        "travel-smart-ui",
+      ],
     },
     {
       title: "Performance & SEO",
       icon: <Rocket className="w-6 h-6" />,
-      skills: ["Web Vitals", "Lighthouse", "SEO Optimization", "Accessibility"],
-      proficiency: "advanced",
+      benefit: "Fast pages that pass Core Web Vitals and rank on Google.",
+      skills: [
+        "Core Web Vitals",
+        "Lighthouse / PageSpeed",
+        "Technical SEO",
+        "Accessibility",
+        "Image optimization",
+      ],
+      projects: [
+        "landing-page",
+        "al-amal-furniture-moving-kuwait",
+        "akirastore",
+      ],
     },
     {
-      title: "Backend (Learning)",
-      icon: <Server className="w-6 h-6" />,
-      skills: ["Node.js", "Express", "REST APIs"],
-      proficiency: "learning",
-    },
-    {
-      title: "Database & PHP",
-      icon: <Database className="w-6 h-6" />,
-      skills: ["PHP", "Laravel", "MySQL"],
-      proficiency: "learning",
+      title: "Workflow & delivery",
+      icon: <GitBranch className="w-6 h-6" />,
+      benefit: "Clean Git history, previews and a hand-off you can maintain.",
+      skills: [
+        "Git & GitHub",
+        "Vite",
+        "Cloudflare",
+        "Figma",
+        "Chrome DevTools",
+        "VS Code",
+      ],
+      projects: ["kosovo-travels", "landing-page", "rich-black-theme"],
     },
   ],
 };
@@ -325,7 +417,8 @@ export const faqData: FaqItem[] = [
       "Yes. I build Arabic-first and bilingual Arabic/English websites and stores, including Salla themes, with proper RTL layout and Arabic SEO.",
   },
   {
-    question: "Can you move my WordPress site to Next.js without losing my Google rankings?",
+    question:
+      "Can you move my WordPress site to Next.js without losing my Google rankings?",
     answer:
       "Yes. I keep your existing URLs, titles and content, redirect only what must change, and monitor Search Console after launch. I did exactly this for a Kuwaiti company with 182 indexed Arabic pages.",
   },
@@ -342,131 +435,96 @@ export const faqData: FaqItem[] = [
 ];
 
 /*
-===================================
-=========> { work data } <=========
-===================================
-*/
-
-export interface ProjectData {
-  title: string;
-  description: string;
-  longDescription: string;
-  thumbnail: string;
-  tags: string[];
-  technologies: string[];
-  liveUrl?: string;
-  githubUrl: string;
-  performance: {
-    lighthouse: number;
-    loadTime: string;
-  };
-  features: string[];
-}
-
-/**
- * Manual overrides for GitHub projects (e.g., custom images)
- */
-export const projectOverrides: Record<string, { image?: string; title?: string }> = {
-  // Example: "repo-name": { image: "/custom-preview.png" }
-  "amrelshabrawydev": {
-    image: "/og-image.png",
-    title: "Official Portfolio v2"
-  }
-};
-
-/*
 ==========================================
 =========> { testimonial data } <=========
 ==========================================
 */
 
 export interface TestimonialData {
-  image: string;
   name: string;
-  position: string;
-  company: string;
-  message: string;
   rating: number;
+  /** Month the review was left, e.g. "Sep 2026" */
+  date: string;
+  /** The Khamsat service the review was left on (English) */
+  service: string;
+  /** Original review text, exactly as the client wrote it (Arabic) */
+  original: string;
+  /** Faithful English translation of `original` */
+  translation: string;
 }
 
+/** Public profile where every review below can be verified */
+export const reviewSource = {
+  name: "Khamsat",
+  url: "https://khamsat.com/user/amrelshabrawydev/reviews",
+  rating: 5.0,
+  count: 7,
+  completion: "100%",
+};
+
+const bugFixing = "Fixing React, JavaScript, CSS & HTML bugs";
+
 /**
- * Add real client testimonials here (with their permission).
- * The testimonials section only renders when this list is not empty.
- * Tip: a short quote + name + company + link to their site builds the most trust.
+ * Real client reviews from Khamsat (Arabic), shown with an English translation.
+ * Only detailed reviews are listed; one-word ones are left out.
  */
-export const testimonialData: TestimonialData[] = [];
+export const testimonialData: TestimonialData[] = [
+  {
+    name: "Verified buyer",
+    rating: 5,
+    date: "Sep 2026",
+    service: bugFixing,
+    original:
+      "أنصح بشدة التعامل مع الأستاذ عمرو الشبراوى شخص محترف جداً، سريع في الإنجاز، وخدوم لأبعد الحدود، كما أنه يتميز بسعة صدره وتفهمه الكامل للمتطلبات وتعديلات الـ CSS بدقة عالية. شكراً جزيلاً لك على هذه الخدمة الممتازة وليعاملات أخرى قادمة بإذن الله.",
+    translation:
+      "I highly recommend working with Amr Elshabrawy. He's very professional, fast to deliver and goes out of his way to help. He's patient, fully understood the requirements and made the CSS changes with great precision. Thank you so much for the excellent service — here's to more work together, God willing.",
+  },
+  {
+    name: "Bahaeddin A.",
+    rating: 5,
+    date: "Jun 2026",
+    service: bugFixing,
+    original:
+      "مهندس محترم وفاهم شغله مزبوط ما بتعب معه ابدا بس خبره بالمشكلة وهو بلاقي الحل وفي مشاكل هو بلاقيها اثناء الفحص وبحلها",
+    translation:
+      "A respectful engineer who really knows his craft. Working with him is effortless — just tell him the problem and he finds the solution. He even finds other issues while investigating, and fixes them.",
+  },
+  {
+    name: "Solafh A.",
+    rating: 5,
+    date: "Jul 2026",
+    service: bugFixing,
+    original:
+      "انسان محترم ومهندس شاطر كل الشكر لك وتمنياتي لك بكل التوفيق ماقصر ابداً أنجز عمله بكل دقه انصح بالتعامل معه",
+    translation:
+      "A respectful person and a skilled engineer. Many thanks and best wishes — he went above and beyond and did his work with great precision. I recommend working with him.",
+  },
+  {
+    name: "Mohanad A.",
+    rating: 5,
+    date: "Aug 2026",
+    service: bugFixing,
+    original:
+      "عمر شخص محترف وذوق جدا ومتعاون ويعمل بكل حب أشكره على جهوده بإذن الله سيكون لنا تعامل اخر",
+    translation:
+      "Amr is professional, very courteous and cooperative, and clearly enjoys his work. Thank you for your effort — God willing, we'll work together again.",
+  },
+  {
+    name: "Ahmed A.",
+    rating: 5,
+    date: "Jun 2026",
+    service: bugFixing,
+    original: "التعامل راق و خلاق عاليه يقدم الخدمة باحترافية تجربة ممتازة",
+    translation:
+      "Classy to deal with and has great manners. He delivers the service professionally — an excellent experience.",
+  },
+];
 
 /*
 ===============================================
 =========> { contact & social data } <=========
 ===============================================
 */
-
-export interface ContactData {
-  header: {
-    title: {
-      first: string;
-      highlight: string;
-    };
-    description: string;
-    subDescription: string;
-  };
-  successMessage: {
-    title: string;
-    description: string;
-    buttonText: string;
-  };
-  form: {
-    labels: {
-      name: string;
-      email: string;
-      message: string;
-    };
-    placeholders: {
-      name: string;
-      email: string;
-      message: string;
-    };
-    buttonText: {
-      idle: string;
-      loading: string;
-    };
-  };
-}
-
-export const contactData: ContactData = {
-  header: {
-    title: {
-      first: "Get In",
-      highlight: "Touch",
-    },
-    description: "Have a project in mind or want to collaborate? Let's talk!",
-    subDescription:
-      "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
-  },
-  successMessage: {
-    title: "Message Sent! 🎉",
-    description:
-      "Thanks for reaching out! I'll get back to you within 24 hours.",
-    buttonText: "Send Another Message",
-  },
-  form: {
-    labels: {
-      name: "Your Name",
-      email: "Email Address",
-      message: "Your Message",
-    },
-    placeholders: {
-      name: "John Doe",
-      email: "john@example.com",
-      message: "Tell me about your project...",
-    },
-    buttonText: {
-      idle: "Send Message",
-      loading: "Sending...",
-    },
-  },
-};
 
 export interface SocialLink {
   platform: string;

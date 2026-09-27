@@ -13,11 +13,11 @@ import {
   ServicesPreview,
   FeaturedWork,
   ProcessSection,
-  Testimonials,
   LatestPosts,
   FaqSection,
 } from "@/components/Sections/Home/HomeSections";
 import { CtaBanner } from "@/components/ui/CtaBanner";
+import { ClientReviews } from "@/components/Sections/Reviews/ClientReviews";
 
 export const metadata: Metadata = homeMetadata;
 
@@ -43,7 +43,7 @@ export default function HomePage() {
       <ServicesPreview />
       <FeaturedWork />
       <ProcessSection />
-      <Testimonials />
+      <ClientReviews />
       <LatestPosts posts={latestPosts} />
       <FaqSection />
 

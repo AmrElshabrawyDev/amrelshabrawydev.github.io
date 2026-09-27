@@ -14,32 +14,6 @@ const nextConfig: NextConfig = {
     ...(previewBasePath
       ? { loader: "custom" as const, loaderFile: "./lib/image-loader.ts" }
       : { unoptimized: true }),
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "opengraph.githubassets.com",
-      },
-      {
-        protocol: "https",
-        hostname: "raw.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "user-images.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "camo.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "repository-images.githubusercontent.com",
-      },
-    ],
   },
 };
 

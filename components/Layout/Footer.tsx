@@ -1,201 +1,200 @@
 "use client";
 
 import Link from "next/link";
-import { personalInfo, socialLinks } from "@/data";
-import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
-import { GitBranch, Code, Terminal, Clock } from "lucide-react";
+import {
+  Mail,
+  MessageCircle,
+  MapPin,
+  Clock,
+  FileText,
+  Rss,
+} from "lucide-react";
+import { personalInfo, serviceData, socialLinks } from "@/data";
+import { featuredCaseStudies, shortTitle } from "@/data/projects";
+import { SOCIAL, whatsappLink } from "@/lib/site";
+import { generateSlug } from "@/lib/utils";
+import { trackLead } from "@/lib/analytics";
+import { LogoIcon } from "@/components/ui/LogoIcon";
+
+const serviceLinks = serviceData.slice(0, 4).map((service) => ({
+  label: service.title,
+  href: `/services#${generateSlug(service.title)}`,
+}));
+
+const workLinks = featuredCaseStudies.slice(0, 4).map((study) => ({
+  // "Kosovo Travels — Travel & Booking…" → "Kosovo Travels"
+  label: shortTitle(study),
+  href: `/work/${study.slug}`,
+}));
+
+function FooterColumn({
+  title,
+  links,
+  more,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+  more?: { label: string; href: string };
+}) {
+  return (
+    <nav aria-label={title}>
+      <h2 className="font-mono text-xs! font-bold uppercase tracking-[0.2em] text-secondary mb-5">
+        {title}
+      </h2>
+      <ul className="space-y-3">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="text-sm text-text-secondary hover:text-primary"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+        {more && (
+          <li>
+            <Link
+              href={more.href}
+              className="text-sm font-semibold text-primary hover:text-secondary"
+            >
+              {more.label} →
+            </Link>
+          </li>
+        )}
+      </ul>
+    </nav>
+  );
+}
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-bg-base border-t border-border-subtle/30 pt-16 pb-8 font-mono overflow-hidden">
-      <div className="container-custom">
-        <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
-          {/* 1. Brand Section */}
-          <div className="lg:max-w-xs space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center rounded-xs">
-                <Code className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-text-primary tracking-tighter">
-                  {personalInfo.name.toUpperCase()}
-                </h3>
-                <p className="text-[10px] text-text-tertiary uppercase tracking-widest">
-                  v2.2.0 — STABLE_BUILD
-                </p>
-              </div>
-            </div>
-            <p className="text-xs text-text-secondary leading-relaxed opacity-80">
-              {">"} Freelance React &amp; Next.js developer. <br />
-              {">"} Fast, SEO-ready websites, online stores and web apps — in
-              Arabic &amp; English.
+    <footer className="w-full bg-bg-base border-t border-border-default font-[family-name:var(--font-inter)]">
+      <div className="container-custom pt-16 pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] gap-12 lg:gap-10">
+          {/* Brand */}
+          <div className="space-y-5 sm:col-span-2 lg:col-span-1">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3"
+              aria-label="Home"
+            >
+              <LogoIcon className="w-11 h-11" />
+              <span className="text-lg font-bold text-text-primary">
+                {personalInfo.name}
+              </span>
+            </Link>
+            <p className="text-sm! leading-relaxed text-text-secondary max-w-xs">
+              Freelance React &amp; Next.js developer building fast, SEO-ready
+              websites, online stores and web apps — in Arabic &amp; English.
+            </p>
+            <p className="inline-flex items-center gap-2 border border-success/30 bg-success/10 px-3 py-1.5 text-xs! font-semibold text-success!">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              {personalInfo.availability}
             </p>
           </div>
 
-          {/* 2. Links Section */}
-          <div className="flex flex-wrap gap-x-16 gap-y-8">
-            <div className="space-y-4">
-              <h4 className="text-[10px] font-bold text-text-tertiary uppercase tracking-[0.2em] border-b border-border-subtle pb-2 block w-max">
-                Nav
-              </h4>
-              <ul className="space-y-2.5 text-xs">
-                <li>
-                  <Link
-                    href="/"
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    HOME
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    ABOUT
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/services"
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    SERVICES
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/blog"
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    BLOG
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/work"
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    WORK
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-[10px] font-bold text-text-tertiary uppercase tracking-[0.2em] border-b border-border-subtle pb-2 block w-max">
-                Contact
-              </h4>
-              <ul className="space-y-2.5 text-xs">
-                <li>
-                  <Link
-                    href="/contact"
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    HIRE_ME
-                  </Link>
-                </li>
-                <li>
-                  <a
-                    href={`mailto:${personalInfo.email}`}
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    EMAIL
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={personalInfo.resume}
-                    className="text-text-secondary hover:text-primary transition-all flex items-center gap-2 group"
-                  >
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-primary">
-                      {">"}
-                    </span>
-                    RESUME
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <FooterColumn
+            title="Services"
+            links={serviceLinks}
+            more={{ label: "All services", href: "/services" }}
+          />
+          <FooterColumn
+            title="Work"
+            links={workLinks}
+            more={{ label: "All case studies", href: "/work" }}
+          />
 
-          {/* 3. Status Section */}
-          <div className="flex flex-col items-start lg:items-end gap-6">
-            <div className="space-y-2 text-left lg:text-right">
-              <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-[0.2em]">
-                Availability
-              </span>
-              <PowerlineGroup className="lg:justify-end">
-                <PowerlineSegment color="primary">
-                  <span className="flex items-center gap-1.5 text-[10px]">
-                    <GitBranch className="w-3 h-3" />
-                    status
-                  </span>
-                </PowerlineSegment>
-                <PowerlineSegment color="success">
-                  <span className="text-[10px]">OPEN FOR PROJECTS</span>
-                </PowerlineSegment>
-              </PowerlineGroup>
-            </div>
-            <div className="flex flex-col items-start lg:items-end gap-1.5">
-              <div className="text-[10px] text-text-tertiary flex items-center gap-2">
-                <Clock className="w-3 h-3" />
-                <span>REPLY_TIME: &lt; 24H</span>
-              </div>
-              <div className="text-[10px] text-text-tertiary flex items-center gap-2">
-                <Terminal className="w-3 h-3" />
-                <span>CAIRO · UTC+2 · REMOTE WORLDWIDE</span>
-              </div>
-            </div>
+          {/* Contact */}
+          <div>
+            <h2 className="font-mono text-xs! font-bold uppercase tracking-[0.2em] text-secondary mb-5">
+              Contact
+            </h2>
+            <ul className="space-y-4 text-sm">
+              <li>
+                <a
+                  href={`mailto:${SOCIAL.email}`}
+                  onClick={() => trackLead("email_footer")}
+                  className="flex items-center gap-3 text-text-primary hover:text-primary break-all"
+                >
+                  <Mail className="w-4 h-4 shrink-0 text-primary" />
+                  {SOCIAL.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={whatsappLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackLead("whatsapp_footer")}
+                  className="flex items-center gap-3 text-text-primary hover:text-success"
+                >
+                  <MessageCircle className="w-4 h-4 shrink-0 text-success" />
+                  <span dir="ltr">+20 120 254 6653</span>
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-text-secondary">
+                <MapPin className="w-4 h-4 shrink-0" />
+                Cairo, Egypt — working worldwide
+              </li>
+              <li className="flex items-center gap-3 text-text-secondary">
+                <Clock className="w-4 h-4 shrink-0" />
+                Replies within 24 hours
+              </li>
+            </ul>
           </div>
         </div>
+      </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border-subtle/20 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex flex-col gap-1 items-center md:items-start text-center md:text-left">
-            <p className="text-xs text-text-secondary tracking-widest uppercase">
-              © {currentYear} AMR_ELSHABRAWY // NEON_PORTFOLIO_V2
-            </p>
-            <p className="text-[10px] text-text-tertiary uppercase tracking-tighter">
-              Crafted with Next.js 16 + GSAP + Tailwind 4
-            </p>
-          </div>
+      {/* Bottom bar — extra bottom padding keeps the icons clear of the floating WhatsApp button */}
+      <div className="border-t border-border-subtle">
+        <div className="container-custom py-6 pb-24 sm:pb-6 flex flex-col-reverse sm:flex-row items-center justify-between gap-5">
+          <p className="text-xs! text-text-tertiary text-center sm:text-left">
+            © {currentYear} {personalInfo.name}. All rights reserved.
+          </p>
 
-          <div className="flex items-center gap-2">
-            {socialLinks.map((social) => (
-              <a
-                key={social.platform}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={social.platform}
-                aria-label={social.platform}
-                className="w-9 h-9 flex items-center justify-center text-text-tertiary hover:text-primary hover:bg-primary/5 transition-all border border-border-subtle/30 hover:border-primary/50 rounded-xs"
-              >
-                {social.icon}
-              </a>
-            ))}
+          <div className="flex items-center gap-5 sm:mr-36">
+            <Link
+              href="/blog"
+              className="text-xs font-semibold uppercase tracking-wider text-text-secondary hover:text-primary"
+            >
+              Blog
+            </Link>
+            <a
+              href="/rss.xml"
+              aria-label="RSS feed"
+              title="RSS feed"
+              className="text-text-tertiary hover:text-warning"
+            >
+              <Rss className="w-4 h-4" />
+            </a>
+            <a
+              href={personalInfo.resume}
+              download
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary hover:text-primary"
+            >
+              <FileText className="w-4 h-4" /> CV
+            </a>
+            <span aria-hidden className="w-px h-5 bg-border-default" />
+            {socialLinks
+              .filter((social) =>
+                ["GitHub", "LinkedIn"].includes(social.platform),
+              )
+              .map((social) => (
+                <a
+                  key={social.platform}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.platform}
+                  title={social.platform}
+                  className="text-text-tertiary hover:text-primary"
+                >
+                  {social.icon}
+                </a>
+              ))}
           </div>
         </div>
       </div>

@@ -10,8 +10,8 @@
 
 <p align="center">
   <a href="https://amrelshabrawydev.github.io"><img src="https://img.shields.io/badge/Live_Demo-Visit_Site-blue?style=for-the-badge&logo=vercel" alt="Live Demo" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.0.10-black?style=for-the-badge&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/GSAP-3.x-green?style=for-the-badge&logo=greensock" alt="GSAP" />
@@ -40,14 +40,14 @@
 
 ## 🌟 Overview
 
-A fully static, blazing-fast developer portfolio that **automatically syncs with GitHub** to showcase projects. No CMS, no database — just push to GitHub and your portfolio updates itself on the next build.
+A fully static, blazing-fast developer portfolio with client case studies, a blog, and full SEO. No CMS, no database — projects and posts live in simple data and Markdown files.
 
 ### ✨ Key Features
 
 | Feature                   | Description                                                                   |
 | ------------------------- | ----------------------------------------------------------------------------- |
-| **Auto-Synced Projects**  | Fetches all repositories from GitHub API at build time — no manual data entry |
-| **Dynamic Project Pages** | Each repo gets its own detail page with full README rendering                 |
+| **Case Studies**          | Curated projects with real screenshots and PageSpeed scores (`data/projects.ts`) |
+| **Blog**                  | Markdown posts in English and Arabic (RTL) with RSS feed                      |
 | **Contact Form**          | Functional email form powered by EmailJS — no backend needed                  |
 | **Responsive Design**     | Pixel-perfect on every device, from 320px to 4K                               |
 | **Terminal Brutalism**    | Dark "Catppuccin" aesthetic with Powerline-inspired UI components             |
@@ -69,8 +69,8 @@ A fully static, blazing-fast developer portfolio that **automatically syncs with
 
 | Technology                                        | Version   | Why We Use It                                                                                                                  |
 | ------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **[Next.js](https://nextjs.org/)**                | `16.0.10` | App Router, static export (`output: "export"`), file-based routing, built-in image optimization, and Turbopack for fast builds |
-| **[React](https://react.dev/)**                   | `19.2.0`  | Latest concurrent features, server components, improved performance with automatic batching                                    |
+| **[Next.js](https://nextjs.org/)**                | `16.3`    | App Router, static export (`output: "export"`), file-based routing and Turbopack for fast builds                               |
+| **[React](https://react.dev/)**                   | `19.2`    | Latest concurrent features, server components, improved performance with automatic batching                                    |
 | **[TypeScript](https://www.typescriptlang.org/)** | `5.x`     | Type safety across the entire codebase — catches bugs at compile time, improves DX with autocomplete                           |
 
 ### Styling & Animations
@@ -81,22 +81,21 @@ A fully static, blazing-fast developer portfolio that **automatically syncs with
 | **[GSAP](https://greensock.com/gsap/)**         | The industry standard for high-performance animations. Precision timelines, ScrollTrigger, and complex DOM manipulation          |
 | **[@gsap/react](https://gsap.com/react)**       | Official React wrapper for GSAP, providing `useGSAP` for safe lifecycle management and cleanup                                   |
 | **[Lucide React](https://lucide.dev/)**         | Beautiful, consistent SVG icon set with tree-shaking — only imports icons we use                                                 |
+| **[three.js](https://threejs.org/)**            | The home hero's interactive 3D block field — one instanced mesh, loaded lazily on desktop only                                   |
 
 ### Data & Communication
 
 | Technology                                                | Why We Use It                                                                                                  |
 | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **[GitHub REST API v3](https://docs.github.com/en/rest)** | Fetches all public repositories, language stats, and README content at build time                              |
 | **[EmailJS](https://www.emailjs.com/)**                   | Sends contact form emails directly from the browser — no backend, no server functions needed for static export |
 
 ### Markdown Rendering
 
 | Technology                                                                                           | Why We Use It                                                                   |
 | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| **[react-markdown](https://github.com/remarkjs/react-markdown)**                                     | Renders GitHub README files as React components                                 |
+| **[react-markdown](https://github.com/remarkjs/react-markdown)**                                     | Renders blog posts as React components                                          |
 | **[remark-gfm](https://github.com/remarkjs/remark-gfm)**                                             | GitHub Flavored Markdown support (tables, strikethrough, task lists, autolinks) |
-| **[rehype-raw](https://github.com/rehypejs/rehype-raw)**                                             | Allows raw HTML in markdown (for badges, images, etc.)                          |
-| **[react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)** | Syntax highlighting for code blocks inside READMEs                              |
+| **[gray-matter](https://github.com/jonschlinkert/gray-matter)**                                      | Reads blog post frontmatter (title, date, language, tags)                       |
 
 ---
 
@@ -105,54 +104,49 @@ A fully static, blazing-fast developer portfolio that **automatically syncs with
 ```
 amrelshabrawydev/
 ├── app/                          # Next.js App Router
-│   ├── layout.tsx                # Root layout (fonts, metadata, navbar, footer)
-│   ├── page.tsx                  # Home page → HeroSection
+│   ├── layout.tsx                # Root layout (fonts, metadata, intro, navbar, footer)
+│   ├── page.tsx                  # Home page
 │   ├── globals.css               # Design system (Catppuccin theme, utilities)
-│   ├── robots.ts                 # Dynamic robots.txt generation
-│   ├── sitemap.ts                # Dynamic sitemap.xml generation
-│   ├── about/page.tsx            # About page
-│   ├── services/page.tsx         # Services page
-│   ├── work/
-│   │   ├── page.tsx              # Projects grid section
-│   │   └── [slug]/page.tsx       # Dynamic project detail pages (ISR/Static)
-│   └── contact/page.tsx          # Contact page
+│   ├── intro-gate.css            # The intro animation (logo + curtains)
+│   ├── robots.ts / sitemap.ts    # robots.txt and sitemap.xml
+│   ├── rss.xml/route.ts          # Blog RSS feed
+│   ├── about/ services/ contact/ # Pages
+│   ├── work/                     # Case studies grid + [slug] detail pages
+│   └── blog/                     # Blog list + [slug] article pages
 │
 ├── components/
-│   ├── Layout/
-│   │   ├── Navbar.tsx            # Navigation bar
-│   │   └── Footer.tsx            # Persistent site footer
+│   ├── Layout/                   # Navbar, Footer
 │   ├── Sections/
-│   │   ├── HeroSection.tsx       # Hero with GSAP typewriter animation
-│   │   ├── AboutSection.tsx      # Skills, experience, and bio
-│   │   ├── ServicesSection.tsx   # Services offered
-│   │   ├── ContactSection.tsx    # EmailJS-powered contact form
-│   │   ├── GitHubProjectsSection.tsx  # Project grid (Masonry Layout)
-│   │   ├── GitHubProjectsLoader.tsx   # Client-side projects entry point
-│   │   └── GitHubProjects/
-│   │       ├── ProjectCard.tsx   # Individual project card UI
-│   │       ├── ProjectSkeleton.tsx  # Single card skeleton
-│   │       └── ProjectSkeletonGrid.tsx # Full grid skeleton
-│   └── ui/                       # Custom UI Components
+│   │   ├── HeroSection.tsx       # Home hero (CSS entrance + 3D background)
+│   │   ├── Hero3D/               # three.js block field (loaded lazily)
+│   │   ├── Home/HomeSections.tsx # Home page sections (services, work, FAQ…)
+│   │   ├── Reviews/              # Client reviews (EN translation / AR original)
+│   │   ├── CaseStudies/          # Cards, grid, /work hero, detail view
+│   │   └── About/Services/ContactSection.tsx
+│   ├── Blog/PostCard.tsx
+│   └── ui/                       # Shared UI
+│       ├── IntroGate.tsx         # Intro markup (timeline in app/intro-gate.css)
+│       ├── PageHeader.tsx        # Top of every page: badge → H1 → intro
+│       ├── SectionHeader.tsx     # Section titles: eyebrow → H2 → text
 │       ├── Powerline.tsx         # Terminal Powerline segments
-│       ├── LogoIcon.tsx          # SVG Logo component
-│       ├── ImageWithFallback.tsx # Optimized Next.js Image wrapper
-│       └── markdown-components.tsx  # Custom markdown renderers
+│       ├── LogoIcon.tsx + logoPaths.ts  # The logo (single source for all uses)
+│       └── CtaBanner.tsx, WhatsAppButton.tsx
+│
+├── content/blog/                 # Blog posts (Markdown, EN + AR)
+├── data/
+│   ├── index.tsx                 # Personal info, services, skills, FAQ, reviews
+│   └── projects.ts               # Case studies (all projects on /work)
 │
 ├── lib/
-│   ├── github.ts                 # GitHub API service
-│   ├── metadata.ts               # Centralized SEO metadata
-│   └── utils.ts                  # Date and slug utilities
+│   ├── intro-gate.ts             # Intro scripts (mode, skip, landing measurement)
+│   ├── blog.ts                   # Markdown blog loader
+│   ├── seo.ts / metadata.ts      # Metadata + JSON-LD helpers
+│   ├── site.ts                   # Site URL, social links, WhatsApp link
+│   ├── analytics.ts              # GA4 lead events
+│   └── utils.ts                  # Slug + number helpers
 │
-├── data/
-│   └── index.tsx                 # Single source of truth for personal data
-│
-├── public/                       # Static assets
-│   ├── logo.svg, profile.png     # Branding
-│   └── .nojekyll                 # GitHub Pages compatibility
-│
-├── next.config.ts                # Next.js configuration
-├── pnpm-lock.yaml                # Lockfile (pnpm preferred)
-└── package.json                  # Dependencies & scripts
+├── public/                       # Images, CV, icons, OG images
+└── next.config.ts
 ```
 
 ---
@@ -164,7 +158,7 @@ amrelshabrawydev/
 ```mermaid
 graph LR
     A[pnpm build] --> B[Next.js Turbopack]
-    B --> C[Fetch GitHub API]
+    B --> C[Read data/ and content/]
     C --> D[Generate Static Pages]
     D --> E[out/ directory]
     E --> F[gh-pages deploys to GitHub Pages]
@@ -172,24 +166,25 @@ graph LR
 
 1. **`pnpm build`** triggers Next.js static export (`output: "export"`)
 2. **Turbopack** compiles TypeScript and bundles assets
-3. **Static Generation**: `generateStaticParams()` pre-fetches all projects to build dynamic detail pages
+3. **Static Generation**: `generateStaticParams()` builds a page for every case study and blog post
 4. **Output**: A fully static `out/` directory ready for deployment
 5. **`pnpm run deploy`**: Pushes the build to the `gh-pages` branch
 
 ### Runtime Behavior
 
-- **GSAP Masonry**: A custom hook calculates column positions dynamically without heavy UI libraries.
+- **Intro**: on every full page load the logo is traced in light, fills in while `npm run build` types, then flies into the header as the curtains open (~2.5s, pure CSS, skippable with any click/key, off for reduced motion).
+- **Home 3D hero**: a three.js block field, loaded on desktop only after the first interaction / idle, skipped without a GPU.
+- **Portfolio grid**: every project uses the same card, with Client / Personal / Concept filters.
 - **Scroll Reveals**: Components use `useGSAP` + `ScrollTrigger` for smooth, performant entry animations.
-- **Contact Form**: Uses EmailJS SDK to send emails directly from the client.
+- **Contact Form**: Uses EmailJS SDK to send emails directly from the client (with spam protection, see Security).
 
 ---
 
 ## 🔄 Data Fetching Strategy
 
-### 1. GitHub Projects (Hybrid)
+### 1. Projects (`data/projects.ts`)
 
-- **Static (Build-time)**: Project READMEs are fetched and converted to static HTML for SEO and speed.
-- **Dynamic (Client-side)**: The projects grid fetches latest metadata on the `/work` page to ensure up-to-date stats.
+All projects are curated by hand — no API calls at build time, so builds never fail because of GitHub rate limits.
 
 ### 2. Static Data (`data/index.tsx`)
 
@@ -227,12 +222,9 @@ The design is inspired by modern developer tools and terminals.
 
 ### Add a case study
 
-1. Add an entry to `caseStudies` in [`data/projects.ts`](data/projects.ts).
-2. Add a 1600×1000 cover image at `public/projects/<name>.webp`.
-   A real screenshot of the live site works best — replace any cover with a screenshot of the same name.
-3. Set `repo` to the GitHub repo name so the repo card isn't listed twice.
-
-Practice repos you don't want clients to see go in `hiddenRepos` in the same file.
+1. Add an entry to `caseStudies` in [`data/projects.ts`](data/projects.ts) and use `...media("<slug>")`.
+2. Add the images to `public/projects/<slug>/`: `cover.webp` (1600×1000), `desktop.webp`, `mobile.webp`, `psi-desktop.webp`, `psi-mobile.webp`.
+3. Add the PageSpeed scores in `performance: { desktop, mobile }`.
 
 ### Write a blog post
 
@@ -254,12 +246,39 @@ The post is added automatically to `/blog`, the homepage, `sitemap.xml` and `rss
 
 ---
 
+## 🧰 Editing & Previews
+
+| I want to…                         | Where                                                                   |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| Add a client review                | `testimonialData` + `reviewSource.count` in `data/index.tsx`            |
+| Add a skill / tool                 | `aboutData.skillCategories` in `data/index.tsx` (link its case studies) |
+| Add a case study                   | `data/projects.ts` + images in `public/projects/<slug>/`                |
+| Change the intro speed             | `--gs` in `app/intro-gate.css` (1 = ~2.5s, 1.5 = slower)                |
+| Change the logo                    | `components/ui/logoPaths.ts` (used by the header, footer and intro)    |
+
+Preview helpers (add to any URL):
+
+- `?gate` — always play the intro (even with reduced motion on)
+- `?gate=debug` — also log the intro's landing measurements to the console
+- `?3d` — force the home 3D scene on machines without a GPU
+
+---
+
+## 🔒 Security
+
+- No secrets in the code: the only env vars are EmailJS's **public** IDs (`.env.example`); `.env*.local` is git-ignored.
+- JSON-LD is escaped (`jsonLd()` in `lib/seo.ts`), RSS text is XML-escaped, blog Markdown renders without raw HTML, and every external link uses `rel="noopener noreferrer"`.
+- Contact form: honeypot field for bots, one message per browser every 30s (EmailJS `limitRate`), and field length limits.
+  In the EmailJS dashboard also turn on **Account → Security → allowed domains** (your site's domain) and, if spam appears, **reCAPTCHA** on the template.
+- Check dependencies with `pnpm audit` before deploying.
+
+---
+
 ## 🚀 Deployment
 
 ```bash
 # Deploys directly to GitHub Pages
-# Set GITHUB_TOKEN first so the build can list your repos without rate limits
-GITHUB_TOKEN=<token> pnpm run deploy
+pnpm run deploy
 ```
 
 ---

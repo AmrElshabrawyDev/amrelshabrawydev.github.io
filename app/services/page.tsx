@@ -10,6 +10,7 @@ import { faqData } from "@/data";
 import { ServicesSection } from "@/components/Sections/ServicesSection";
 import { ProcessSection, FaqSection } from "@/components/Sections/Home/HomeSections";
 import { CtaBanner } from "@/components/ui/CtaBanner";
+import { ClientReviews } from "@/components/Sections/Reviews/ClientReviews";
 
 export const metadata: Metadata = servicesMetadata;
 
@@ -29,6 +30,7 @@ export default function ServicesPage() {
 
       <ServicesSection />
       <ProcessSection />
+      <ClientReviews />
       <FaqSection />
 
       <section className="pb-24 bg-bg-base">

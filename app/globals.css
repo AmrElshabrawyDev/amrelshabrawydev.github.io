@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Intro animation (logo + curtains) — see components/ui/IntroGate.tsx */
+@import "./intro-gate.css";
 
 @theme {
   /* ====================================
@@ -171,7 +173,9 @@
   🎨 Powerline Components
 ==================================== */
 
-@layer utilities {
+/* Base styles live in the components layer so Tailwind utilities passed via
+   className (h-6, text-[10px], px-3…) always win over these defaults. */
+@layer components {
   .powerline-container {
     display: flex;
     align-items: center;
@@ -192,29 +196,69 @@
     white-space: nowrap;
   }
 
-  .powerline-arrow-left {
-    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-    width: 14px;
-    height: 100%;
+  /* Default padding leaves room for the 14px arrow of the previous segment */
+  .powerline-segment[data-direction="left"] {
+    padding-left: 1.25rem;
+    padding-right: 0.5rem;
+  }
+  .powerline-segment[data-direction="right"] {
+    padding-left: 0.5rem;
+    padding-right: 1.25rem;
+  }
+  .powerline-segment[data-direction="both"] {
+    padding-inline: 1.25rem;
+  }
+
+  /* Arrows overlap the segment by 1px so no hairline seam shows between them
+     at fractional pixel positions or with OS display scaling (125%, 150%). */
+  .powerline-arrow-left,
+  .powerline-arrow-right {
     position: absolute;
-    right: -14px;
     top: 0;
+    width: 15px;
+    height: 100%;
     z-index: 10;
+    pointer-events: none;
+  }
+
+  /* The first 1px is a solid strip hidden under the segment; the slope
+     starts exactly at the segment edge, so no seam and no corner step. */
+  .powerline-arrow-left {
+    clip-path: polygon(0 0, 1px 0, 100% 50%, 1px 100%, 0 100%);
+    right: -14px;
   }
 
   .powerline-arrow-right {
-    clip-path: polygon(100% 100%, 0% 50%, 100% 0%);
-    width: 14px;
-    height: 100%;
-    position: absolute;
+    clip-path: polygon(100% 0, calc(100% - 1px) 0, 0 50%, calc(100% - 1px) 100%, 100% 100%);
     left: -14px;
-    top: 0;
-    z-index: 10;
+  }
+
+  /* Two fixed sizes keep every segment on the site the same height.
+     Use the `size` prop instead of height classes. */
+  .powerline-segment[data-size="sm"] {
+    height: 1.75rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+  .powerline-segment[data-size="sm"][data-direction="left"] {
+    padding-left: 1.25rem;
+    padding-right: 0.625rem;
+  }
+  .powerline-segment[data-size="sm"] .powerline-arrow-left,
+  .powerline-segment[data-size="sm"] .powerline-arrow-right {
+    width: 11px;
+  }
+  .powerline-segment[data-size="sm"] .powerline-arrow-left {
+    right: -10px;
+  }
+  .powerline-segment[data-size="sm"] .powerline-arrow-right {
+    left: -10px;
   }
 
   @media (max-width: 1024px) {
-    .powerline-segment {
-      height: 2rem;
+    .powerline-segment[data-size="md"] {
+      height: 2.25rem;
+      font-size: 0.8125rem;
     }
   }
 }
@@ -242,13 +286,16 @@
   ♿ Accessibility & Micro-interactions
 ==================================== */
 
-.focus-visible:focus {
+/* Visible keyboard focus everywhere (zero specificity, so components can
+   still style their own focus state) */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
+  /* The intro gate is hidden for reduced motion anyway, except in ?gate preview */
+  *:not(.intro-gate, .intro-gate *),
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
@@ -280,108 +327,6 @@
   max-width: 1200px;
   margin: 0 auto;
   padding-inline: 2rem;
-}
-
-/* ====================================
-  📝 Markdown Styles (Neon Terminal)
-==================================== */
-
-.markdown-body {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  word-wrap: break-word;
-  color: var(--color-text-secondary);
-}
-
-.markdown-body p {
-  margin-bottom: 1.25rem;
-}
-
-.markdown-body h1 {
-  font-size: 1.875rem;
-  font-weight: 700;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  color: var(--color-primary);
-}
-
-.markdown-body h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--color-secondary);
-}
-
-.markdown-body h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-info);
-}
-
-.markdown-body a {
-  color: var(--color-primary);
-  text-decoration: underline;
-  transition: color 0.2s ease;
-}
-
-.markdown-body a:hover {
-  color: var(--color-secondary);
-}
-
-.markdown-body pre {
-  background-color: var(--color-bg-base);
-  border-radius: 4px;
-  padding: 1.25rem;
-  overflow: auto;
-  margin-bottom: 1.5rem;
-  border: 1px solid var(--color-border-subtle);
-}
-
-.markdown-body code {
-  background-color: rgba(137, 180, 250, 0.1);
-  color: var(--color-primary);
-  border-radius: 4px;
-  padding: 0.2em 0.4em;
-  font-size: 0.9em;
-  font-family: var(--font-mono);
-}
-
-.markdown-body pre code {
-  background-color: transparent;
-  padding: 0;
-  color: inherit;
-  font-size: 0.875rem;
-}
-
-.markdown-body img {
-  display: inline-block;
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin: 0.5rem 0;
-}
-
-.markdown-body ul,
-.markdown-body ol {
-  margin-bottom: 1.25rem;
-  padding-left: 1.5rem;
-}
-
-.markdown-body li {
-  margin-bottom: 0.35rem;
-}
-
-.markdown-body blockquote {
-  border-left: 4px solid var(--color-primary);
-  padding-left: 1.25rem;
-  color: var(--color-text-tertiary);
-  font-style: italic;
-  margin: 1.5rem 0;
-  background: rgba(137, 180, 250, 0.05);
-  padding-block: 0.5rem;
 }
 
 /* ====================================
@@ -584,4 +529,40 @@
   background: transparent;
   padding: 0;
   color: var(--color-text-primary);
+}
+
+/* ====================================
+  🚀 Home hero entrance (CSS only, no JS needed for LCP)
+==================================== */
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-in {
+  animation: hero-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0ms) + var(--gate-delay, 0ms));
+}
+
+/* Headline + intro only slide (no fade): they must be visible from the first
+   paint to count as Largest Contentful Paint */
+@keyframes hero-rise {
+  from {
+    transform: translateY(16px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0ms) + var(--gate-delay, 0ms));
 }
