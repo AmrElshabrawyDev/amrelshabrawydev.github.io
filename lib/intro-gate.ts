@@ -23,7 +23,7 @@ export const introFilmScript = `(function(){var d=document.documentElement;if(d.
 var fallback=function(){if(d.dataset.gate==="film")d.dataset.gate="play"};
 var timer;v.addEventListener("playing",function(){clearTimeout(timer)},{once:true});
 var started=false,start=function(){if(started||d.dataset.gate!=="film")return;started=true;timer=setTimeout(fallback,900);
-v.muted=true;v.preload="auto";var p=v.play();if(p&&p.catch)p.catch(fallback)};
+v.muted=true;var p=v.play();if(p&&p.catch)p.catch(fallback)};
 // Start once the page's main content has painted (LCP), so the video never
 // competes with it; ~0.2s in practice. Browsers without the LCP API: next frames.
 var T=window.PerformanceObserver&&PerformanceObserver.supportedEntryTypes;

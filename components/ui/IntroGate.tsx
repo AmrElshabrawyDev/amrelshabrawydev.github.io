@@ -43,6 +43,8 @@ export function IntroGate() {
         preload="none"
         aria-hidden
         tabIndex={-1}
+        // the inline intro script starts playback before React hydrates
+        suppressHydrationWarning
       >
         <source src="/intro/logo-intro.webm" type='video/webm; codecs="vp9"' />
         <source src="/intro/logo-intro.mp4" type="video/mp4" />
