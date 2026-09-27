@@ -1,157 +1,135 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import { aboutData, statsData } from "@/data";
-import { Terminal } from "lucide-react";
-import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
-import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Check, Download, User } from "lucide-react";
+import { aboutData, personalInfo, statsData } from "@/data";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
+import { trackLead } from "@/lib/analytics";
 
-const proficiencyColors = {
-  expert: "primary",
-  advanced: "secondary",
-  learning: "accent",
+const levels = {
+  expert: { label: "Expert", dot: "bg-primary", text: "text-primary" },
+  advanced: { label: "Advanced", dot: "bg-secondary", text: "text-secondary" },
+  learning: { label: "Learning", dot: "bg-warning", text: "text-warning" },
 } as const;
+
+const promises = [
+  "You work directly with me — no middlemen or hand-offs",
+  "A fixed price and timeline in writing before we start",
+  "Fast, SEO-ready code that you fully own",
+];
 
 export function AboutSection() {
   const container = useRef<HTMLDivElement>(null);
 
-  useSectionReveal(container, ".gsap-reveal", {
-    stagger: 0.1,
-    y: 20,
-    scale: 0.99,
-  });
+  useSectionReveal(container, ".gsap-reveal", { stagger: 0.1, y: 20, scale: 0.99 });
 
   return (
-    <section
-      ref={container}
-      className="py-24 bg-bg-base relative overflow-hidden"
-    >
+    <section ref={container} className="pb-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
-        {/* Section Header */}
-        <div className="mb-16 flex justify-center lg:justify-start gsap-reveal opacity-0">
-          <PowerlineGroup>
-            <PowerlineSegment
-              color="primary"
-              icon={<Terminal className="w-5 h-5" />}
-            >
-              ABOUT_IDENTITY.MD
-            </PowerlineSegment>
-            <PowerlineSegment color="surface">CAIRO, EGYPT</PowerlineSegment>
-          </PowerlineGroup>
-        </div>
+        <PageHeader
+          label="ABOUT"
+          icon={<User className="w-4 h-4" />}
+          meta="CAIRO, EGYPT"
+          title="Freelance front-end developer who builds websites that work for your business"
+        />
 
-        <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-12 max-w-4xl gsap-reveal opacity-0">
-          Freelance front-end developer who builds websites that work for your business
-        </h1>
+        {/* Bio + photo */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-12 items-start font-[family-name:var(--font-inter)]">
+          <div className="space-y-8">
+            <div className="terminal-card p-6 md:p-10 gsap-reveal opacity-0">
+              <p className="eyebrow mb-3">Hi, I&apos;m Amr</p>
+              <p className="text-lg! leading-relaxed text-text-primary">{aboutData.bio}</p>
 
-        {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Main Bio Card */}
-          <div className="md:col-span-2 lg:col-span-2 terminal-card group gsap-reveal opacity-0">
-            <div className="terminal-header flex items-center justify-between">
-              <div className="flex gap-2">
-                <div className="w-2.5 h-2.5 bg-primary" />
-                <div className="w-2.5 h-2.5 bg-secondary" />
-                <div className="w-2.5 h-2.5 bg-accent" />
-              </div>
-              <span className="text-[10px] text-text-tertiary uppercase font-mono tracking-widest">
-                bio_processor.sh
-              </span>
-            </div>
-
-            <div className="p-8 lg:p-10 space-y-8">
-              <h2 className="text-2xl md:text-4xl font-black font-heading text-primary uppercase">
-                {">"} Hi, I&apos;m Amr
-              </h2>
-              <p className="text-text-secondary leading-relaxed text-lg font-[family-name:var(--font-inter)] border-l-4 border-primary pl-6 py-4 bg-primary/5">
-                {aboutData.bio}
-              </p>
-
-              {/* Stats Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8">
-                {statsData.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="border border-border-subtle p-4 bg-bg-elevated hover:border-primary transition-colors"
-                  >
-                    <div className="text-2xl font-black font-heading text-primary">
-                      {stat.value}
-                    </div>
-                    <div className="text-[10px] text-text-tertiary uppercase tracking-widest mt-1">
-                      {stat.label}
-                    </div>
-                  </div>
+              <ul className="mt-8 space-y-3">
+                {promises.map((item) => (
+                  <li key={item} className="flex gap-3 items-start text-sm">
+                    <Check className="w-5 h-5 text-success shrink-0" />
+                    <span className="text-text-secondary">{item}</span>
+                  </li>
                 ))}
+              </ul>
+
+              <div className="mt-10 flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/contact"
+                  className="btn-primary"
+                  onClick={() => trackLead("contact_about")}
+                >
+                  Start a project <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a href={personalInfo.resume} download className="btn-outline">
+                  <Download className="w-4 h-4" /> Download CV
+                </a>
               </div>
             </div>
+
+            <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 gsap-reveal opacity-0">
+              {statsData.map((stat) => (
+                <div key={stat.label} className="terminal-card p-5 flex flex-col-reverse">
+                  <dt className="text-xs text-text-tertiary mt-1">{stat.label}</dt>
+                  <dd className="text-3xl font-extrabold text-primary">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          {/* Profile Visual Card */}
-          <div className="terminal-card overflow-hidden relative min-h-[400px] gsap-reveal opacity-0">
-            <div className="terminal-header flex items-center justify-between absolute top-0 left-0 right-0 z-20">
-              <span className="text-[10px] text-text-primary px-2 font-mono uppercase bg-primary/20">
-                VISUAL_INDEX_01
-              </span>
-            </div>
+          <div className="relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated gsap-reveal opacity-0">
             <Image
               src="/profile-about.png"
-              alt="Amr Elshabrawy, freelance front-end developer in Cairo"
+              alt={`${personalInfo.name}, freelance front-end developer in Cairo`}
               fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-700 contrast-125"
-              sizes="(max-width: 1024px) 100vw, 30vw"
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 40vw"
             />
-            <div className="absolute inset-0 bg-primary/10 mix-blend-overlay pointer-events-none" />
-          </div>
-
-          {/* Skill Cards */}
-          {aboutData.skillCategories.map((category) => (
-            <div
-              key={category.title}
-              className="terminal-card group flex flex-col gsap-reveal opacity-0"
-            >
-              <div className="terminal-header flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="text-primary">{category.icon}</div>
-                  <h3 className="text-[10px]! text-text-primary font-mono font-bold uppercase tracking-widest">
-                    {category.title}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="p-6 flex-1">
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill) => (
-                    <div
-                      key={skill}
-                      className="bg-bg-base border border-border-subtle px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-text-secondary hover:text-primary hover:border-primary transition-colors cursor-default"
-                    >
-                      {skill}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-4 bg-bg-base/40 border-t border-border-subtle mt-auto">
-                <PowerlineGroup>
-                  <PowerlineSegment
-                    color={proficiencyColors[category.proficiency]}
-                    size="sm"
-                  >
-                    {category.proficiency.toUpperCase()}
-                  </PowerlineSegment>
-                  <PowerlineSegment
-                    color="surface"
-                    size="sm"
-                    showArrow={false}
-                  >
-                    STRENGTH_OK
-                  </PowerlineSegment>
-                </PowerlineGroup>
-              </div>
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-bg-base/95 to-transparent" />
+            <div className="absolute left-5 right-5 bottom-5">
+              <p className="text-xl! font-bold text-text-primary">{personalInfo.name}</p>
+              <p className="text-sm! text-text-secondary">{personalInfo.location} · Remote worldwide</p>
             </div>
-          ))}
+          </div>
+        </div>
+
+        {/* Skills */}
+        <div className="mt-24">
+          <p className="eyebrow mb-3">Skills &amp; tools</p>
+          <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-12">
+            What I work with
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-[family-name:var(--font-inter)]">
+            {aboutData.skillCategories.map((category) => {
+              const level = levels[category.proficiency];
+              return (
+                <article key={category.title} className="terminal-card p-6 flex flex-col gap-5 gsap-reveal opacity-0">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <span className="text-primary">{category.icon}</span>
+                      <h3 className="heading-natural font-[inherit]! text-lg! font-bold">
+                        {category.title}
+                      </h3>
+                    </div>
+                    <span className={`flex items-center gap-1.5 text-xs font-semibold shrink-0 ${level.text}`}>
+                      <span className={`w-2 h-2 rounded-full ${level.dot}`} />
+                      {level.label}
+                    </span>
+                  </div>
+                  <ul className="flex flex-wrap gap-2">
+                    {category.skills.map((skill) => (
+                      <li
+                        key={skill}
+                        className="px-2.5 py-1 text-xs font-mono border border-border-default text-text-secondary"
+                      >
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

@@ -4,6 +4,8 @@ import { jsonLd } from "@/lib/seo";
 import { caseStudies } from "@/data/projects";
 import { PortfolioGrid } from "@/components/Sections/CaseStudies/PortfolioGrid";
 import { CtaBanner } from "@/components/ui/CtaBanner";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { FolderGit2 } from "lucide-react";
 
 export const metadata: Metadata = workMetadata;
 
@@ -28,16 +30,15 @@ export default function WorkPage() {
         )}
       />
 
-      <section className="pt-16 pb-10 bg-bg-base">
+      <section className="bg-bg-base">
         <div className="container-custom">
-          <p className="eyebrow mb-4">Portfolio</p>
-          <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6 max-w-4xl">
-            Case studies: websites, stores &amp; web apps
-          </h1>
-          <p className="max-w-2xl font-[family-name:var(--font-inter)] text-lg">
-            Real projects for real businesses — what the client needed, how I
-            built it, and what they got. Arabic and English, Next.js and Salla.
-          </p>
+          <PageHeader
+            label="WORK"
+            icon={<FolderGit2 className="w-4 h-4" />}
+            meta={`${caseStudies.length} PROJECTS`}
+            title="Case studies: websites, stores & web apps"
+            intro="Real projects for real businesses — what the client needed, how I built it, and what they got. Arabic and English, Next.js and Salla."
+          />
         </div>
       </section>
 

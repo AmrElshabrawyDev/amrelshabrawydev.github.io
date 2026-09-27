@@ -17,7 +17,7 @@ import {
 import emailjs from "@emailjs/browser";
 import { personalInfo, socialLinks } from "@/data";
 import { SOCIAL, whatsappLink } from "@/lib/site";
-import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
 import { trackLead } from "@/lib/analytics";
 
@@ -142,28 +142,15 @@ export function ContactSection() {
   );
 
   return (
-    <section ref={container} className="py-16 md:py-24 bg-bg-base relative overflow-hidden">
+    <section ref={container} className="pb-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
-        {/* Header */}
-        <div className="mb-8 gsap-reveal opacity-0">
-          <PowerlineGroup>
-            <PowerlineSegment color="secondary" icon={<MessageSquare className="w-4 h-4" />}>
-              CONTACT
-            </PowerlineSegment>
-            <PowerlineSegment color="surface">REPLY IN &lt; 24H</PowerlineSegment>
-          </PowerlineGroup>
-        </div>
-
-        <div className="mb-14 max-w-3xl gsap-reveal opacity-0">
-          <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6">
-            Let&apos;s talk about your project
-          </h1>
-          <p className="font-[family-name:var(--font-inter)] text-lg!">
-            Tell me what you want to build and roughly your budget. I&apos;ll
-            reply within 24 hours with honest advice and a fixed quote — no
-            obligation.
-          </p>
-        </div>
+        <PageHeader
+          label="CONTACT"
+          icon={<MessageSquare className="w-4 h-4" />}
+          meta="REPLY IN < 24H"
+          title="Let's talk about your project"
+          intro="Tell me what you want to build and roughly your budget. I'll reply within 24 hours with honest advice and a fixed quote — no obligation."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-12 items-start font-[family-name:var(--font-inter)]">
           {/* Form */}

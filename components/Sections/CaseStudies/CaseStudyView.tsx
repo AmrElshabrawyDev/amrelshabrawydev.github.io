@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  FolderGit2,
   ArrowLeft,
   ExternalLink,
   Github,
@@ -14,6 +15,7 @@ import type { CaseStudy } from "@/data/projects";
 import { caseStudies } from "@/data/projects";
 import { CaseStudyCard } from "./CaseStudyCard";
 import { CtaBanner } from "@/components/ui/CtaBanner";
+import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
 
 /** Lighthouse colour bands: 90+ good, 50–89 needs improvement, <50 poor */
 const scoreColor = (score: number) =>
@@ -56,9 +58,12 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
           </Link>
         </nav>
 
-        <p className="eyebrow mb-4">
-          {study.type} · {study.industry}
-        </p>
+        <PowerlineGroup className="mb-8">
+          <PowerlineSegment color="secondary" icon={<FolderGit2 className="w-4 h-4" />}>
+            {study.type.toUpperCase()}
+          </PowerlineSegment>
+          <PowerlineSegment color="surface">{study.industry.toUpperCase()}</PowerlineSegment>
+        </PowerlineGroup>
         <h1 className="heading-natural text-3xl md:text-5xl font-extrabold mb-6 max-w-4xl leading-tight">
           {study.title}
         </h1>

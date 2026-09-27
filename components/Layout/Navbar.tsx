@@ -1,60 +1,19 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Menu,
-  X,
-  Terminal,
-  User,
-  Cpu,
-  Mail,
-  FolderGit2,
-  BookOpen,
-} from "lucide-react";
+import { Menu, X, ArrowRight, MessageCircle } from "lucide-react";
 import { personalInfo } from "@/data";
-import { PowerlineGroup, PowerlineSegment } from "@/components/ui/Powerline";
+import { whatsappLink } from "@/lib/site";
+import { trackLead } from "@/lib/analytics";
 import { LogoIcon } from "../ui/LogoIcon";
 
-// Order matters: even indexes render left of the logo, odd indexes right.
 const navLinks = [
-  {
-    href: "/",
-    label: "HOME",
-    icon: <Terminal className="w-4 h-4" />,
-    color: "surface" as const,
-  },
-  {
-    href: "/about",
-    label: "ABOUT",
-    icon: <User className="w-4 h-4" />,
-    color: "surface" as const,
-  },
-  {
-    href: "/services",
-    label: "SERVICES",
-    icon: <Cpu className="w-4 h-4" />,
-    color: "surface" as const,
-  },
-  {
-    href: "/work",
-    label: "WORK",
-    icon: <FolderGit2 className="w-4 h-4" />,
-    color: "surface" as const,
-  },
-  {
-    href: "/blog",
-    label: "BLOG",
-    icon: <BookOpen className="w-4 h-4" />,
-    color: "surface" as const,
-  },
-  {
-    href: "/contact",
-    label: "CONTACT",
-    icon: <Mail className="w-4 h-4" />,
-    color: "surface" as const,
-  },
+  { href: "/services", label: "Services" },
+  { href: "/work", label: "Work" },
+  { href: "/about", label: "About" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function Navbar() {
@@ -63,169 +22,154 @@ export function Navbar() {
   const pathname = usePathname();
   const [prevPathname, setPrevPathname] = useState(pathname);
 
-  // Adjust state during render phase if pathname changes
-  // This avoids cascading renders from useEffect
+  // Close the mobile menu on navigation (state adjusted during render)
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
     setIsOpen(false);
   }
 
-  // Lock body scroll
+  // Lock body scroll while the mobile menu is open
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.body.style.overflow = isOpen ? "hidden" : "";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
-      if (typeof document !== "undefined") {
-        document.body.style.overflow = "";
-      }
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 
-  // Scroll handler
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleMenu = useCallback(() => setIsOpen((v) => !v), []);
-
-  const { oddLinks, evenLinks } = useMemo(
-    () => ({
-      oddLinks: navLinks.filter((_, index) => index % 2 !== 0),
-      evenLinks: navLinks.filter((_, index) => index % 2 === 0),
-    }),
-    [],
-  );
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <header
-      className={`w-full fixed top-0 left-0 right-0 z-50 bg-bg-base border-b border-transparent transition-colors duration-200 ${
-        scrolled && !isOpen
-          ? "bg-bg-base/80 backdrop-blur-md border-border-subtle!"
-          : "bg-bg-base border-transparent"
+      className={`fixed top-0 inset-x-0 z-50 border-b transition-colors duration-200 ${
+        // No backdrop-blur while open: it would become the containing block of the fixed menu
+        isOpen
+          ? "bg-bg-base border-border-default"
+          : scrolled
+            ? "bg-bg-base/90 backdrop-blur-md border-border-default"
+            : "bg-bg-base border-transparent"
       }`}
     >
-      <nav className="container-custom py-4">
-        <div className="flex items-center justify-between">
-          {/* Powerline Nav Bar (Desktop) */}
-          <div className="hidden lg:flex w-full">
-            <PowerlineGroup className="w-full justify-between drop-shadow-[0_0_4px] drop-shadow-neon-primary">
-              <div className="flex flex-1">
-                <div className="flex">
-                  {evenLinks.map((link) => {
-                    const isActive =
-                      link.href === "/"
-                        ? pathname === "/"
-                        : pathname.startsWith(link.href);
-                    return (
-                      <Link key={link.href} href={link.href}>
-                        <PowerlineSegment
-                          color={isActive ? "primary" : link.color}
-                          icon={link.icon}
-                          className={`transition-all ${
-                            isActive
-                              ? "font-bold"
-                              : "group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
-                          }`}
-                        >
-                          {link.label}
-                        </PowerlineSegment>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="hidden lg:flex items-center justify-center flex-1">
-                <Link href="/">
-                  <LogoIcon className="w-14 h-14 transition-all duration-200 ease-linear hover:scale-3d hover:scale-110 active:scale-90" />
-                </Link>
-              </div>
-
-              <div className="flex justify-end flex-1">
-                <div className="flex">
-                  {oddLinks.map((link) => {
-                    const isActive =
-                      link.href === "/"
-                        ? pathname === "/"
-                        : pathname.startsWith(link.href);
-                    return (
-                      <Link key={link.href} href={link.href}>
-                        <PowerlineSegment
-                          direction="right"
-                          color={isActive ? "primary" : link.color}
-                          icon={link.icon}
-                          className={`transition-all ${
-                            isActive
-                              ? "font-bold"
-                              : "group/color duration-200 ease-linear hover:bg-accent hover:text-bg-base active:bg-primary active:text-bg-base"
-                          }`}
-                        >
-                          {link.label}
-                        </PowerlineSegment>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </PowerlineGroup>
-          </div>
-
-          {/* Logo (Mobile) */}
-          <Link href="/" className="lg:hidden flex items-center gap-2">
-            <LogoIcon className="w-8 h-8" />
-
-            <span className="font-bold tracking-tighter text-text-primary">
-              {personalInfo.name.split(" ")[1].toUpperCase()}
+      <nav
+        aria-label="Main"
+        className="container-custom h-20 flex items-center justify-between gap-6 font-[family-name:var(--font-inter)]"
+      >
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 shrink-0" aria-label={`${personalInfo.name} — home`}>
+          <LogoIcon className="w-10 h-10 transition-transform duration-200 hover:scale-105" />
+          <span className="flex flex-col leading-tight">
+            <span className="text-base font-bold text-text-primary">{personalInfo.name}</span>
+            <span className="font-mono text-[11px] tracking-wider text-text-tertiary">
+              React &amp; Next.js developer
             </span>
-          </Link>
+          </span>
+        </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="lg:hidden p-2 text-text-primary hover:text-primary transition-colors z-50"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isOpen}
+        {/* Desktop links */}
+        <ul className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative px-4 py-2 text-sm font-semibold transition-colors ${
+                    active ? "text-text-primary" : "text-text-secondary hover:text-text-primary"
+                  }`}
+                >
+                  {link.label}
+                  <span
+                    aria-hidden
+                    className={`absolute left-4 right-4 -bottom-0.5 h-0.5 bg-primary transition-transform duration-200 origin-left ${
+                      active ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <Link
+            href="/contact"
+            className="btn-primary h-11! px-5! text-xs!"
+            onClick={() => trackLead("contact_header")}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            Start a project <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        {isOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-bg-base flex flex-col pt-24 px-6 lg:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation"
-          >
-            <nav className="flex flex-col gap-4">
-              {navLinks.map((link) => {
-                const isActive =
-                  link.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`text-2xl font-bold tracking-widest p-4 border-l-4 transition-colors ${
-                      isActive
-                        ? "border-secondary bg-secondary/10 text-secondary"
-                        : "border-border-subtle text-text-secondary hover:text-primary"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-        )}
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen((open) => !open)}
+          className="lg:hidden p-2 -mr-2 text-text-primary hover:text-primary transition-colors"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </nav>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <div
+          id="mobile-menu"
+          className="lg:hidden fixed inset-x-0 top-20 bottom-0 bg-bg-base overflow-y-auto font-[family-name:var(--font-inter)]"
+        >
+          <div className="container-custom py-8 flex flex-col gap-8">
+            <ul className="flex flex-col">
+              {[{ href: "/", label: "Home" }, ...navLinks, { href: "/contact", label: "Contact" }].map(
+                (link) => {
+                  const active = link.href === "/" ? pathname === "/" : isActive(link.href);
+                  return (
+                    <li key={link.href} className="border-b border-border-subtle">
+                      <Link
+                        href={link.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`flex items-center justify-between py-4 text-2xl font-bold ${
+                          active ? "text-primary" : "text-text-primary"
+                        }`}
+                      >
+                        {link.label}
+                        {active && <span className="w-2 h-2 rounded-full bg-primary" />}
+                      </Link>
+                    </li>
+                  );
+                },
+              )}
+            </ul>
+
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/contact"
+                className="btn-primary h-14!"
+                onClick={() => trackLead("contact_mobile_menu")}
+              >
+                Start a project <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline h-14! border-success/60! text-success!"
+                onClick={() => trackLead("whatsapp_mobile_menu")}
+              >
+                <MessageCircle className="w-4 h-4" /> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

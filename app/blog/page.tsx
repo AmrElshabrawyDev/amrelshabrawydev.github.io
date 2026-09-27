@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Rss } from "lucide-react";
+import { BookOpen, Rss } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { blogMetadata, breadcrumbSchema } from "@/lib/metadata";
 import { jsonLd } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/site";
@@ -41,22 +42,26 @@ export default function BlogPage() {
         )}
       />
 
-      <section className="pt-16 pb-12 bg-bg-base">
+      <section className="bg-bg-base">
         <div className="container-custom">
-          <p className="eyebrow mb-4">Blog</p>
-          <h1 className="heading-natural text-4xl md:text-6xl font-extrabold mb-6 max-w-4xl">
-            Guides for building a website that brings clients
-          </h1>
-          <p className="max-w-2xl font-[family-name:var(--font-inter)] text-lg mb-6">
-            Plain-language articles on Next.js, online stores, SEO and speed —
-            for business owners deciding what to build, and developers building it.
-          </p>
-          <Link
-            href="/rss.xml"
-            className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-warning hover:text-primary"
-          >
-            <Rss className="w-4 h-4" /> RSS feed
-          </Link>
+          <PageHeader
+            label="BLOG"
+            icon={<BookOpen className="w-4 h-4" />}
+            meta={`${posts.length} ARTICLES · EN / AR`}
+            title="Guides for building a website that brings clients"
+            intro={
+              <>
+                Plain-language articles on Next.js, online stores, SEO and speed —
+                for business owners deciding what to build, and developers building it.{" "}
+                <Link
+                  href="/rss.xml"
+                  className="inline-flex items-center gap-1.5 text-warning hover:text-primary font-semibold"
+                >
+                  <Rss className="w-4 h-4" /> RSS
+                </Link>
+              </>
+            }
+          />
         </div>
       </section>
 
