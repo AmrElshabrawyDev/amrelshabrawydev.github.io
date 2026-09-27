@@ -1,48 +1,39 @@
+import { LOGO_PATHS, LOGO_VIEWBOX, logoSvgMarkup } from "./logoPaths";
 import { LogoIcon } from "./LogoIcon";
-import { introFilmScript } from "@/lib/intro-gate";
+
+// The logo's silhouette, used to keep the light glint inside the logo
+const logoMask = `url("data:image/svg+xml,${encodeURIComponent(logoSvgMarkup())}")`;
 
 /**
- * Intro on every visit (lib/intro-gate.ts):
- *  1. The gate (CSS only): terminal-style doors with the logo on the seam
- *     "build" the site, then the logo splits and the doors open.
- *  2. As they open, the cinematic logo film plays on a dark stage, then the
- *     logo flies into the header and the page appears.
+ * Intro on every full page load — one continuous shot, pure CSS
+ * (timeline in app/globals.css, mode + measurements in lib/intro-gate.ts):
+ * the logo is traced in light and fills in, a glint sweeps across it, then it
+ * flies into the header while the curtains open on the page.
  * The page renders underneath the whole time, so it never delays loading.
  */
 export function IntroGate() {
   return (
-    <>
-      <div className="intro-gate" aria-hidden>
-        <div className="intro-gate-door intro-gate-door-left">
-          <div className="intro-gate-logo intro-gate-logo-left">
-            <LogoIcon className="w-full h-full" />
-          </div>
-        </div>
-        <div className="intro-gate-door intro-gate-door-right">
-          <div className="intro-gate-logo intro-gate-logo-right">
-            <LogoIcon className="w-full h-full" />
-          </div>
-        </div>
+    <div className="intro-gate" aria-hidden>
+      <div className="intro-gate-curtain intro-gate-curtain-left" />
+      <div className="intro-gate-curtain intro-gate-curtain-right" />
 
-        <div className="intro-gate-seam" />
-
-        <div className="intro-gate-terminal">
-          <p className="intro-gate-command">
-            <span className="text-success">$</span> npm run build
-          </p>
-          <p className="intro-gate-result">✓ Compiled successfully</p>
-        </div>
+      <div className="intro-gate-mark">
+        <svg
+          className="intro-gate-outline"
+          viewBox={`0 0 ${LOGO_VIEWBOX} ${LOGO_VIEWBOX}`}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {LOGO_PATHS.map((path) => (
+            <path key={path.d} d={path.d} pathLength={1} />
+          ))}
+        </svg>
+        <LogoIcon className="intro-gate-fill" />
+        <div
+          className="intro-gate-glint"
+          style={{ WebkitMaskImage: logoMask, maskImage: logoMask }}
+        />
       </div>
-
-      {/* Stage behind the doors while the film plays */}
-      <div className="intro-stage" aria-hidden />
-      {/* The <video> is created by the script (React never touches it) */}
-      <div
-        id="intro-film-slot"
-        dangerouslySetInnerHTML={{ __html: "" }}
-        suppressHydrationWarning
-      />
-      <script dangerouslySetInnerHTML={{ __html: introFilmScript }} />
-    </>
+    </div>
   );
 }
