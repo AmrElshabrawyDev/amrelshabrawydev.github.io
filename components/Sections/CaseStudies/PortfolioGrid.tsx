@@ -54,7 +54,13 @@ export function PortfolioGrid({ items }: { items: PortfolioCardData[] }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {visible.map((item, index) => (
-          <CaseStudyCard key={item.slug} study={item} priority={index < 2} />
+          <CaseStudyCard
+            key={item.slug}
+            study={item}
+            priority={index < 2}
+            // Lead with one wide card, then the regular grid
+            wide={index === 0}
+          />
         ))}
       </div>
     </>

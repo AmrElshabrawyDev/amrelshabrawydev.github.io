@@ -3,7 +3,9 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, Download, User } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ArrowRight, Download, FileCheck2, Gauge, Handshake, User } from "lucide-react";
 import { aboutData, personalInfo, statsData } from "@/data";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { useSectionReveal } from "@/lib/hooks/useSectionReveal";
@@ -16,79 +18,168 @@ const levels = {
 } as const;
 
 const promises = [
-  "You work directly with me — no middlemen or hand-offs",
-  "A fixed price and timeline in writing before we start",
-  "Fast, SEO-ready code that you fully own",
+  {
+    icon: <Handshake className="w-6 h-6" />,
+    title: "You work directly with me",
+    text: "No agency layers or hand-offs. The person you talk to is the person writing your code.",
+  },
+  {
+    icon: <FileCheck2 className="w-6 h-6" />,
+    title: "Fixed price, in writing",
+    text: "Scope, timeline and price agreed before we start — and a live preview link every week.",
+  },
+  {
+    icon: <Gauge className="w-6 h-6" />,
+    title: "Fast code you own",
+    text: "SEO-ready, measured with PageSpeed, and handed over completely: code, accounts and docs.",
+  },
 ];
+
+const whoami = [
+  ["name", personalInfo.name],
+  ["role", "React & Next.js developer"],
+  ["based", `${personalInfo.location} · remote`],
+  ["speaks", "Arabic, English"],
+  ["status", personalInfo.availability],
+];
+
+/** "50+" → { value: 50, suffix: "+" } so the number can count up */
+const parseStat = (raw: string) => {
+  const match = raw.match(/^(\d+)(.*)$/);
+  return match ? { value: Number(match[1]), suffix: match[2] } : null;
+};
 
 export function AboutSection() {
   const container = useRef<HTMLDivElement>(null);
 
   useSectionReveal(container, ".gsap-reveal", { stagger: 0.1, y: 20, scale: 0.99 });
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".about-photo", { clipPath: "inset(100% 0 0 0)", duration: 1.1, ease: "power3.inOut" });
+        gsap.from(".about-whoami > *", { opacity: 0, x: -12, duration: 0.4, stagger: 0.08, delay: 0.7 });
+
+        gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
+          const target = Number(el.dataset.count);
+          const counter = { value: 0 };
+          gsap.to(counter, {
+            value: target,
+            duration: 1.6,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 90%" },
+            onUpdate: () => {
+              el.textContent = Math.round(counter.value).toLocaleString("en-US");
+            },
+          });
+        });
+      });
+    },
+    { scope: container },
+  );
+
   return (
     <section ref={container} className="pb-24 bg-bg-base relative overflow-hidden">
       <div className="container-custom relative z-10">
-        <PageHeader
-          label="ABOUT"
-          icon={<User className="w-4 h-4" />}
-          meta="CAIRO, EGYPT"
-          title="Freelance front-end developer who builds websites that work for your business"
-        />
+        {/* Hero: intro + photo */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center pb-16">
+          <PageHeader
+            className="pb-0! md:pb-0!"
+            label="ABOUT"
+            icon={<User className="w-4 h-4" />}
+            meta="CAIRO, EGYPT"
+            title="I build websites that work for your business"
+            intro={aboutData.bio}
+          >
+            <div className="mt-10 flex flex-col sm:flex-row gap-3 font-[family-name:var(--font-inter)]">
+              <Link href="/contact" className="btn-primary" onClick={() => trackLead("contact_about")}>
+                Start a project <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a href={personalInfo.resume} download className="btn-outline">
+                <Download className="w-4 h-4" /> Download CV
+              </a>
+            </div>
+          </PageHeader>
 
-        {/* Bio + photo */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-12 items-start font-[family-name:var(--font-inter)]">
-          <div className="space-y-8">
-            <div className="terminal-card p-6 md:p-10 gsap-reveal opacity-0">
-              <p className="eyebrow mb-3">Hi, I&apos;m Amr</p>
-              <p className="text-lg! leading-relaxed text-text-primary">{aboutData.bio}</p>
+          <div className="relative lg:mt-12 max-w-md w-full mx-auto lg:mx-0 lg:justify-self-end pb-16 sm:pb-10">
+            <div className="about-photo relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated">
+              <Image
+                src="/profile-about.png"
+                alt={`${personalInfo.name}, freelance front-end developer in Cairo`}
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 90vw, 28rem"
+              />
+            </div>
 
-              <ul className="mt-8 space-y-3">
-                {promises.map((item) => (
-                  <li key={item} className="flex gap-3 items-start text-sm">
-                    <Check className="w-5 h-5 text-success shrink-0" />
-                    <span className="text-text-secondary">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/contact"
-                  className="btn-primary"
-                  onClick={() => trackLead("contact_about")}
-                >
-                  Start a project <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a href={personalInfo.resume} download className="btn-outline">
-                  <Download className="w-4 h-4" /> Download CV
-                </a>
+            {/* whoami card overlapping the photo */}
+            <div className="absolute -left-4 sm:-left-10 right-8 sm:right-auto bottom-0 sm:w-80 terminal-card shadow-2xl shadow-black/50">
+              <div className="terminal-header flex items-center justify-between">
+                <span className="flex gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-accent/80" />
+                  <span className="w-2 h-2 rounded-full bg-warning/80" />
+                  <span className="w-2 h-2 rounded-full bg-success/80" />
+                </span>
+                <span className="font-mono text-[10px] text-text-tertiary">~/amr</span>
               </div>
+              <dl className="about-whoami p-4 font-mono text-xs space-y-1.5">
+                <p className="text-text-tertiary mb-2">
+                  <span className="text-success">$</span> whoami
+                </p>
+                {whoami.map(([key, value]) => (
+                  <div key={key} className="flex gap-3">
+                    <dt className="w-14 shrink-0 text-secondary">{key}</dt>
+                    <dd className={key === "status" ? "text-success" : "text-text-primary"}>{value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-
-            <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 gsap-reveal opacity-0">
-              {statsData.map((stat) => (
-                <div key={stat.label} className="terminal-card p-5 flex flex-col-reverse">
-                  <dt className="text-xs text-text-tertiary mt-1">{stat.label}</dt>
-                  <dd className="text-3xl font-extrabold text-primary">{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
+        </div>
 
-          <div className="relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated gsap-reveal opacity-0">
-            <Image
-              src="/profile-about.png"
-              alt={`${personalInfo.name}, freelance front-end developer in Cairo`}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-            />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-bg-base/95 to-transparent" />
-            <div className="absolute left-5 right-5 bottom-5">
-              <p className="text-xl! font-bold text-text-primary">{personalInfo.name}</p>
-              <p className="text-sm! text-text-secondary">{personalInfo.location} · Remote worldwide</p>
-            </div>
+        {/* Stats */}
+        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px border border-border-subtle bg-border-subtle font-[family-name:var(--font-inter)]">
+          {statsData.map((stat) => {
+            const parsed = parseStat(stat.value);
+            return (
+              <div key={stat.label} className="flex flex-col-reverse p-6 md:p-8 bg-bg-elevated">
+                <dt className="text-sm text-text-tertiary mt-2">{stat.label}</dt>
+                <dd className="text-4xl md:text-5xl font-extrabold text-primary tabular-nums">
+                  {parsed ? (
+                    <>
+                      <span data-count={parsed.value}>{parsed.value.toLocaleString("en-US")}</span>
+                      {parsed.suffix}
+                    </>
+                  ) : (
+                    stat.value
+                  )}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+
+        {/* How I work */}
+        <div className="mt-24">
+          <p className="eyebrow mb-3">Working with me</p>
+          <h2 className="heading-natural text-3xl md:text-5xl font-extrabold mb-12">
+            What you can count on
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-[family-name:var(--font-inter)]">
+            {promises.map((item, index) => (
+              <article key={item.title} className="terminal-card p-6 md:p-8 gsap-reveal opacity-0">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="flex items-center justify-center w-12 h-12 border border-success/40 bg-success/10 text-success">
+                    {item.icon}
+                  </span>
+                  <span className="font-mono text-sm text-text-tertiary">0{index + 1}</span>
+                </div>
+                <h3 className="heading-natural font-[inherit]! text-lg! font-bold mb-2">{item.title}</h3>
+                <p className="text-sm! leading-relaxed">{item.text}</p>
+              </article>
+            ))}
           </div>
         </div>
 

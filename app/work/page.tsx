@@ -1,11 +1,10 @@
 import { Metadata } from "next";
 import { workMetadata, portfolioSchema, breadcrumbSchema } from "@/lib/metadata";
 import { jsonLd } from "@/lib/seo";
-import { caseStudies } from "@/data/projects";
+import { caseStudies, featuredCaseStudies } from "@/data/projects";
 import { PortfolioGrid } from "@/components/Sections/CaseStudies/PortfolioGrid";
 import { CtaBanner } from "@/components/ui/CtaBanner";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { FolderGit2 } from "lucide-react";
+import { WorkHero } from "@/components/Sections/CaseStudies/WorkHero";
 
 export const metadata: Metadata = workMetadata;
 
@@ -16,6 +15,14 @@ export default function WorkPage() {
       slug, title, type, industry, location, year, summary, stack, cover, coverAlt,
     }),
   );
+
+  const clientProjects = caseStudies.filter((study) => study.type === "Client project").length;
+  const bestScore = Math.max(...caseStudies.map((study) => study.performance?.desktop ?? 0));
+  const stats = [
+    { value: String(caseStudies.length), label: "Case studies" },
+    { value: String(clientProjects), label: "Client projects" },
+    { value: String(bestScore), label: "Top PageSpeed score" },
+  ];
 
   return (
     <>
@@ -30,15 +37,9 @@ export default function WorkPage() {
         )}
       />
 
-      <section className="bg-bg-base">
+      <section className="bg-bg-base overflow-hidden">
         <div className="container-custom">
-          <PageHeader
-            label="WORK"
-            icon={<FolderGit2 className="w-4 h-4" />}
-            meta={`${caseStudies.length} PROJECTS`}
-            title="Case studies: websites, stores & web apps"
-            intro="Real projects for real businesses — what the client needed, how I built it, and what they got. Arabic and English, Next.js and Salla."
-          />
+          <WorkHero total={caseStudies.length} stats={stats} showcase={featuredCaseStudies} />
         </div>
       </section>
 

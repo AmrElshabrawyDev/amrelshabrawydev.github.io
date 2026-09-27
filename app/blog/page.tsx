@@ -66,9 +66,9 @@ export default function BlogPage() {
       </section>
 
       <section aria-label="Articles" className="pb-24 bg-bg-base">
-        <div className="container-custom grid grid-cols-1 md:grid-cols-2 gap-8">
-          {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
+        <div className="container-custom grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post, index) => (
+            <PostCard key={post.slug} post={post} featured={index === 0} />
           ))}
         </div>
       </section>

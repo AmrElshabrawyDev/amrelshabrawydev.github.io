@@ -8,12 +8,15 @@ interface PageHeaderProps {
   meta?: string;
   title: string;
   intro?: React.ReactNode;
+  /** Extra content under the intro (CTAs, stats…) */
+  children?: React.ReactNode;
+  className?: string;
 }
 
 /** The same header on every top-level page: badge → H1 → intro */
-export function PageHeader({ label, icon, meta, title, intro }: PageHeaderProps) {
+export function PageHeader({ label, icon, meta, title, intro, children, className = "" }: PageHeaderProps) {
   return (
-    <header className="pt-12 md:pt-16 pb-12 md:pb-14">
+    <header className={`pt-12 md:pt-16 pb-12 md:pb-14 ${className}`}>
       <PowerlineGroup className="mb-8">
         <PowerlineSegment color="secondary" icon={icon}>
           {label}
@@ -26,6 +29,7 @@ export function PageHeader({ label, icon, meta, title, intro }: PageHeaderProps)
       {intro && (
         <p className="max-w-2xl font-[family-name:var(--font-inter)] text-lg!">{intro}</p>
       )}
+      {children}
     </header>
   );
 }
