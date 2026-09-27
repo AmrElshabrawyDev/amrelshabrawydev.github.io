@@ -44,3 +44,6 @@ next-env.d.ts
 # agentic testing
 .agent
 .hintrc
+# Written by `next dev` (Next.js 16.3+) for AI coding tools; keep local
+AGENTS.md
+CLAUDE.md

@@ -31,7 +31,18 @@ interface FormData {
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
-const emptyForm: FormData = { name: "", email: "", projectType: "", budget: "", message: "" };
+const emptyForm: FormData = {
+  name: "",
+  email: "",
+  projectType: "",
+  budget: "",
+  message: "",
+};
+
+// Anti-spam: field length limits, and at most one message per browser every
+// 30s (EmailJS's own rate limit — protects the monthly EmailJS quota)
+const LIMITS = { name: 80, email: 120, message: 4000 };
+const SEND_THROTTLE_MS = 30_000;
 
 const projectTypes = [
   "Business website",
@@ -42,7 +53,13 @@ const projectTypes = [
   "Something else",
 ];
 
-const budgets = ["Under $500", "$500 – $1,500", "$1,500 – $5,000", "$5,000+", "Not sure yet"];
+const budgets = [
+  "Under $500",
+  "$500 – $1,500",
+  "$1,500 – $5,000",
+  "$5,000+",
+  "Not sure yet",
+];
 
 const nextSteps = [
   "I read your message and reply within 24 hours.",
@@ -66,9 +83,14 @@ function Field({
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-semibold text-text-primary">
+      <label
+        htmlFor={id}
+        className="block text-sm font-semibold text-text-primary"
+      >
         {label}
-        {optional && <span className="font-normal text-text-tertiary"> (optional)</span>}
+        {optional && (
+          <span className="font-normal text-text-tertiary"> (optional)</span>
+        )}
       </label>
       {children}
     </div>
@@ -78,7 +100,11 @@ function Field({
 export function ContactSection() {
   const container = useRef<HTMLDivElement>(null);
 
-  useSectionReveal(container, ".gsap-reveal", { stagger: 0.1, y: 20, scale: 0.99 });
+  useSectionReveal(container, ".gsap-reveal", {
+    stagger: 0.1,
+    y: 20,
+    scale: 0.99,
+  });
 
   const [formData, setFormData] = useState<FormData>(emptyForm);
   const [sentName, setSentName] = useState("");
@@ -91,8 +117,15 @@ export function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Honeypot: a field people never see. Bots fill it — pretend it worked.
+    if (new window.FormData(e.currentTarget).get("website")) {
+      setStatus("success");
+      return;
+    }
+
     setStatus("loading");
 
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
@@ -121,10 +154,15 @@ export function ContactSection() {
           from_email: formData.email,
           project_type: formData.projectType,
           budget: formData.budget,
-          message: details ? `${details}\n\n${formData.message}` : formData.message,
+          message: details
+            ? `${details}\n\n${formData.message}`
+            : formData.message,
           to_email: personalInfo.email,
         },
-        publicKey,
+        {
+          publicKey,
+          limitRate: { id: "contact-form", throttle: SEND_THROTTLE_MS },
+        },
       );
 
       setSentName(formData.name.split(" ")[0]);
@@ -142,7 +180,10 @@ export function ContactSection() {
   );
 
   return (
-    <section ref={container} className="pb-24 bg-bg-base relative overflow-hidden">
+    <section
+      ref={container}
+      className="pb-24 bg-bg-base relative overflow-hidden"
+    >
       <div className="container-custom relative z-10">
         <PageHeader
           label="CONTACT"
@@ -168,14 +209,18 @@ export function ContactSection() {
 
             <div className="p-6 md:p-10">
               {status === "success" ? (
-                <div className="flex flex-col items-center text-center py-10 gap-5" role="status">
+                <div
+                  className="flex flex-col items-center text-center py-10 gap-5"
+                  role="status"
+                >
                   <CheckCircle2 className="w-14 h-14 text-success" />
                   <h2 className="heading-natural font-[inherit]! text-2xl md:text-3xl font-bold">
-                    Thanks{sentName ? `, ${sentName}` : ""}! Your message is on its way.
+                    Thanks{sentName ? `, ${sentName}` : ""}! Your message is on
+                    its way.
                   </h2>
                   <p className="max-w-md">
-                    I&apos;ll reply within 24 hours. Need a faster answer? Message
-                    me on WhatsApp.
+                    I&apos;ll reply within 24 hours. Need a faster answer?
+                    Message me on WhatsApp.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 mt-2">
                     <a
@@ -187,18 +232,37 @@ export function ContactSection() {
                     >
                       <MessageCircle className="w-4 h-4" /> WhatsApp
                     </a>
-                    <button type="button" onClick={() => setStatus("idle")} className="btn-outline">
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="btn-outline"
+                    >
                       Send another message
                     </button>
                   </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot for bots — hidden from people and screen readers */}
+                  <div
+                    aria-hidden
+                    className="absolute -left-[9999px] w-px h-px overflow-hidden"
+                  >
+                    <label htmlFor="website">Website</label>
+                    <input
+                      id="website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   <div className="grid sm:grid-cols-2 gap-6">
                     <Field id="name" label="Your name">
                       <input
                         id="name"
                         name="name"
+                        maxLength={LIMITS.name}
                         type="text"
                         required
                         autoComplete="name"
@@ -212,6 +276,7 @@ export function ContactSection() {
                       <input
                         id="email"
                         name="email"
+                        maxLength={LIMITS.email}
                         type="email"
                         required
                         autoComplete="email"
@@ -226,39 +291,45 @@ export function ContactSection() {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <Field id="projectType" label="What do you need?">
                       <div className="relative">
-                      <select
-                        id="projectType"
-                        name="projectType"
-                        required
-                        value={formData.projectType}
-                        onChange={handleChange}
-                        className={`${fieldClass} appearance-none pr-10`}
-                      >
-                        <option value="" disabled>
-                          Choose a project type
-                        </option>
-                        {projectTypes.map((type) => (
-                          <option key={type}>{type}</option>
-                        ))}
-                      </select>
-                        <ChevronDown aria-hidden className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                        <select
+                          id="projectType"
+                          name="projectType"
+                          required
+                          value={formData.projectType}
+                          onChange={handleChange}
+                          className={`${fieldClass} appearance-none pr-10`}
+                        >
+                          <option value="" disabled>
+                            Choose a project type
+                          </option>
+                          {projectTypes.map((type) => (
+                            <option key={type}>{type}</option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          aria-hidden
+                          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary"
+                        />
                       </div>
                     </Field>
                     <Field id="budget" label="Budget" optional>
                       <div className="relative">
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleChange}
-                        className={`${fieldClass} appearance-none pr-10`}
-                      >
-                        <option value="">Choose a range</option>
-                        {budgets.map((budget) => (
-                          <option key={budget}>{budget}</option>
-                        ))}
-                      </select>
-                        <ChevronDown aria-hidden className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                        <select
+                          id="budget"
+                          name="budget"
+                          value={formData.budget}
+                          onChange={handleChange}
+                          className={`${fieldClass} appearance-none pr-10`}
+                        >
+                          <option value="">Choose a range</option>
+                          {budgets.map((budget) => (
+                            <option key={budget}>{budget}</option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          aria-hidden
+                          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary"
+                        />
                       </div>
                     </Field>
                   </div>
@@ -267,6 +338,7 @@ export function ContactSection() {
                     <textarea
                       id="message"
                       name="message"
+                      maxLength={LIMITS.message}
                       required
                       rows={6}
                       value={formData.message}
@@ -283,8 +355,12 @@ export function ContactSection() {
                     >
                       <AlertCircle className="w-5 h-5 text-accent shrink-0" />
                       <span>
-                        Sorry, the message couldn&apos;t be sent. Please email me at{" "}
-                        <a href={`mailto:${SOCIAL.email}`} className="underline">
+                        Sorry, the message couldn&apos;t be sent. Please email
+                        me at{" "}
+                        <a
+                          href={`mailto:${SOCIAL.email}`}
+                          className="underline"
+                        >
                           {SOCIAL.email}
                         </a>{" "}
                         or message me on WhatsApp.
@@ -322,7 +398,9 @@ export function ContactSection() {
               <h2 className="heading-natural font-[inherit]! text-2xl font-bold mb-2">
                 Prefer a quick chat?
               </h2>
-              <p className="text-sm! mb-6">Message me on WhatsApp for a faster answer.</p>
+              <p className="text-sm! mb-6">
+                Message me on WhatsApp for a faster answer.
+              </p>
               <a
                 href={whatsappLink()}
                 target="_blank"
@@ -332,7 +410,10 @@ export function ContactSection() {
               >
                 <MessageCircle className="w-5 h-5" /> Chat on WhatsApp
               </a>
-              <p className="mt-3 text-center text-sm! text-text-secondary" dir="ltr">
+              <p
+                className="mt-3 text-center text-sm! text-text-secondary"
+                dir="ltr"
+              >
                 +20 120 254 6653
               </p>
             </div>
@@ -348,7 +429,8 @@ export function ContactSection() {
                     onClick={() => trackLead("email_contact")}
                     className="flex items-center gap-3 text-text-primary hover:text-primary break-all"
                   >
-                    <Mail className="w-4 h-4 shrink-0 text-primary" /> {SOCIAL.email}
+                    <Mail className="w-4 h-4 shrink-0 text-primary" />{" "}
+                    {SOCIAL.email}
                   </a>
                 </li>
                 {directLinks.map((link) => (
@@ -359,14 +441,19 @@ export function ContactSection() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 text-text-primary hover:text-primary"
                     >
-                      <span className="text-primary [&_svg]:w-4 [&_svg]:h-4">{link.icon}</span>
-                      {link.platform === "Resume" ? "Download my CV" : link.platform}
+                      <span className="text-primary [&_svg]:w-4 [&_svg]:h-4">
+                        {link.icon}
+                      </span>
+                      {link.platform === "Resume"
+                        ? "Download my CV"
+                        : link.platform}
                       <ArrowUpRight className="w-3.5 h-3.5 text-text-tertiary" />
                     </a>
                   </li>
                 ))}
                 <li className="flex items-center gap-3 text-text-secondary pt-2 border-t border-border-subtle">
-                  <MapPin className="w-4 h-4 shrink-0" /> Cairo, Egypt — working worldwide
+                  <MapPin className="w-4 h-4 shrink-0" /> Cairo, Egypt — working
+                  worldwide
                 </li>
                 <li className="flex items-center gap-3 text-text-secondary">
                   <Clock className="w-4 h-4 shrink-0" /> Replies within 24 hours
