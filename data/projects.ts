@@ -198,10 +198,10 @@ export const caseStudies: CaseStudy[] = [
       "Supabase",
       "Paddle",
     ],
-    performance: { desktop: 94, mobile: 80 },
+    performance: { desktop: 94, mobile: 87 },
     ...media("tonextstep-digital-marketplace"),
     coverAlt: "ToNextStep digital products marketplace — desktop and mobile",
-    liveUrl: "https://tonextstep-marketplace.vercel.app/",
+    liveUrl: "https://www.tonextstep.com/",
     featured: true,
   },
   {
