@@ -13,9 +13,13 @@ import matter from "gray-matter";
  *   lang:        "en" | "ar"           (optional, default "en")
  *   tags:        ["Next.js", "SEO"]
  *   draft:       true                  (optional — hides the post)
+ *
+ * Share image: /public/og/blog/<slug>.jpg (1200×630) when it exists,
+ * otherwise the site's default og-image.jpg.
  */
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
+const OG_DIR = path.join(process.cwd(), "public", "og", "blog");
 
 export interface PostMeta {
   slug: string;
@@ -26,6 +30,8 @@ export interface PostMeta {
   lang: "en" | "ar";
   tags: string[];
   readingMinutes: number;
+  /** Social share image path */
+  image: string;
 }
 
 export interface Post extends PostMeta {
@@ -44,8 +50,9 @@ const toDateString = (value: unknown) =>
 function readPost(file: string): Post & { draft: boolean } {
   const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf8");
   const { data, content } = matter(raw);
+  const slug = file.replace(/\.md$/, "");
   return {
-    slug: file.replace(/\.md$/, ""),
+    slug,
     title: data.title,
     description: data.description,
     date: toDateString(data.date) as string,
@@ -54,6 +61,7 @@ function readPost(file: string): Post & { draft: boolean } {
     tags: data.tags ?? [],
     draft: Boolean(data.draft),
     readingMinutes: readingMinutes(content),
+    image: fs.existsSync(path.join(OG_DIR, `${slug}.jpg`)) ? `/og/blog/${slug}.jpg` : "/og-image.jpg",
     content,
   };
 }
