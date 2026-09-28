@@ -6,6 +6,30 @@
     <description>Guides on Next.js, online stores, SEO and web performance.</description>
     <language>en</language>
     <item>
+      <title>7 أخطاء في متاجر سلة تقلل المبيعات (وكيف تصلحها)</title>
+      <link>https://amrelshabrawydev.github.io/blog/salla-store-mistakes</link>
+      <guid>https://amrelshabrawydev.github.io/blog/salla-store-mistakes</guid>
+      <description>أخطاء شائعة أراها في متاجر سلة تجعل الزائر يغادر دون أن يشتري: من صفحة المنتج على الجوال إلى وصف المورد المنسوخ، مع حلول عملية لكل خطأ.</description>
+      <pubDate>Mon, 28 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+    <item>
+      <title>Salla vs a Custom Next.js Store: Which One Fits Your Brand?</title>
+      <link>https://amrelshabrawydev.github.io/blog/salla-vs-custom-nextjs-store</link>
+      <guid>https://amrelshabrawydev.github.io/blog/salla-vs-custom-nextjs-store</guid>
+      <description>Salla or a custom-built Next.js store? A practical comparison of cost, speed, design freedom, payments and growth — from a developer who builds both.</description>
+      <pubDate>Mon, 28 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+    <item>
+      <title>تحويل موقع ووردبريس إلى Next.js دون أن تخسر ترتيبك في جوجل</title>
+      <link>https://amrelshabrawydev.github.io/blog/wordpress-to-nextjs-arabic-migration</link>
+      <guid>https://amrelshabrawydev.github.io/blog/wordpress-to-nextjs-arabic-migration</guid>
+      <description>قصة حقيقية لإنقاذ موقع ووردبريس انهارت قاعدة بياناته: استرجاع 182 مقالًا من أرشيف الإنترنت ونقلها إلى Next.js بنفس الروابط، مع خطوات عملية لنقل موقعك بأمان.</description>
+      <pubDate>Mon, 28 Sep 2026 00:00:00 GMT</pubDate>
+      <author>amrelshabrawy.dev@gmail.com (Amr Elshabrawy)</author>
+    </item>
+    <item>
       <title>Next.js vs WordPress for a Business Website</title>
       <link>https://amrelshabrawydev.github.io/blog/nextjs-vs-wordpress-business-website</link>
       <guid>https://amrelshabrawydev.github.io/blog/nextjs-vs-wordpress-business-website</guid>
