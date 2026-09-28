@@ -517,9 +517,14 @@
   color: var(--color-primary);
   padding: 0.15em 0.4em;
   font-size: 0.9em;
+  /* keeps code snippets intact inside Arabic (RTL) sentences */
+  unicode-bidi: isolate;
 }
 
+/* Code always reads left-to-right, even in Arabic articles */
 .prose-article pre {
+  direction: ltr;
+  text-align: left;
   background: var(--color-bg-base);
   border: 1px solid var(--color-border-subtle);
   padding: 1.25rem;

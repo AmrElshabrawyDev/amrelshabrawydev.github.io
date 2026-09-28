@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.description,
     path: `/blog/${post.slug}`,
+    image: post.image,
     type: "article",
     publishedTime: post.date,
     modifiedTime: post.updated ?? post.date,
@@ -73,7 +74,7 @@ export default async function BlogPostPage({ params }: Props) {
           dateModified: post.updated ?? post.date,
           inLanguage: post.lang,
           keywords: post.tags.join(", "),
-          image: absoluteUrl("/og-image.jpg"),
+          image: absoluteUrl(post.image),
           author: {
             "@type": "Person",
             "@id": absoluteUrl("/#person"),
