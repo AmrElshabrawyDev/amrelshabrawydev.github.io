@@ -22,7 +22,7 @@ export const personalInfo: PersonalInfo = {
   role: "Freelance React & Next.js Developer",
   tagline: "Fast, SEO-ready websites and online stores that win clients",
   description:
-    "Freelance React & Next.js developer from Egypt with 5+ years building fast, SEO-ready websites, online stores and web apps for clients in Egypt, the Gulf and worldwide.",
+    "Freelance React & Next.js developer from Egypt with 4+ years building fast, SEO-ready websites, online stores and web apps for clients in Egypt, the Gulf and worldwide.",
   location: "Cairo, Egypt",
   email: "amrelshabrawy.dev@gmail.com",
   github: "https://github.com/AmrElshabrawyDev",
@@ -66,7 +66,7 @@ export const heroData: HeroData = {
   primaryCTA: "See My Work",
   secondaryCTA: "Start a Project",
   stats: {
-    yearsOfExperience: "5+",
+    yearsOfExperience: "4+",
     projectsCompleted: "50+",
     happyClients: "30+",
   },
@@ -115,7 +115,7 @@ export interface AboutData {
 
 export const aboutData: AboutData = {
   bio: "I'm Amr, a freelance front-end developer based in Cairo. I build websites and web apps with React and Next.js for businesses that care about speed, search rankings and a polished experience — from Arabic RTL stores on Salla to full-stack marketplaces. You work directly with me, from the first call to launch and beyond.",
-  yearsOfExperience: 5,
+  yearsOfExperience: 4,
   projectsCompleted: 50,
   // Only tools used in shipped projects. Add new ones here once a real
   // project uses them (e.g. Node.js, Laravel) — with the case study as proof.
@@ -581,7 +581,7 @@ export interface StatData {
 export const statsData: StatData[] = [
   {
     label: "Years Experience",
-    value: "5+",
+    value: "4+",
     icon: <Code2 className="w-6 h-6" />,
   },
   {

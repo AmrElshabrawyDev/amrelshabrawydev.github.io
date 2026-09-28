@@ -21,7 +21,7 @@ export const homeMetadata: Metadata = buildMetadata({
 export const aboutMetadata: Metadata = buildMetadata({
   title: "About — Front-End Developer in Cairo, Egypt",
   description:
-    "Amr Elshabrawy, freelance front-end developer in Cairo with 5+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond.",
+    "Amr Elshabrawy, freelance front-end developer in Cairo with 4+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond.",
   path: "/about",
   image: "/og-about.png",
 });
