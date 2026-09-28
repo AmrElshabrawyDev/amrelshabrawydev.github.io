@@ -73,7 +73,7 @@ export default async function BlogPostPage({ params }: Props) {
           dateModified: post.updated ?? post.date,
           inLanguage: post.lang,
           keywords: post.tags.join(", "),
-          image: absoluteUrl("/og-image.png"),
+          image: absoluteUrl("/og-image.jpg"),
           author: {
             "@type": "Person",
             "@id": absoluteUrl("/#person"),
