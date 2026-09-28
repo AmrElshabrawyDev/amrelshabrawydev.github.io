@@ -23,7 +23,7 @@ export const aboutMetadata: Metadata = buildMetadata({
   description:
     "Amr Elshabrawy, freelance front-end developer in Cairo with 4+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond.",
   path: "/about",
-  image: "/og-about.png",
+  image: "/og-about.jpg",
 });
 
 export const servicesMetadata: Metadata = buildMetadata({
@@ -31,7 +31,7 @@ export const servicesMetadata: Metadata = buildMetadata({
   description:
     "Next.js business websites, Next.js & Salla stores, WordPress migration, dashboards, speed and technical SEO. Fixed quotes, Arabic & English.",
   path: "/services",
-  image: "/og-services.png",
+  image: "/og-services.jpg",
 });
 
 export const workMetadata: Metadata = buildMetadata({
@@ -39,7 +39,7 @@ export const workMetadata: Metadata = buildMetadata({
   description:
     "Case studies with real screenshots and PageSpeed scores: a travel booking platform, a Kuwait moving website, a digital marketplace, a Salla store and more.",
   path: "/work",
-  image: "/og-work.png",
+  image: "/og-work.jpg",
 });
 
 export const contactMetadata: Metadata = buildMetadata({
@@ -47,7 +47,7 @@ export const contactMetadata: Metadata = buildMetadata({
   description:
     "Tell me about your website, store or web app. I reply within 24 hours with honest advice and a fixed quote. WhatsApp, email or the contact form.",
   path: "/contact",
-  image: "/og-contact.png",
+  image: "/og-contact.jpg",
 });
 
 export const blogMetadata: Metadata = buildMetadata({
@@ -108,7 +108,7 @@ export const professionalServiceSchema = {
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#service`,
   name: `${SITE_NAME} — Web Development Services`,
-  image: absoluteUrl("/og-image.png"),
+  image: absoluteUrl("/og-image.jpg"),
   url: absoluteUrl("/services"),
   email: SOCIAL.email,
   founder: { "@id": PERSON_ID },

@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: study.title,
     description: study.summary,
     path: `/work/${study.slug}`,
-    image: study.cover,
+    // Social networks (LinkedIn) don't render WebP previews — use the JPEG copy
+    image: study.cover.replace(/\.webp$/, ".jpg"),
     imageAlt: study.coverAlt,
     imageSize: [1600, 1000],
     type: "article",

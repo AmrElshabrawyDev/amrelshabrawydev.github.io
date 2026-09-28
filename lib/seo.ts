@@ -27,7 +27,7 @@ export function buildMetadata({
   title,
   description,
   path,
-  image = "/og-image.png",
+  image = "/og-image.jpg",
   imageAlt,
   imageSize = [1200, 630],
   type = "website",
@@ -51,7 +51,7 @@ export function buildMetadata({
       siteName: `${SITE_NAME} — Freelance React & Next.js Developer`,
       locale,
       images: [
-        { url: image, width: imageSize[0], height: imageSize[1], alt: imageAlt ?? title },
+        { url: image, width: imageSize[0], height: imageSize[1], alt: imageAlt ?? title, type: "image/jpeg" },
       ],
       ...(type === "article" && { publishedTime, modifiedTime }),
     },

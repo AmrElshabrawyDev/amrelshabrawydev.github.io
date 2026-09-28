@@ -125,11 +125,11 @@ export const metadata: Metadata = {
       "Fast, SEO-ready websites, online stores and web apps built with React & Next.js — in Arabic & English.",
     images: [
       {
-        url: "https://amrelshabrawydev.github.io/og-image.png",
+        url: "https://amrelshabrawydev.github.io/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Amr Elshabrawy - Front-End Developer Portfolio",
-        type: "image/png",
+        type: "image/jpeg",
       },
     ],
   },
@@ -142,7 +142,7 @@ export const metadata: Metadata = {
     title: "Freelance React & Next.js Developer | Amr Elshabrawy",
     description:
       "Fast, SEO-ready websites, online stores and web apps built with React & Next.js — in Arabic & English.",
-    images: ["https://amrelshabrawydev.github.io/twitter-card.png"],
+    images: ["https://amrelshabrawydev.github.io/twitter-card.jpg"],
   },
 
   // Verification (add after domain setup)
