@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منتقي الخطوط العربية · Arabic Font Picker</title>
+<meta name="description" content="قائمة &lt;select&gt; أصلية قابلة للتخصيص، يظهر فيها كل خط عربي بحروفه هو. بلا JavaScript وبلا مكتبات. A native customizable select for Arabic fonts.">
+<link rel="canonical" href="https://amrelshabrawydev.github.io/demos/arabic-font-picker/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://amrelshabrawydev.github.io/demos/arabic-font-picker/">
+<meta property="og:title" content="منتقي الخطوط العربية · Arabic Font Picker">
+<meta property="og:description" content="Each Arabic font shown in its own typeface, in a native customizable &lt;select&gt;. RTL works natively, zero JavaScript.">
+<meta property="og:image" content="https://amrelshabrawydev.github.io/demos/arabic-font-picker/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ar_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://amrelshabrawydev.github.io/demos/arabic-font-picker/og.png">
+<meta name="author" content="Amr Elshabrawy">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa&family=Cairo:wght@600&family=El+Messiri:wght@500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Lalezar&family=Noto+Naskh+Arabic:wght@500&family=Readex+Pro:wght@500&family=Reem+Kufi:wght@500&family=Tajawal:wght@500&display=swap">
+<style>
+/* Layout: one working "lab" (before / after / live preview), then how it's built. The fonts are the show; the page stays quiet around them. */
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --ink: #141821;
+  --muted: #586174;
+  --line: #d9dfeb;
+  --hover: #eef2fd;
+  --accent: #2f5bea;
+  --accent-ink: #ffffff;
+  --code-bg: #eef1f7;
+
+  --font-ui: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1218; --surface: #171b23; --ink: #e8ecf4; --muted: #9aa3b5;
+    --line: #2b3240; --hover: #212839; --accent: #8aa5ff; --accent-ink: #0f1218; --code-bg: #1c212c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1218; --surface: #171b23; --ink: #e8ecf4; --muted: #9aa3b5;
+  --line: #2b3240; --hover: #212839; --accent: #8aa5ff; --accent-ink: #0f1218; --code-bg: #1c212c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+.page { max-width: 980px; margin-inline: auto; display: grid; gap: 28px; }
+
+header { display: grid; gap: 8px; max-width: 68ch; }
+h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.4rem); line-height: 1.25; font-weight: 700; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); font-size: 1.05rem; }
+.lede-en { margin: 0; color: var(--muted); font-size: .92rem; direction: ltr; text-align: end; unicode-bidi: isolate; }
+
+/* ── The lab ── */
+.lab {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+}
+.lab-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.lab-title { margin: 0; font-size: 1rem; font-weight: 600; }
+.dir-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.dir-toggle button {
+  font: inherit; font-size: .85rem; border: 0; background: transparent; color: var(--muted);
+  padding: 4px 12px; border-radius: 999px; cursor: pointer;
+}
+.dir-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.dir-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.panes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+.pane { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.pane-label {
+  margin: 0; font-size: .78rem; font-weight: 600; letter-spacing: .04em; color: var(--muted);
+}
+.pane-label b { color: var(--ink); }
+.field { display: grid; gap: 6px; }
+.field-label { font-size: .9rem; color: var(--muted); }
+.pane-note { margin: 0; font-size: .85rem; color: var(--muted); }
+
+/* plain "before" select */
+select { font: inherit; width: 100%; }
+.before select {
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface); color: var(--ink);
+}
+
+/* ── The customizable "after" select ──
+   Opt in only where there's a mouse or trackpad: on phones the native picker is built for thumbs. */
+@media (hover: hover) and (pointer: fine) {
+  .after select,
+  .after select::picker(select) { appearance: base-select; }
+}
+
+.after select {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 8px 14px;
+  min-height: 52px;
+  cursor: pointer;
+}
+.after select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.after select::picker-icon { color: var(--muted); transition: rotate .15s; }
+.after select:open::picker-icon { rotate: 180deg; }
+
+.after select::picker(select) {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 6px;
+  margin-block: 6px;
+  max-height: min(440px, 70vh);
+  box-shadow: 0 18px 40px -18px rgb(10 20 40 / .35);
+}
+
+.after option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.after option:hover,
+.after option:focus-visible { background: var(--hover); outline: none; }
+.after option:checked { background: var(--hover); }
+.after option::checkmark { color: var(--accent); font-weight: 700; }
+
+.opt-name { font-size: 1.45rem; line-height: 1.5; }
+.opt-meta {
+  margin-inline-start: auto;
+  display: grid;
+  justify-items: end;
+  gap: 0;
+  font-family: var(--font-ui);
+  font-size: .8rem;
+  line-height: 1.4;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.opt-en { direction: ltr; unicode-bidi: isolate; font-family: var(--font-mono); font-size: .76rem; }
+.sep { display: none; } /* only the plain-text fallback reads them: "القاهرة، Cairo · هندسي" */
+
+/* The closed select shows just the name, in its own face */
+.after selectedcontent .opt-meta { display: none; }
+.after selectedcontent .opt-name { font-size: 1.3rem; }
+
+/* ── Live preview, driven by :has() — no JavaScript ── */
+.preview {
+  --preview-font: "Cairo", sans-serif;
+  border-top: 1px dashed var(--line);
+  padding-top: 18px;
+  display: grid;
+  gap: 6px;
+  font-family: var(--preview-font);
+  min-width: 0;
+}
+.preview-label { margin: 0; font-family: var(--font-ui); font-size: .78rem; font-weight: 600; letter-spacing: .04em; color: var(--muted); }
+.preview h3 { margin: 0; font-size: clamp(1.7rem, 4.5vw, 2.6rem); line-height: 1.35; font-weight: inherit; text-wrap: balance; }
+.preview p { margin: 0; font-size: 1.15rem; line-height: 1.9; max-width: 60ch; }
+.preview .marks { font-size: 1.3rem; }
+.preview .digits { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+.lab:has(option[value="cairo"]:checked)    .preview { --preview-font: "Cairo", sans-serif; }
+.lab:has(option[value="tajawal"]:checked)  .preview { --preview-font: "Tajawal", sans-serif; }
+.lab:has(option[value="plex"]:checked)     .preview { --preview-font: "IBM Plex Sans Arabic", sans-serif; }
+.lab:has(option[value="readex"]:checked)   .preview { --preview-font: "Readex Pro", sans-serif; }
+.lab:has(option[value="naskh"]:checked)    .preview { --preview-font: "Noto Naskh Arabic", serif; }
+.lab:has(option[value="amiri"]:checked)    .preview { --preview-font: "Amiri", serif; }
+.lab:has(option[value="reem"]:checked)     .preview { --preview-font: "Reem Kufi", sans-serif; }
+.lab:has(option[value="ruqaa"]:checked)    .preview { --preview-font: "Aref Ruqaa", serif; }
+.lab:has(option[value="lalezar"]:checked)  .preview { --preview-font: "Lalezar", sans-serif; }
+.lab:has(option[value="messiri"]:checked)  .preview { --preview-font: "El Messiri", sans-serif; }
+
+.support-note {
+  margin: 0; font-size: .85rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px;
+}
+@supports (appearance: base-select) {
+  .support-note .no-support { display: none; }
+}
+@supports not (appearance: base-select) {
+  .support-note .touch { display: none; }
+}
+
+/* ── How it's built ── */
+.how { display: grid; gap: 14px; }
+.how h2 { margin: 0; font-size: 1.25rem; }
+.notes { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 6px; max-width: 72ch; }
+.notes code, .inline-code { font-family: var(--font-mono); font-size: .88em; background: var(--code-bg); padding: 1px 6px; border-radius: 5px; direction: ltr; unicode-bidi: isolate; }
+pre {
+  margin: 0; direction: ltr; text-align: left;
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; overflow-x: auto;
+  font-family: var(--font-mono); font-size: .85rem; line-height: 1.6;
+}
+.how h3 { margin: 14px 0 0; font-size: 1.05rem; }
+.how-intro { margin: 0; color: var(--muted); font-size: .92rem; max-width: 72ch; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { padding: 10px 14px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { font-size: .8rem; font-weight: 600; letter-spacing: .03em; color: var(--muted); background: var(--code-bg); }
+tbody tr:last-child td { border-bottom: 0; }
+td:first-child { width: 38%; min-width: 9rem; }
+.sr { background: var(--code-bg); padding: 1px 8px; border-radius: 6px; unicode-bidi: isolate; }
+.cell-note { color: var(--muted); font-size: .84rem; }
+.cell-note code { font-family: var(--font-mono); font-size: .9em; direction: ltr; unicode-bidi: isolate; }
+footer { color: var(--muted); font-size: .85rem; }
+footer a { color: var(--accent); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.toolbar form { margin: 0; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-size: .92rem; font-weight: 600; text-decoration: none; cursor: pointer;
+  padding: 8px 16px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink);
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:hover { border-color: var(--accent); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="page" dir="rtl" lang="ar">
+  <header>
+    <h1>منتقي الخطوط العربية</h1>
+    <p class="lede">اسم الخط لا يخبرك بشيء عن شكل حروفه. في القائمة الجديدة يظهر كل خط بحروفه هو، مع نوعه واستخدامه، وما زالت <span class="inline-code">&lt;select&gt;</span> حقيقية: لوحة المفاتيح والنماذج والتحقق تعمل كما هي.</p>
+    <p class="lede-en">A native, customizable &lt;select&gt; for Arabic fonts: each option is set in its own typeface. No JavaScript, no dropdown library.</p>
+    <div class="toolbar">
+      <form action="https://codepen.io/pen/define" method="POST" target="_blank" id="codepen-form">
+        <input type="hidden" name="data" id="codepen-data">
+        <button type="submit" class="btn btn-primary">عدّل على CodePen</button>
+      </form>
+      <a class="btn" href="https://github.com/AmrElshabrawyDev/amrelshabrawydev.github.io/blob/main/public/demos/arabic-font-picker/index.html" target="_blank" rel="noopener">الكود على GitHub</a>
+    </div>
+  </header>
+
+  <section class="lab" id="lab" dir="rtl" aria-labelledby="lab-title">
+    <div class="lab-bar">
+      <p class="lab-title" id="lab-title">جرّب الفرق</p>
+      <div class="dir-toggle" role="group" aria-label="اتجاه التجربة">
+        <button type="button" id="dir-rtl" aria-pressed="true" data-dir="rtl">من اليمين لليسار</button>
+        <button type="button" id="dir-ltr" aria-pressed="false" data-dir="ltr">LTR</button>
+      </div>
+    </div>
+
+    <div class="panes">
+      <div class="pane before">
+        <p class="pane-label"><b>قبل</b> · قائمة عادية</p>
+        <label class="field">
+          <span class="field-label">خط العناوين</span>
+          <select id="font-before" name="font_before">
+            <option value="cairo" selected>Cairo</option>
+            <option value="tajawal">Tajawal</option>
+            <option value="plex">IBM Plex Sans Arabic</option>
+            <option value="readex">Readex Pro</option>
+            <option value="naskh">Noto Naskh Arabic</option>
+            <option value="amiri">Amiri</option>
+            <option value="reem">Reem Kufi</option>
+            <option value="ruqaa">Aref Ruqaa</option>
+            <option value="lalezar">Lalezar</option>
+            <option value="messiri">El Messiri</option>
+          </select>
+        </label>
+        <p class="pane-note">عليك أن تعرف مسبقًا كيف يبدو «Reem Kufi» حتى تختاره.</p>
+      </div>
+
+      <div class="pane after">
+        <p class="pane-label"><b>بعد</b> · القائمة القابلة للتخصيص</p>
+        <label class="field">
+          <span class="field-label">خط العناوين</span>
+          <select id="font-after" name="font_after">
+            <button><selectedcontent></selectedcontent></button>
+            <option value="cairo" selected><span class="opt-name" style="font-family: 'Cairo', sans-serif">القاهرة</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Cairo</span><span class="sep"> · </span><span>هندسي · واجهات</span></span></option>
+            <option value="tajawal"><span class="opt-name" style="font-family: 'Tajawal', sans-serif">تجوال</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Tajawal</span><span class="sep"> · </span><span>هندسي خفيف · تطبيقات</span></span></option>
+            <option value="plex"><span class="opt-name" style="font-family: 'IBM Plex Sans Arabic', sans-serif">بلكس</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">IBM Plex Sans Arabic</span><span class="sep"> · </span><span>مؤسسي · لوحات تحكم</span></span></option>
+            <option value="readex"><span class="opt-name" style="font-family: 'Readex Pro', sans-serif">ريدكس</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Readex Pro</span><span class="sep"> · </span><span>تقني · منتجات رقمية</span></span></option>
+            <option value="naskh"><span class="opt-name" style="font-family: 'Noto Naskh Arabic', serif">نوتو نسخ</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Noto Naskh Arabic</span><span class="sep"> · </span><span>نسخ · نصوص طويلة</span></span></option>
+            <option value="amiri"><span class="opt-name" style="font-family: 'Amiri', serif">أميري</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Amiri</span><span class="sep"> · </span><span>نسخ كلاسيكي · كتب</span></span></option>
+            <option value="reem"><span class="opt-name" style="font-family: 'Reem Kufi', sans-serif">ريم كوفي</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Reem Kufi</span><span class="sep"> · </span><span>كوفي · عناوين</span></span></option>
+            <option value="ruqaa"><span class="opt-name" style="font-family: 'Aref Ruqaa', serif">عارف رقعة</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Aref Ruqaa</span><span class="sep"> · </span><span>رقعة · زخرفة</span></span></option>
+            <option value="lalezar"><span class="opt-name" style="font-family: 'Lalezar', sans-serif">لاله‌زار</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">Lalezar</span><span class="sep"> · </span><span>عرض · ملصقات</span></span></option>
+            <option value="messiri"><span class="opt-name" style="font-family: 'El Messiri', sans-serif">المسيري</span><span class="sep">، </span><span class="opt-meta"><span class="opt-en">El Messiri</span><span class="sep"> · </span><span>عرض أنيق · هويات</span></span></option>
+          </select>
+        </label>
+        <p class="pane-note">تختار بعينك: الحروف نفسها أمامك قبل أن تقرر.</p>
+      </div>
+    </div>
+
+    <div class="preview" aria-live="polite">
+      <p class="preview-label">معاينة بالخط المختار في «بعد» · تتغير بـ CSS فقط عبر <span class="inline-code">:has()</span></p>
+      <h3>لوحة تحكم المبيعات الشهرية</h3>
+      <p>نمت الطلبات هذا الشهر بنسبة ملحوظة، وارتفع متوسط قيمة السلة في المدن الكبرى.</p>
+      <p class="marks">كَتَبَ الطَّالِبُ الدَّرْسَ بِخَطٍّ جَمِيلٍ</p>
+      <p class="digits">٠١٢٣٤٥٦٧٨٩ · 0123456789</p>
+    </div>
+
+    <p class="support-note">
+      <span class="no-support">متصفحك لا يدعم القائمة القابلة للتخصيص بعد، فترى القائمة العادية بنصها الكامل، وتعمل كما هي. جرّبها في Chrome أو Edge.</span>
+      <span class="touch">على شاشات اللمس تبقى قائمة النظام الأصلية عن قصد، لأنها مصممة للأصابع.</span>
+    </p>
+  </section>
+
+  <section class="how" aria-labelledby="how-title">
+    <h2 id="how-title">كيف بُنيت</h2>
+    <ul class="notes">
+      <li><code>appearance: base-select</code> على القائمة وعلى <code>::picker(select)</code> يفعّل التخصيص، ويقبل كل خيار عندها أي محتوى HTML.</li>
+      <li><code>&lt;selectedcontent&gt;</code> داخل زر القائمة ينسخ الخيار المختار، فيظهر اسم الخط المختار بحروفه وهي مغلقة.</li>
+      <li>الفواصل <code>،</code> و<code>·</code> مخفية في النسخة المخصصة، ويقرؤها المتصفح الذي لا يدعم الميزة، فيعرض «القاهرة، Cairo · هندسي · واجهات» كنص مفهوم.</li>
+      <li>المعاينة تتغير بـ <code>:has(option:checked)</code> دون أي JavaScript. السكربت الوحيد في الصفحة هو زر تبديل الاتجاه.</li>
+      <li>التفعيل داخل <code>@media (hover: hover) and (pointer: fine)</code> فقط، حتى تبقى قائمة النظام على الجوال.</li>
+    </ul>
+<pre><code>@media (hover: hover) and (pointer: fine) {
+  select, ::picker(select) { appearance: base-select; }
+}
+
+&lt;select name="font"&gt;
+  &lt;button&gt;&lt;selectedcontent&gt;&lt;/selectedcontent&gt;&lt;/button&gt;
+  &lt;option value="amiri"&gt;
+    &lt;span class="opt-name" style="font-family: 'Amiri', serif"&gt;أميري&lt;/span&gt;
+    &lt;span class="sep"&gt;، &lt;/span&gt;
+    &lt;span class="opt-meta"&gt;Amiri · نسخ كلاسيكي&lt;/span&gt;
+  &lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+    <h3>ما يصل لقارئ الشاشة</h3>
+    <p class="how-intro">قِسته من شجرة الوصولية (Accessibility Tree) في Chrome 153، وهي ما يعطيه المتصفح لقارئ الشاشة. لم أختبره بعد بقارئ شاشة فعلي مثل NVDA أو VoiceOver.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">الحالة</th><th scope="col">ما يُقرأ</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>خيار في القائمة المفتوحة</td>
+            <td><span class="sr" dir="rtl">أميري ، Amiri · نسخ كلاسيكي · كتب</span><br><span class="cell-note">نص الخيار كاملًا، ومعه الفواصل المخفية بـ <code>display: none</code></span></td>
+          </tr>
+          <tr>
+            <td>الخيار نفسه بلا فواصل</td>
+            <td><span class="sr" dir="rtl">أميري Amiri نسخ كلاسيكي · كتب</span><br><span class="cell-note">الكلمات متتابعة بلا علامة توقف</span></td>
+          </tr>
+          <tr>
+            <td>القائمة مغلقة، والتفاصيل مخفية داخل الزر</td>
+            <td><span class="sr" dir="rtl">القاهرة</span><br><span class="cell-note">يُقرأ ما يظهر فعليًا داخل <code>&lt;selectedcontent&gt;</code> فقط</span></td>
+          </tr>
+          <tr>
+            <td>القائمة مغلقة، والتفاصيل ظاهرة داخل الزر</td>
+            <td><span class="sr" dir="rtl">القاهرة Cairo هندسي · واجهات</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="notes">
+      <li>الفواصل المخفية تؤدي عملين: نص مفهوم في المتصفحات التي لا تدعم الميزة، وعلامات توقف لقارئ الشاشة.</li>
+      <li>اكتب نص كل خيار كجملة مكتملة، لأنه ما يُقرأ مهما كان التنسيق.</li>
+      <li>ما تخفيه داخل زر القائمة لا يُقرأ وهي مغلقة، فاختيار محتوى الزر قرار يخص الوصولية، لا الشكل فقط.</li>
+    </ul>
+
+    <h3>الاتجاه من اليمين لليسار</h3>
+    <ul class="notes">
+      <li>القائمة تتبع <code>dir</code> تلقائيًا، دون أي CSS خاص بالاتجاه: تفتح تحت الحقل بعرضه نفسه، وعلامة ✓ في بداية السطر (يمينًا)، والتفاصيل في نهايته.</li>
+      <li>في الاتجاه المعاكس (LTR) ينعكس كل ذلك تلقائيًا. جرّبه بزر التبديل في أعلى التجربة.</li>
+      <li>الاختيار بالأسهم ثم Enter يعمل كما في القائمة العادية، وتتغير المعاينة معه.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p><a href="/">عمرو الشبراوي</a> · مطور Next.js · الفكرة مستوحاة من مقال أحمد الفي <a href="https://alfy.blog/2026/10/27/a-select-should-tell-you-something.html" target="_blank" rel="noopener">«A select should tell you something»</a>.</p>
+  </footer>
+</div>
+
+<script id="demo-script">
+  // The only script on the page: flip the lab between RTL and LTR to see how the picker anchors.
+  const lab = document.getElementById("lab");
+  for (const button of document.querySelectorAll(".dir-toggle button")) {
+    button.addEventListener("click", () => {
+      lab.dir = button.dataset.dir;
+      for (const b of document.querySelectorAll(".dir-toggle button")) b.setAttribute("aria-pressed", String(b === button));
+    });
+  }
+</script>
+<script>
+  // "Edit on CodePen": send this demo to CodePen's prefill endpoint (the visitor's new pen opens in a new tab)
+  document.getElementById("codepen-form").addEventListener("submit", () => {
+    const page = document.querySelector(".page").cloneNode(true);
+    page.querySelector(".toolbar").remove();
+    const css = document.querySelector("style").textContent;
+    const js = document.getElementById("demo-script").textContent;
+    document.getElementById("codepen-data").value = JSON.stringify({
+      title: "Arabic font picker · customizable <select>",
+      description: "Each Arabic font in its own typeface, in a native customizable select. RTL works natively.",
+      head: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa&family=Cairo:wght@600&family=El+Messiri:wght@500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Lalezar&family=Noto+Naskh+Arabic:wght@500&family=Readex+Pro:wght@500&family=Reem+Kufi:wght@500&family=Tajawal:wght@500&display=swap">'.replaceAll("'", '"'),
+      html: page.outerHTML,
+      css,
+      js,
+      html_classes: "",
+      editors: "110",
+    });
+  });
+</script>
+</body>
+</html>
