@@ -170,7 +170,7 @@ export function AboutSection() {
           <div className="relative lg:mt-12 max-w-md w-full mx-auto lg:mx-0 lg:justify-self-end pb-16 sm:pb-10">
             <div className="about-photo relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated">
               <Image
-                src="/profile-about.png"
+                src="/amr-elshabrawy-frontend-developer-cairo.jpg"
                 alt={`${personalInfo.name}, freelance front-end developer in Cairo`}
                 fill
                 priority
