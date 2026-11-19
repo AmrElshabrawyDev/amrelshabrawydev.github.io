@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { SITE_URL, SITE_NAME, SOCIAL, absoluteUrl } from "@/lib/site";
+import { SITE_URL, SITE_NAME, SOCIAL, PROFILE_IMAGE, absoluteUrl } from "@/lib/site";
 import { caseStudies } from "@/data/projects";
 import type { FaqItem } from "@/data";
 
@@ -69,7 +69,15 @@ export const personSchema = {
   "@id": PERSON_ID,
   name: SITE_NAME,
   url: SITE_URL,
-  image: absoluteUrl("/profile.webp"),
+  image: {
+    "@type": "ImageObject",
+    "@id": `${SITE_URL}/#person-image`,
+    url: absoluteUrl(PROFILE_IMAGE.src),
+    contentUrl: absoluteUrl(PROFILE_IMAGE.src),
+    width: PROFILE_IMAGE.width,
+    height: PROFILE_IMAGE.height,
+    caption: PROFILE_IMAGE.alt,
+  },
   jobTitle: "Freelance React & Next.js Developer",
   description:
     "Freelance front-end developer specializing in React, Next.js and TypeScript — websites, online stores and web apps in Arabic and English.",
@@ -79,7 +87,7 @@ export const personSchema = {
     addressCountry: "EG",
   },
   email: `mailto:${SOCIAL.email}`,
-  sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.x],
+  sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.mostaql, SOCIAL.x],
   knowsAbout: [
     "React",
     "Next.js",
