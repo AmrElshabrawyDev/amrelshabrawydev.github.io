@@ -50,7 +50,7 @@ export function HeroSection() {
       <HeroScene className="absolute inset-0 hidden lg:block" />
       <div
         aria-hidden
-        className="absolute inset-0 hidden lg:block bg-[radial-gradient(ellipse_36%_46%_at_30%_54%,var(--color-bg-base)_50%,transparent_100%)]"
+        className="absolute inset-0 hidden lg:block bg-[radial-gradient(ellipse_36%_46%_at_30%_54%,var(--color-bg-base)_50%,transparent_100%)] opacity-85"
       />
       <div
         aria-hidden
