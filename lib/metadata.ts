@@ -125,8 +125,17 @@ export const professionalServiceSchema = {
     addressLocality: "Cairo",
     addressCountry: "EG",
   },
+  telephone: `+${SOCIAL.whatsappNumber}`,
+  priceRange: "$$",
   areaServed: ["EG", "SA", "AE", "KW", "QA", "Worldwide"],
-  availableLanguage: ["English", "Arabic"],
+  // availableLanguage is only valid on a ContactPoint, not on the business itself
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: `+${SOCIAL.whatsappNumber}`,
+    email: SOCIAL.email,
+    availableLanguage: ["English", "Arabic"],
+  },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Web development services",
