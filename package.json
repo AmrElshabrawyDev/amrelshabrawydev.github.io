@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d out --nojekyll --repo git@github.com:AmrElshabrawyDev/amrelshabrawydev.github.io.git"
+    "deploy": "gh-pages -d out --nojekyll --repo git@github.com:AmrElshabrawyDev/amrelshabrawydev.github.io.git",
+    "postdeploy": "node scripts/indexnow.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
