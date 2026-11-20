@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { heroData, personalInfo } from "@/data";
 import { featuredCaseStudies } from "@/data/projects";
-import { whatsappLink } from "@/lib/site";
+import { PROFILE_IMAGE, whatsappLink } from "@/lib/site";
 import { trackLead } from "@/lib/analytics";
 import { HeroScene } from "./Hero3D/HeroScene";
 
@@ -155,8 +155,8 @@ export function HeroSection() {
         >
           <div className="relative aspect-4/5 overflow-hidden border border-border-default bg-bg-elevated shadow-[0_30px_80px_-20px] shadow-primary/25">
             <Image
-              src="/profile.webp"
-              alt={`${personalInfo.name} — freelance React and Next.js developer`}
+              src={PROFILE_IMAGE.src}
+              alt={PROFILE_IMAGE.alt}
               fill
               priority
               sizes="(max-width: 1024px) 420px, 480px"

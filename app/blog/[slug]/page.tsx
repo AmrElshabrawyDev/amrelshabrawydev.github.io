@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import { getAllPosts, getPost, formatPostDate } from "@/lib/blog";
 import { buildMetadata, jsonLd } from "@/lib/seo";
 import { breadcrumbSchema } from "@/lib/metadata";
-import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { absoluteUrl, PROFILE_IMAGE, SITE_NAME } from "@/lib/site";
 import { PostCard } from "@/components/Blog/PostCard";
 import { CtaBanner } from "@/components/ui/CtaBanner";
 
@@ -126,8 +126,8 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="flex flex-wrap items-center gap-4 text-sm text-text-tertiary font-mono">
                 <span className="flex items-center gap-2">
                   <Image
-                    src="/profile.webp"
-                    alt={SITE_NAME}
+                    src={PROFILE_IMAGE.src}
+                    alt={PROFILE_IMAGE.alt}
                     width={32}
                     height={32}
                     className="rounded-full object-cover w-8 h-8"

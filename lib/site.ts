@@ -9,9 +9,18 @@ export const SOCIAL = {
   github: "https://github.com/AmrElshabrawyDev",
   linkedin: "https://www.linkedin.com/in/amr-elshabrawy-dev",
   x: "https://x.com/AmrElshabr43803",
+  mostaql: "https://mostaql.com/u/Amr_Elshabrawy",
   xHandle: "@AmrElshabr43803",
   email: "amrelshabrawy.dev@gmail.com",
   whatsappNumber: "201202546653",
+} as const;
+
+/** Profile photo — a JPG named after the person so image search ties the face to the name */
+export const PROFILE_IMAGE = {
+  src: "/amr-elshabrawy-nextjs-developer.jpg",
+  width: 800,
+  height: 800,
+  alt: "Amr Elshabrawy, freelance React and Next.js developer in Cairo",
 } as const;
 
 export const whatsappLink = (
