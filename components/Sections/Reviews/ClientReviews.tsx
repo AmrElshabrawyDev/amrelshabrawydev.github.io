@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowUpRight, Languages, Star } from "lucide-react";
-import { reviewSource, testimonialData } from "@/data";
+import { reviewCompletion, reviewSources, testimonialData } from "@/data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
 type Lang = "en" | "ar";
@@ -28,11 +28,14 @@ const Stars = ({
   </span>
 );
 
-/** Real Khamsat reviews: English translation by default, Arabic original on demand */
+/** Real Khamsat and Mostaql reviews: English translation by default, Arabic original on demand */
 export function ClientReviews({ className = "" }: { className?: string }) {
   const [lang, setLang] = useState<Lang>("en");
 
   if (testimonialData.length === 0) return null;
+
+  const totalReviews = reviewSources.reduce((sum, source) => sum + source.count, 0);
+  const sourceNames = reviewSources.map((source) => source.name).join(" and ");
 
   return (
     <section
@@ -42,32 +45,36 @@ export function ClientReviews({ className = "" }: { className?: string }) {
         <SectionHeader
           eyebrow="Client reviews"
           title="What clients say"
-          text={`Verified reviews from my ${reviewSource.name} profile. Clients wrote them in Arabic — read the English translation or the original.`}
+          text={`Verified reviews from my ${sourceNames} profiles. Clients wrote them in Arabic — read the English translation or the original.`}
           asideFrom="lg"
           aside={
             <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 shrink-0">
-              {/* Rating summary */}
-              <a
-                href={reviewSource.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group terminal-card flex items-center gap-4 px-5 py-4 text-text-secondary hover:text-text-secondary"
-              >
+              {/* Rating summary, with a link to each platform's reviews */}
+              <div className="terminal-card flex items-center gap-4 px-5 py-4 text-text-secondary">
                 <span className="text-4xl font-extrabold text-text-primary leading-none">
-                  {reviewSource.rating.toFixed(1)}
+                  {reviewSources[0].rating.toFixed(1)}
                 </span>
                 <span className="flex flex-col gap-1">
                   <Stars rating={5} />
                   <span className="flex flex-wrap items-center gap-x-1 text-xs">
-                    {reviewSource.count} reviews · {reviewSource.completion}{" "}
-                    orders completed ·{" "}
-                    <span className="font-semibold text-primary group-hover:text-secondary">
-                      {reviewSource.name}
-                    </span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                    {totalReviews} reviews · {reviewCompletion} orders completed
+                    {reviewSources.map((source) => (
+                      <span key={source.name} className="flex items-center gap-x-1">
+                        ·
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center font-semibold text-primary hover:text-secondary"
+                        >
+                          {source.name}
+                          <ArrowUpRight className="w-3.5 h-3.5" />
+                        </a>
+                      </span>
+                    ))}
                   </span>
                 </span>
-              </a>
+              </div>
 
               {/* Language toggle */}
               <div
@@ -110,7 +117,7 @@ export function ClientReviews({ className = "" }: { className?: string }) {
             const isArabic = lang === "ar";
             return (
               <figure
-                key={review.name + review.date}
+                key={review.source + review.name + review.date}
                 className={`terminal-card flex flex-col gap-5 p-6 md:p-8 ${
                   index === 0 ? "md:col-span-2" : ""
                 }`}
@@ -142,7 +149,7 @@ export function ClientReviews({ className = "" }: { className?: string }) {
                       {review.name}
                     </span>
                     <span className="block text-text-tertiary truncate">
-                      {reviewSource.name} · {review.date} · {review.service}
+                      {review.source} · {review.date} · {review.service}
                     </span>
                   </span>
                 </figcaption>

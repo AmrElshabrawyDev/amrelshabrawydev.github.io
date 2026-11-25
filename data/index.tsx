@@ -22,7 +22,7 @@ export const personalInfo: PersonalInfo = {
   role: "Freelance React & Next.js Developer",
   tagline: "Fast, SEO-ready websites and online stores that win clients",
   description:
-    "Freelance React & Next.js developer from Egypt with 4+ years building fast, SEO-ready websites, online stores and web apps for clients in Egypt, the Gulf and worldwide.",
+    "Freelance React & Next.js developer from Egypt with 4 years building fast, SEO-ready websites, online stores and web apps for clients in Egypt, the Gulf and worldwide.",
   location: "Cairo, Egypt",
   email: "amrelshabrawy.dev@gmail.com",
   github: "https://github.com/AmrElshabrawyDev",
@@ -66,7 +66,7 @@ export const heroData: HeroData = {
   primaryCTA: "See My Work",
   secondaryCTA: "Start a Project",
   stats: {
-    yearsOfExperience: "4+",
+    yearsOfExperience: "4",
     projectsCompleted: "50+",
     happyClients: "30+",
   },
@@ -445,35 +445,66 @@ export interface TestimonialData {
   rating: number;
   /** Month the review was left, e.g. "Sep 2026" */
   date: string;
-  /** The Khamsat service the review was left on (English) */
+  /** The service the review was left on (English) */
   service: string;
+  /** Platform where the review can be verified */
+  source: ReviewSourceName;
   /** Original review text, exactly as the client wrote it (Arabic) */
   original: string;
   /** Faithful English translation of `original` */
   translation: string;
 }
 
-/** Public profile where every review below can be verified */
-export const reviewSource = {
-  name: "Khamsat",
-  url: "https://khamsat.com/user/amrelshabrawydev/reviews",
-  rating: 5.0,
-  count: 7,
-  completion: "100%",
-};
+export type ReviewSourceName = "Khamsat" | "Mostaql";
+
+/** Public profiles where every review below can be verified */
+export const reviewSources: {
+  name: ReviewSourceName;
+  url: string;
+  rating: number;
+  count: number;
+}[] = [
+  {
+    name: "Khamsat",
+    url: "https://khamsat.com/user/amrelshabrawydev/reviews",
+    rating: 5.0,
+    count: 9,
+  },
+  {
+    name: "Mostaql",
+    url: "https://mostaql.com/u/Amr_Elshabrawy/reviews",
+    rating: 5.0,
+    count: 3,
+  },
+];
+
+/** Share of orders completed, the same on both platforms */
+export const reviewCompletion = "100%";
 
 const bugFixing = "Fixing React, JavaScript, CSS & HTML bugs";
 
 /**
- * Real client reviews from Khamsat (Arabic), shown with an English translation.
- * Only detailed reviews are listed; one-word ones are left out.
+ * Real client reviews from Khamsat and Mostaql (Arabic), shown with an English
+ * translation. Only detailed reviews are listed; one-word ones are left out.
  */
 export const testimonialData: TestimonialData[] = [
+  {
+    name: "Mohamed A.",
+    rating: 5,
+    date: "Oct 2026",
+    service: bugFixing,
+    source: "Khamsat",
+    original:
+      "استاذ عمر شخص محترم ، والجميل في التعامل معاه انه يعمل حتى يحصل على النتايج المطلوبه ، نتائج الموقع الفعلية تحسنت بعد الاصلاحات عن طريقه في أدوات قياس قوقل وسرعة استخدام الموقع الفعليه تحسنت بشكل واضح جدا وملموس شكرا عمر على العمل الرائع تشرفت فيك",
+    translation:
+      "Amr is a respectful person, and what's great about working with him is that he keeps going until he gets the results you need. The site's real-world results improved after his fixes, as measured by Google's tools, and its actual speed improved clearly and noticeably. Thank you, Amr, for the great work — it was an honor.",
+  },
   {
     name: "Verified buyer",
     rating: 5,
     date: "Sep 2026",
     service: bugFixing,
+    source: "Khamsat",
     original:
       "أنصح بشدة التعامل مع الأستاذ عمرو الشبراوى شخص محترف جداً، سريع في الإنجاز، وخدوم لأبعد الحدود، كما أنه يتميز بسعة صدره وتفهمه الكامل للمتطلبات وتعديلات الـ CSS بدقة عالية. شكراً جزيلاً لك على هذه الخدمة الممتازة وليعاملات أخرى قادمة بإذن الله.",
     translation:
@@ -484,6 +515,7 @@ export const testimonialData: TestimonialData[] = [
     rating: 5,
     date: "Jun 2026",
     service: bugFixing,
+    source: "Khamsat",
     original:
       "مهندس محترم وفاهم شغله مزبوط ما بتعب معه ابدا بس خبره بالمشكلة وهو بلاقي الحل وفي مشاكل هو بلاقيها اثناء الفحص وبحلها",
     translation:
@@ -494,6 +526,7 @@ export const testimonialData: TestimonialData[] = [
     rating: 5,
     date: "Jul 2026",
     service: bugFixing,
+    source: "Khamsat",
     original:
       "انسان محترم ومهندس شاطر كل الشكر لك وتمنياتي لك بكل التوفيق ماقصر ابداً أنجز عمله بكل دقه انصح بالتعامل معه",
     translation:
@@ -504,6 +537,7 @@ export const testimonialData: TestimonialData[] = [
     rating: 5,
     date: "Aug 2026",
     service: bugFixing,
+    source: "Khamsat",
     original:
       "عمر شخص محترف وذوق جدا ومتعاون ويعمل بكل حب أشكره على جهوده بإذن الله سيكون لنا تعامل اخر",
     translation:
@@ -514,9 +548,28 @@ export const testimonialData: TestimonialData[] = [
     rating: 5,
     date: "Jun 2026",
     service: bugFixing,
+    source: "Khamsat",
     original: "التعامل راق و خلاق عاليه يقدم الخدمة باحترافية تجربة ممتازة",
     translation:
       "Classy to deal with and has great manners. He delivers the service professionally — an excellent experience.",
+  },
+  {
+    name: "Salman A.",
+    rating: 5,
+    date: "Nov 2026",
+    service: "Technical system review & audit",
+    source: "Mostaql",
+    original: "احترافية و جودة تبارك الله مهندس عمرو رائع ❤️🌹",
+    translation: "Professional work and real quality, God bless — Engineer Amr is wonderful ❤️🌹",
+  },
+  {
+    name: "Salman A.",
+    rating: 5,
+    date: "Oct 2026",
+    service: "Landing page development",
+    source: "Mostaql",
+    original: "مهندس عمرو 🌹 يمتلك مهارة وشغف بالبرمجة ماشاء الله تبارك الله",
+    translation: "Engineer Amr 🌹 has real skill and a passion for programming, God bless.",
   },
 ];
 
@@ -581,7 +634,7 @@ export interface StatData {
 export const statsData: StatData[] = [
   {
     label: "Years Experience",
-    value: "4+",
+    value: "4",
     icon: <Code2 className="w-6 h-6" />,
   },
   {
