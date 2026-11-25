@@ -10,6 +10,7 @@ export const SOCIAL = {
   linkedin: "https://www.linkedin.com/in/amr-elshabrawy-dev",
   x: "https://x.com/AmrElshabr43803",
   mostaql: "https://mostaql.com/u/Amr_Elshabrawy",
+  baaeed: "https://baaeed.com/u/AmrElshabrawy",
   xHandle: "@AmrElshabr43803",
   email: "amrelshabrawy.dev@gmail.com",
   whatsappNumber: "201202546653",
