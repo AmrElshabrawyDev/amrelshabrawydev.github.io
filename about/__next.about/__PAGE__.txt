@@ -1,49 +1,48 @@
 1:"$Sreact.fragment"
-3:I[51937,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js","/_next/static/chunks/02uy9pj9iu81p.js","/_next/static/chunks/0rkkas0uxzo-4.js","/_next/static/chunks/0pki6pxx4zosx.js"],"AboutSection"]
-4:I[29804,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js","/_next/static/chunks/02uy9pj9iu81p.js","/_next/static/chunks/0rkkas0uxzo-4.js","/_next/static/chunks/0pki6pxx4zosx.js"],"CtaBanner"]
-5:I[69180,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"OutletBoundary"]
+3:I[51937,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js","/_next/static/chunks/02uy9pj9iu81p.js","/_next/static/chunks/0rkkas0uxzo-4.js","/_next/static/chunks/0pki6pxx4zosx.js"],"AboutSection"]
+4:I[29804,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js","/_next/static/chunks/02uy9pj9iu81p.js","/_next/static/chunks/0rkkas0uxzo-4.js","/_next/static/chunks/0pki6pxx4zosx.js"],"CtaBanner"]
+5:I[69180,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"OutletBoundary"]
 6:"$Sreact.suspense"
-a:I[69180,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"ViewportBoundary"]
-b:I[69180,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"MetadataBoundary"]
+a:I[69180,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"ViewportBoundary"]
+b:I[69180,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"MetadataBoundary"]
 2:T52d,{"@context":"https://schema.org","@type":"ProfilePage","url":"https://amrelshabrawydev.github.io/about","mainEntity":{"@context":"https://schema.org","@type":"Person","@id":"https://amrelshabrawydev.github.io/#person","name":"Amr Elshabrawy","url":"https://amrelshabrawydev.github.io","image":{"@type":"ImageObject","@id":"https://amrelshabrawydev.github.io/#person-image","url":"https://amrelshabrawydev.github.io/amr-elshabrawy-nextjs-developer.jpg","contentUrl":"https://amrelshabrawydev.github.io/amr-elshabrawy-nextjs-developer.jpg","width":800,"height":800,"caption":"Amr Elshabrawy, freelance React and Next.js developer in Cairo"},"jobTitle":"Freelance React & Next.js Developer","description":"Freelance front-end developer specializing in React, Next.js and TypeScript — websites, online stores and web apps in Arabic and English.","address":{"@type":"PostalAddress","addressLocality":"Cairo","addressCountry":"EG"},"email":"mailto:amrelshabrawy.dev@gmail.com","sameAs":["https://github.com/AmrElshabrawyDev","https://www.linkedin.com/in/amr-elshabrawy-dev","https://mostaql.com/u/Amr_Elshabrawy","https://x.com/AmrElshabr43803"],"knowsAbout":["React","Next.js","TypeScript","Tailwind CSS","Salla theme development","Technical SEO","Core Web Vitals","WordPress to Next.js migration"],"knowsLanguage":["en","ar"]}}9:X
-29:X
-29:C
-0:{"buildId":"C2M3uxXybZls2jvxMvNSn","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{}],["$","section",null,{"className":"pb-24 bg-bg-base","children":["$","div",null,{"className":"container-custom","children":["$","$L4",null,{"source":"about","title":"Let's build something together"}]}]}]],[["$","script","script-0",{"src":"/_next/static/chunks/02uy9pj9iu81p.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/0rkkas0uxzo-4.js","async":true}],["$","script","script-2",{"src":"/_next/static/chunks/0pki6pxx4zosx.js","async":true}]],["$","$L5",null,{"children":["$","$6",null,{"name":"Next.MetadataOutlet","children":"$@7"}]}]]}],"isPartial":"$@8","staleTime":"$9","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$La",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0A0E27"}],["$","meta","3",{"name":"color-scheme","content":"dark"}]]}],["$","div",null,{"hidden":true,"children":["$","$Lb",null,{"children":["$","$6",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"About — Front-End Developer in Cairo, Egypt | Amr Elshabrawy"}],["$","meta","1",{"name":"description","content":"Amr Elshabrawy, freelance front-end developer in Cairo with 4+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond."}],["$","link","2",{"rel":"author","href":"https://amrelshabrawydev.github.io"}],["$","meta","3",{"name":"author","content":"Amr Elshabrawy"}],["$","link","4",{"rel":"manifest","href":"/site.webmanifest"}],["$","meta","5",{"name":"keywords","content":"Freelance Next.js Developer,Freelance React Developer,Next.js Developer Egypt,Hire Next.js Developer,Salla Theme Developer,WordPress to Next.js Migration,Arabic RTL Website Development,Front-End Developer Cairo,Amr Elshabrawy"}],["$","meta","6",{"name":"creator","content":"Amr Elshabrawy"}],["$","meta","7",{"name":"publisher","content":"Amr Elshabrawy"}],["$","meta","8",{"name":"robots","content":"index, follow"}],["$","meta","9",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","meta","10",{"name":"category","content":"Technology"}],["$","link","11",{"rel":"canonical","href":"https://amrelshabrawydev.github.io/about"}],["$","meta","12",{"name":"google-site-verification","content":"KgRDbESCG4O2UXsHZBtAvTpkDVi7dr-nMXfYZbWGdS4"}],"$Lc","$Ld","$Le","$Lf","$L10","$L11","$L12","$L13","$L14","$L15","$L16","$L17","$L18","$L19","$L1a","$L1b","$L1c","$L1d","$L1e","$L1f","$L20","$L21","$L22","$L23","$L24"]}]}]}],"$L25"]}],"isPartial":"$@26","staleTime":"$9","varyParams":null},{"rsc":"$L27","isPartial":"$@28","staleTime":"$9","varyParams":"$29"}],"isUpgradeableISRFallback":false,"a":"$@2a","rootVaryParams":null,"needsRuntimeRequest":"$@2b"}
-2c:I[50986,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"IconMark"]
-2d:I[19061,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"default"]
-2e:I[87774,["/_next/static/chunks/3cwz2-_9-bvu3.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"default"]
+28:X
+28:C
+0:{"buildId":"aFp-N5eBxq0xt3bqQjWAg","data":[{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{}],["$","section",null,{"className":"pb-24 bg-bg-base","children":["$","div",null,{"className":"container-custom","children":["$","$L4",null,{"source":"about","title":"Let's build something together"}]}]}]],[["$","script","script-0",{"src":"/_next/static/chunks/02uy9pj9iu81p.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/0rkkas0uxzo-4.js","async":true}],["$","script","script-2",{"src":"/_next/static/chunks/0pki6pxx4zosx.js","async":true}]],["$","$L5",null,{"children":["$","$6",null,{"name":"Next.MetadataOutlet","children":"$@7"}]}]]}],"isPartial":"$@8","staleTime":"$9","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$La",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0A0E27"}],["$","meta","3",{"name":"color-scheme","content":"dark"}]]}],["$","div",null,{"hidden":true,"children":["$","$Lb",null,{"children":["$","$6",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"About — Front-End Developer in Cairo, Egypt | Amr Elshabrawy"}],["$","meta","1",{"name":"description","content":"Amr Elshabrawy, freelance front-end developer in Cairo with 4 years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond."}],["$","link","2",{"rel":"author","href":"https://amrelshabrawydev.github.io"}],["$","meta","3",{"name":"author","content":"Amr Elshabrawy"}],["$","link","4",{"rel":"manifest","href":"/site.webmanifest"}],["$","meta","5",{"name":"keywords","content":"Freelance Next.js Developer,Freelance React Developer,Next.js Developer Egypt,Hire Next.js Developer,Salla Theme Developer,WordPress to Next.js Migration,Arabic RTL Website Development,Front-End Developer Cairo,Amr Elshabrawy"}],["$","meta","6",{"name":"creator","content":"Amr Elshabrawy"}],["$","meta","7",{"name":"publisher","content":"Amr Elshabrawy"}],["$","meta","8",{"name":"robots","content":"index, follow"}],["$","meta","9",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","meta","10",{"name":"category","content":"Technology"}],["$","link","11",{"rel":"canonical","href":"https://amrelshabrawydev.github.io/about"}],["$","meta","12",{"name":"google-site-verification","content":"KgRDbESCG4O2UXsHZBtAvTpkDVi7dr-nMXfYZbWGdS4"}],["$","meta","13",{"property":"og:title","content":"About — Front-End Developer in Cairo, Egypt | Amr Elshabrawy"}],"$Lc","$Ld","$Le","$Lf","$L10","$L11","$L12","$L13","$L14","$L15","$L16","$L17","$L18","$L19","$L1a","$L1b","$L1c","$L1d","$L1e","$L1f","$L20","$L21","$L22","$L23"]}]}]}],"$L24"]}],"isPartial":"$@25","staleTime":"$9","varyParams":null},{"rsc":"$L26","isPartial":"$@27","staleTime":"$9","varyParams":"$28"}],"isUpgradeableISRFallback":false,"a":"$@29","rootVaryParams":null,"needsRuntimeRequest":"$@2a"}
+2b:I[50986,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"IconMark"]
+2c:I[19061,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"default"]
+2d:I[87774,["/_next/static/chunks/2hvibrur_279l.js","/_next/static/chunks/2jqtfdh2u_q46.js"],"default"]
 7:null
-c:["$","meta","13",{"property":"og:title","content":"About — Front-End Developer in Cairo, Egypt | Amr Elshabrawy"}]
-d:["$","meta","14",{"property":"og:description","content":"Amr Elshabrawy, freelance front-end developer in Cairo with 4+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond."}]
-e:["$","meta","15",{"property":"og:url","content":"https://amrelshabrawydev.github.io/about"}]
-f:["$","meta","16",{"property":"og:site_name","content":"Amr Elshabrawy — Freelance React & Next.js Developer"}]
-10:["$","meta","17",{"property":"og:locale","content":"en_US"}]
-11:["$","meta","18",{"property":"og:image","content":"https://amrelshabrawydev.github.io/og-about.jpg"}]
-12:["$","meta","19",{"property":"og:image:type","content":"image/jpeg"}]
-13:["$","meta","20",{"property":"og:image:width","content":"1200"}]
-14:["$","meta","21",{"property":"og:image:height","content":"630"}]
-15:["$","meta","22",{"property":"og:image:alt","content":"About — Front-End Developer in Cairo, Egypt"}]
-16:["$","meta","23",{"property":"og:type","content":"website"}]
-17:["$","meta","24",{"name":"twitter:card","content":"summary_large_image"}]
-18:["$","meta","25",{"name":"twitter:site","content":"@AmrElshabr43803"}]
-19:["$","meta","26",{"name":"twitter:creator","content":"@AmrElshabr43803"}]
-1a:["$","meta","27",{"name":"twitter:title","content":"About — Front-End Developer in Cairo, Egypt | Amr Elshabrawy"}]
-1b:["$","meta","28",{"name":"twitter:description","content":"Amr Elshabrawy, freelance front-end developer in Cairo with 4+ years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond."}]
-1c:["$","meta","29",{"name":"twitter:image","content":"https://amrelshabrawydev.github.io/og-about.jpg"}]
-1d:["$","link","30",{"rel":"icon","href":"/favicon.ico?favicon.0skmwdn7f3svf.ico","sizes":"48x48","type":"image/x-icon"}]
-1e:["$","link","31",{"rel":"icon","href":"/favicon.ico","sizes":"any"}]
-1f:["$","link","32",{"rel":"icon","href":"/favicon.svg","type":"image/svg+xml"}]
-20:["$","link","33",{"rel":"icon","href":"/favicon-96x96.png","sizes":"96x96","type":"image/png"}]
-21:["$","link","34",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]
-22:["$","link","35",{"rel":"icon","href":"/web-app-manifest-192x192.png","sizes":"192x192","type":"image/png"}]
-23:["$","link","36",{"rel":"icon","href":"/web-app-manifest-512x512.png","sizes":"512x512","type":"image/png"}]
-24:["$","$L2c","37",{}]
-25:["$","meta",null,{"name":"next-size-adjust","content":""}]
-27:["$","$1","c",{"children":[null,["$","$L2d",null,{"parallelRouterKey":"children","template":["$","$L2e",null,{}]}]]}]
-2b:true
+c:["$","meta","14",{"property":"og:description","content":"Amr Elshabrawy, freelance front-end developer in Cairo with 4 years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond."}]
+d:["$","meta","15",{"property":"og:url","content":"https://amrelshabrawydev.github.io/about"}]
+e:["$","meta","16",{"property":"og:site_name","content":"Amr Elshabrawy — Freelance React & Next.js Developer"}]
+f:["$","meta","17",{"property":"og:locale","content":"en_US"}]
+10:["$","meta","18",{"property":"og:image","content":"https://amrelshabrawydev.github.io/og-about.jpg"}]
+11:["$","meta","19",{"property":"og:image:type","content":"image/jpeg"}]
+12:["$","meta","20",{"property":"og:image:width","content":"1200"}]
+13:["$","meta","21",{"property":"og:image:height","content":"630"}]
+14:["$","meta","22",{"property":"og:image:alt","content":"About — Front-End Developer in Cairo, Egypt"}]
+15:["$","meta","23",{"property":"og:type","content":"website"}]
+16:["$","meta","24",{"name":"twitter:card","content":"summary_large_image"}]
+17:["$","meta","25",{"name":"twitter:site","content":"@AmrElshabr43803"}]
+18:["$","meta","26",{"name":"twitter:creator","content":"@AmrElshabr43803"}]
+19:["$","meta","27",{"name":"twitter:title","content":"About — Front-End Developer in Cairo, Egypt | Amr Elshabrawy"}]
+1a:["$","meta","28",{"name":"twitter:description","content":"Amr Elshabrawy, freelance front-end developer in Cairo with 4 years building React & Next.js websites, stores and apps for clients in Egypt, the Gulf and beyond."}]
+1b:["$","meta","29",{"name":"twitter:image","content":"https://amrelshabrawydev.github.io/og-about.jpg"}]
+1c:["$","link","30",{"rel":"icon","href":"/favicon.ico?favicon.0skmwdn7f3svf.ico","sizes":"48x48","type":"image/x-icon"}]
+1d:["$","link","31",{"rel":"icon","href":"/favicon.ico","sizes":"any"}]
+1e:["$","link","32",{"rel":"icon","href":"/favicon.svg","type":"image/svg+xml"}]
+1f:["$","link","33",{"rel":"icon","href":"/favicon-96x96.png","sizes":"96x96","type":"image/png"}]
+20:["$","link","34",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}]
+21:["$","link","35",{"rel":"icon","href":"/web-app-manifest-192x192.png","sizes":"192x192","type":"image/png"}]
+22:["$","link","36",{"rel":"icon","href":"/web-app-manifest-512x512.png","sizes":"512x512","type":"image/png"}]
+23:["$","$L2b","37",{}]
+24:["$","meta",null,{"name":"next-size-adjust","content":""}]
+26:["$","$1","c",{"children":[null,["$","$L2c",null,{"parallelRouterKey":"children","template":["$","$L2d",null,{}]}]]}]
+2a:true
 9:300
 9:C
-2a:0
-28:"$undefined"
+29:0
+27:"$undefined"
 8:"$undefined"
-26:"$undefined"
+25:"$undefined"
