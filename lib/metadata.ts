@@ -68,6 +68,8 @@ export const personSchema = {
   "@type": "Person",
   "@id": PERSON_ID,
   name: SITE_NAME,
+  // Arabic spelling of the name, so Arabic searches tie it to the same person
+  alternateName: "عمرو الشبراوي",
   url: SITE_URL,
   image: {
     "@type": "ImageObject",
@@ -87,7 +89,7 @@ export const personSchema = {
     addressCountry: "EG",
   },
   email: `mailto:${SOCIAL.email}`,
-  sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.mostaql, SOCIAL.x],
+  sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.mostaql, SOCIAL.baaeed, SOCIAL.x],
   knowsAbout: [
     "React",
     "Next.js",
