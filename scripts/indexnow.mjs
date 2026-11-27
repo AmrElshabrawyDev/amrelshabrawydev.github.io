@@ -43,10 +43,42 @@ const { origin, host } = new URL(urlList[0]);
 const key = keyFile.replace(/\.txt$/, "");
 const payload = { host, key, keyLocation: `${origin}/${keyFile}`, urlList };
 
+// The build ID folder (next to chunks/ and media/) changes on every build
+const buildId = readdirSync(join(OUT_DIR, "_next", "static")).find(
+  (name) => !["chunks", "media"].includes(name),
+);
+
 if (dryRun) {
-  console.log(`IndexNow dry run: would submit ${urlList.length} URLs`);
+  console.log(`IndexNow dry run: would submit ${urlList.length} URLs (build ${buildId})`);
   console.log(JSON.stringify(payload, null, 2));
   process.exit(0);
+}
+
+// GitHub Pages takes a minute or two to go live after gh-pages pushes. Submitting
+// before then makes Bing fetch the key file too early and reject the key (HTTP 403),
+// and crawl the old pages. So wait until both this build and the key file are online.
+const WAIT_MS = 5 * 60 * 1000;
+const POLL_MS = 15 * 1000;
+const isLive = async (path) => {
+  try {
+    // The query string skips the CDN's cached 404
+    const response = await fetch(`${origin}${path}?t=${Date.now()}`, { method: "HEAD" });
+    return response.ok;
+  } catch {
+    return false;
+  }
+};
+
+const deadline = Date.now() + WAIT_MS;
+console.log("IndexNow: waiting for GitHub Pages to publish this build...");
+while (
+  !(await isLive(`/_next/static/${buildId}/_buildManifest.js`)) ||
+  !(await isLive(`/${keyFile}`))
+) {
+  if (Date.now() > deadline) {
+    warn("the new build was not online after 5 minutes. Run `pnpm run indexnow` once it is");
+  }
+  await new Promise((resolve) => setTimeout(resolve, POLL_MS));
 }
 
 try {
