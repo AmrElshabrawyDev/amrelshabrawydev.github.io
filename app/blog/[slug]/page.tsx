@@ -47,6 +47,31 @@ const articleComponents: Components = {
         {children}
       </a>
     ),
+  // A paragraph holding only an image becomes a <figure>, which is not allowed inside <p>
+  p: ({ node, children }) => {
+    const only = node?.children.length === 1 ? node.children[0] : undefined;
+    return only?.type === "element" && only.tagName === "img" ? <>{children}</> : <p>{children}</p>;
+  },
+  // Markdown image: ![alt](/blog/<slug>/name.webp#1200x710 "caption").
+  // The size after # lets the browser reserve the space before the image loads (no layout shift).
+  img: ({ src, alt = "", title }) => {
+    const [path, size = ""] = String(src ?? "").split("#");
+    const [width, height] = size.split("x").map(Number);
+    return (
+      <figure>
+        {/* eslint-disable-next-line @next/next/no-img-element -- static export: images are already sized WebP */}
+        <img
+          src={path}
+          alt={alt}
+          width={width || undefined}
+          height={height || undefined}
+          loading="lazy"
+          decoding="async"
+        />
+        {title && <figcaption>{title}</figcaption>}
+      </figure>
+    );
+  },
 };
 
 export default async function BlogPostPage({ params }: Props) {
